@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: ghcr.io/linuxserver/digikam
   pullPolicy: IfNotPresent
-  tag: 8.5.0@sha256:740c52711e50bb0dac545caa18f4df444ef74ac82474c8c2a37fbc938d6b0ad7
+  tag: 9.1.0@sha256:b9b6d67c4d348e044e8823250fc89503c4a4a36e4a6c9f836cd96a91abc92756
 securityContext:
   container:
     readOnlyRootFilesystem: false
@@ -18,6 +19,3 @@ persistence:
   config:
     enabled: true
     mountPath: /config
-portal:
-  open:
-    enabled: true

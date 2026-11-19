@@ -1,17 +1,36 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: ghcr.io/gethomepage/homepage
-  tag: v0.10.6@sha256:426d75031d40a47d58b962766a4d11277490973c137ff5a98e051c9d204f5268
+  tag: v2.8.0@sha256:019d8f063a7299e7c1c51ee4a70b692291809af3244894fbec2c2ac7d1f71b18
   pullPolicy: IfNotPresent
 
 workload:
   main:
     podSpec:
       automountServiceAccountToken: true
+      containers:
+        main:
+          env:
+            # Set this to your host (example: home.mydomain.com)
+            HOMEPAGE_ALLOWED_HOSTS: "localhost"
+          probes:
+            liveness:
+              path: /api/healthcheck
+              httpHeaders:
+                Host: localhost:3000
+            readiness:
+              path: /api/healthcheck
+              httpHeaders:
+                Host: localhost:3000
+            startup:
+              path: /api/healthcheck
+              httpHeaders:
+                Host: localhost:3000
       initContainers:
         init-config:
           enabled: true
           type: init
-          imageSelector: alpineImage
+          imageSelector: ubuntuImage
           command:
             - /bin/sh
             - -c
@@ -184,9 +203,6 @@ persistence:
     type: "configmap"
     objectName: config
 
-portal:
-  open:
-    enabled: true
 serviceAccount:
   main:
     enabled: true
@@ -202,14 +218,20 @@ configmap:
   config:
     enabled: true
     data:
+      # https://gethomepage.dev/configs/custom-css-js/
       custom.js: ""
       custom.css: ""
       kubernetes.yaml: |
+        ---
+        # For configuration options and examples, please see:
+        # https://gethomepage.dev/configs/kubernetes/
+
         mode: cluster
+        gateway: true
       settings.yaml: |
         ---
         # For configuration options and examples, please see:
-        # https://gethomepage.dev/latest/configs/settings
+        # https://gethomepage.dev/configs/
 
         providers:
           openweathermap: openweathermapapikey
@@ -217,7 +239,7 @@ configmap:
       widgets.yaml: |
         ---
         # For configuration options and examples, please see:
-        # https://gethomepage.dev/latest/configs/widgets
+        # https://gethomepage.dev/widgets/
 
         - resources:
             cpu: true
@@ -231,7 +253,7 @@ configmap:
       services.yaml: |
         ---
         # For configuration options and examples, please see:
-        # https://gethomepage.dev/latest/configs/services
+        # https://gethomepage.dev/configs/services/
 
         - Arr:
             - My First Service:
@@ -250,7 +272,7 @@ configmap:
       bookmarks.yaml: |
         ---
         # For configuration options and examples, please see:
-        # https://gethomepage.dev/latest/configs/bookmarks
+        # https://gethomepage.dev/configs/bookmarks/
 
         - Developer:
             - Github:
@@ -270,7 +292,7 @@ configmap:
         - TrueCharts:
             - TrueCharts:
               - abbr: TC
-                icon: https://truecharts.org/svg/favicon.svg
+                icon: https://trueforge.org/svg/favicon.svg
                 href: https://truecharts.org
                 description: "TrueCharts Website"
             - Github:
@@ -286,7 +308,7 @@ configmap:
             - Discord:
               - abbr: DC
                 icon: https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=http://discord.com&size=32
-                href: https://truecharts.org/s/discord
+                href: https://trueforge.org/s/discord
                 description: "TrueCharts Discord"
 
 forceConfigFromValues: false
@@ -319,6 +341,14 @@ rbac:
           - traefik.io
         resources:
           - ingressroutes
+        verbs:
+          - get
+          - list
+      - apiGroups:
+          - gateway.networking.k8s.io
+        resources:
+          - httproutes
+          - gateways
         verbs:
           - get
           - list

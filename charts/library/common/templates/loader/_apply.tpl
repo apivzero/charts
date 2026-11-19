@@ -49,6 +49,9 @@
   {{/* Render Middleware(s) */}}
   {{- include "tc.v1.common.spawner.traefik.middleware" . | nindent 0 -}}
 
+  {{/* Render ServersTransport(s) */}}
+  {{- include "tc.v1.common.spawner.traefik.serverstransport" . | nindent 0 -}}
+
   {{/* Render ingress(s) */}}
   {{- include "tc.v1.common.spawner.ingress" . | nindent 0 -}}
 
@@ -73,7 +76,7 @@
   {{/* Render Cert-Manager Certificates(s) */}}
   {{- include "tc.v1.common.spawner.certificate" . | nindent 0 -}}
 
-  {{/* Render portals */}}
-  {{- include "tc.v1.common.spawner.portal" . | nindent 0 -}}
+  {{/* Render Vertical Pod Autoscaler */}}
+  {{ include "tc.v1.common.spawner.vpa" . | nindent 0 -}}
 
 {{- end -}}

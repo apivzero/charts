@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: ghcr.io/ich777/redmserver
@@ -6,9 +7,7 @@ persistence:
   serverfiles:
     enabled: true
     mountPath: /serverdata/serverfiles
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

@@ -1,6 +1,7 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
-  repository: docker.io/fallenbagel/jellyseerr
-  tag: 2.2.3@sha256:a324fa4d81cce73116801bee3c50b632f3457c0ca0ad31aa692c640e22f50dea
+  repository: oci.trueforge.org/containerforge/jellyseerr
+  tag: "2.7.3@sha256:8d266530eaee828b54552981a244614bd5d8ba3dca143a779538c78e3c435e6b"
   pullPolicy: IfNotPresent
 service:
   main:
@@ -11,9 +12,7 @@ persistence:
   config:
     enabled: true
     mountPath: "/app/config"
-portal:
-  open:
-    enabled: true
+
 workload:
   main:
     podSpec:

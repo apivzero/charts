@@ -1,6 +1,7 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: docker.io/joplin/server
-  tag: 3.0.1-beta@sha256:52af57880c0e04a179107807e13ffb8868b31ea2cc86a2b04da42220facb7589
+  tag: 3.7.6@sha256:1cd9097ec3f788ba9813b7907dd8d525c834b93c725da1add189bfd08f746cf0
   pullPolicy: IfNotPresent
 securityContext:
   container:
@@ -64,6 +65,3 @@ cnpg:
     enabled: true
     user: joplin
     database: joplin
-portal:
-  open:
-    enabled: true

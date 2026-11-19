@@ -1,26 +1,26 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: docker.io/dpage/pgadmin4
   pullPolicy: IfNotPresent
-  tag: 8.14@sha256:8a68677a97b8c8d1427dc915672a26d2c4a04376916a68256f53d669d6171be7
+  tag: 9.19@sha256:3591b3d02910dcd817dec6fcaa681c278ba6966945283dd0ea0042731c330c83
 service:
   main:
     ports:
       main:
         port: 10024
-        targetPort: 80
+        targetPort: 8080
 persistence:
   config:
     enabled: true
     mountPath: "/var/lib/pgadmin"
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     runAsNonRoot: true
     readOnlyRootFilesystem: false
     runAsUser: 5050
     runAsGroup: 5050
+  pod:
     fsGroup: 5050
 workload:
   main:

@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: docker.io/plexripper/plexripper
-  tag: v0.23.2@sha256:6dd623d658becd8271d421ed86ea70344d363c136e798f8864eed60e17cfe363
+  tag: 0.32.0@sha256:0bf8bd69a9165bbdcab3ac7d85a12d564306ee1664206637dbd0af3ba15fb2d9
 service:
   main:
     ports:
@@ -31,6 +32,9 @@ persistence:
   downloads:
     enabled: true
     mountPath: /Downloads
-portal:
-  open:
-    enabled: true
+
+securityContext:
+  container:
+    readOnlyRootFilesystem: false
+    runAsGroup: 0
+    runAsUser: 0

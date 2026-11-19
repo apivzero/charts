@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: docker.io/plausible/analytics
   pullPolicy: IfNotPresent
@@ -116,6 +117,3 @@ clickhouse:
   enabled: true
   clickhouseUsername: plausible
   clickhouseDatabase: plausible
-portal:
-  open:
-    enabled: true

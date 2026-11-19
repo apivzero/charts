@@ -1,6 +1,7 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: docker.io/josh5/steam-headless
-  tag: latest@sha256:d1a11f3a61f0bf1215fe712a740122e81e14d5e98dd2246105e2c9e9ef9bae34
+  tag: latest@sha256:c60f4d7243a4d94515f722441fff90b752413bf6a45bb221c9a4ed55bc4d9108
   pullPolicy: IfNotPresent
 
 securityContext:
@@ -55,7 +56,3 @@ persistence:
   flatpak:
     enabled: true
     mountPath: /var/lib/flatpak
-
-portal:
-  open:
-    enabled: true

@@ -1,25 +1,28 @@
 annotations:
-  max_scale_version: 24.04.1
-  min_scale_version: 24.04.0
-  truecharts.org/category: productivity
-  truecharts.org/max_helm_version: "3.15"
-  truecharts.org/min_helm_version: "3.11"
+  artifacthub.io/links: |-
+    - name: support
+    url: https://discord.com/invite/tVsPTHWTtr
   truecharts.org/train: stable
+  trueforge.org/category: productivity
+  trueforge.org/max_helm_version: "4.1"
+  trueforge.org/max_kubernetes_version: 1.35.0
+  trueforge.org/min_helm_version: "3.14"
+  trueforge.org/train: stable
 apiVersion: v2
-appVersion: 2.13.5
+appVersion: 3.5.1
 dependencies:
   - name: common
-    version: 25.3.1
-    repository: oci://tccr.io/truecharts
+    version: 30.4.5
+    repository: oci://oci.trueforge.org/truecharts
     condition: ""
     alias: ""
     tags: []
     import-values: []
-  - name: redis
-    version: 15.5.0
-    repository: oci://tccr.io/truecharts
+  - name: valkey
+    version: 3.1.7
+    repository: oci://oci.trueforge.org/truecharts
     condition: redis.enabled
-    alias: ""
+    alias: redis
     tags: []
     import-values: []
 deprecated: false
@@ -31,7 +34,7 @@ keywords:
   - paperless-ngx
   - documents
   - paper
-kubeVersion: '>=1.24.0-0'
+kubeVersion: '>=1.33.0-0'
 maintainers:
   - name: TrueCharts
     email: info@truecharts.org
@@ -40,7 +43,10 @@ name: paperless-ngx
 sources:
   - https://ghcr.io/paperless-ngx/paperless-ngx
   - https://github.com/paperless-ngx/paperless-ngx
-  - https://github.com/truecharts/charts/tree/master/charts/stable/paperless-ngx
+  - https://github.com/trueforge-org/truecharts/tree/master/charts/stable/paperless-ngx
+  - https://hub.docker.com/r/apache/tika
+  - https://hub.docker.com/r/gotenberg/gotenberg
   - https://paperless-ngx.readthedocs.io/en/latest/
 type: application
-version: 9.14.0
+version: 18.5.1
+

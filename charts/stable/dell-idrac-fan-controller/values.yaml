@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: ghcr.io/tigerblue77/dell_idrac_fan_controller
   pullPolicy: IfNotPresent
-  tag: latest@sha256:891696a575cf5b26a927fdee557dc0d18e71deaf94a5a008bbfcc2c7bc225b5a
+  tag: latest@sha256:c5826605d1dae111a9ef3aa4d76e2f038da8906026ee7dfb3bb0e1fbd237d276
 service:
   main:
     enabled: false
@@ -28,6 +29,3 @@ workload:
             CPU_TEMPERATURE_THRESHOLD: 50
             CHECK_INTERVAL: 60
             DISABLE_THIRD_PARTY_PCIE_CARD_DELL_DEFAULT_COOLING_RESPONSE: false
-portal:
-  open:
-    enabled: false

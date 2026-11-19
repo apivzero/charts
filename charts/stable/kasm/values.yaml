@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: docker.io/kasmweb/workspaces
-  tag: 1.16.1@sha256:cfa18345549031fb58f82676df5436792d1e235b7f7ca6a87ca27e55138b20f4
+  tag: 1.19.0@sha256:60642b7c79a24790dff373404400ce35c95e7af56eec2768e3c0201f0b6fa15a
 kasm:
   mountUdev: false
   mountInput: false
@@ -25,9 +26,7 @@ persistence:
     mountPath: /opt
   varrun:
     enabled: true
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false
@@ -36,6 +35,7 @@ securityContext:
     privileged: true
     runAsGroup: 0
     runAsUser: 0
+  pod:
     fsGroup: 0
 workload:
   main:

@@ -1,8 +1,10 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: docker
   pullPolicy: IfNotPresent
-  tag: 27.4.1-dind@sha256:d33ffba5909705d375ef1a99bb69fe6e21d80482134283226b119acf18bb08b4
-hostNetwork: true
+  tag: 29.10.0-dind@sha256:4bbc7223f81db790097c6dea42fb93e05b8fead4f0431fbe6ccaba6e8473201c
+podOptions:
+  hostNetwork: true
 securityContext:
   container:
     privileged: true
@@ -11,6 +13,7 @@ securityContext:
     runAsNonRoot: false
     runAsUser: 0
     runAsGroup: 0
+  pod:
     fsGroup: 0
 service:
   main:
@@ -19,7 +22,6 @@ service:
     ports:
       main:
         port: 2376
-        type: https
 workload:
   main:
     podSpec:
@@ -27,14 +29,17 @@ workload:
         main:
           probes:
             liveness:
-              initialDelaySeconds: 30
               type: tcp
+              spec:
+                initialDelaySeconds: 30
             readiness:
-              initialDelaySeconds: 30
               type: tcp
+              spec:
+                initialDelaySeconds: 30
             startup:
-              initialDelaySeconds: 30
               type: tcp
+              spec:
+                initialDelaySeconds: 30
           env:
             DOCKER_TLS_CERTDIR: /certs
     type: StatefulSet
@@ -44,13 +49,9 @@ persistence:
   docker-certs-ca:
     enabled: true
     mountPath: /config
-volumeClaimTemplates:
   docker-certs-client:
     enabled: true
     mountPath: /certs/client
   docker:
     enabled: true
     mountPath: /var/lib/docker
-portal:
-  open:
-    enabled: false

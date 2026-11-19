@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: docker.io/ulisses1478/bitcoinwallet-gui
@@ -6,9 +7,7 @@ persistence:
   bitcoinblockchainpath:
     enabled: true
     mountPath: /headless/.bitcoin/
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

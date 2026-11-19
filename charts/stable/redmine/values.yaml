@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
-  repository: redmine
+  repository: docker.io/redmine
   pullPolicy: IfNotPresent
-  tag: 5.1.5@sha256:85917cf738bc1f7109e0f35ef6cdc036fc7ad4636c980e0cd4d672ad278f3007
+  tag: 6.1.0
 redmine:
   plugins_migrate: true
   no_db_migrate: false
@@ -21,9 +22,7 @@ cnpg:
     enabled: true
     user: redmine
     database: redmine
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

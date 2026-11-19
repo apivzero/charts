@@ -1,6 +1,7 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
-  repository: docker.io/rssbridge/rss-bridge
-  tag: 2024-02-02@sha256:1a4d30c6ebe126126e1d604bf80ed30393b8e467615b6fa6e753bebc8e6f6eb3
+  repository: ghcr.io/rss-bridge/rss-bridge
+  tag: 2025-06-03@sha256:0eca99b2137425c3f73f237e8ed0af676b3085e9be8b76c033da14f0531a71d0
   pullPolicy: IfNotPresent
 service:
   main:
@@ -13,9 +14,7 @@ persistence:
     mountPath: "/config"
   varrun:
     enabled: false
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

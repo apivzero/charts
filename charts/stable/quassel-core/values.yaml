@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: ghcr.io/linuxserver/quassel-core
   pullPolicy: IfNotPresent
@@ -23,9 +24,7 @@ cnpg:
     enabled: true
     user: quassel-core
     database: quassel-core
-portal:
-  open:
-    enabled: false
+
 securityContext:
   container:
     runAsNonRoot: false

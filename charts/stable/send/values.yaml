@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: registry.gitlab.com/timvisee/send
-  tag: latest@sha256:1ee495161f176946e6e4077e17be2b8f8634c2d502172cc530a8cd5affd7078f
+  tag: latest@sha256:f902393380dc205b5b0a45c90f2666c167a5be0b6e4d0c54ab19ddbe36f3dce4
 
 securityContext:
   container:
@@ -49,7 +50,3 @@ persistence:
 
 redis:
   enabled: true
-
-portal:
-  open:
-    enabled: true

@@ -1,19 +1,16 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
-  repository: ghcr.io/hotio/qflood
-  tag: latest@sha256:ff86ae422aa174dd7c90bcefbe21dc4dc72b6edc81e3843446727a57cddf0dfa
+  repository: oci.trueforge.org/containerforge/qflood
+  tag: 5.3.0@sha256:08f0c185423cf7729c9a04fdf692bfdb890d29c9bca35eabb7545f5d2c51641f
 persistence:
   config:
     enabled: true
     mountPath: /config
-portal:
-  open:
+  data:
     enabled: true
-securityContext:
-  container:
-    readOnlyRootFilesystem: false
-    runAsGroup: 0
-    runAsUser: 0
+    mountPath: /data
+
 service:
   hostportfor808:
     enabled: true

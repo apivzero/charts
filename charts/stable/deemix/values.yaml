@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: registry.gitlab.com/bockiii/deemix-docker
   pullPolicy: IfNotPresent
@@ -42,6 +43,3 @@ persistence:
   data:
     enabled: true
     mountPath: /downloads
-portal:
-  open:
-    enabled: true

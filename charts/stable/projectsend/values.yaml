@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: ghcr.io/linuxserver/projectsend
   pullPolicy: IfNotPresent
-  tag: latest@sha256:b14fa021252a9c97463b8bce0f16fbad24276c99acbf4d96890c0c8d4db48a54
+  tag: latest@sha256:3ca77c223fb2f8ea09e571700bcd454e7648ed652f2d94edf42bbde18f245e40
 securityContext:
   container:
     runAsNonRoot: false
@@ -19,6 +20,13 @@ workload:
     podSpec:
       containers:
         main:
+          probes:
+            liveness:
+              type: tcp
+            readiness:
+              type: tcp
+            startup:
+              type: tcp
           env:
             MAX_UPLOAD: 5000
             PHP_MEMORY_LIMIT: "512M"
@@ -41,9 +49,5 @@ persistence:
     enabled: true
 mariadb:
   enabled: true
-  includeCommon: true
   mariadbUsername: projectsend
   mariadbDatabase: projectsend
-portal:
-  open:
-    enabled: true

@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: docker.io/cglatot/pasta
   pullPolicy: IfNotPresent
-  tag: 1.6.2@sha256:73d290b3195f6199fb316aebea22d3b0a537a78b100a3de344981efa09ffc3ea
+  tag: 3.0.0@sha256:8679a66df95f8a612e4ae6911078efa6c711340f268141de581e71b0a64fcea6
 service:
   main:
     ports:
@@ -9,9 +10,7 @@ service:
         port: 10302
         protocol: http
         targetPort: 80
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

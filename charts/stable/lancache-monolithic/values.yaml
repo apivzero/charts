@@ -1,11 +1,12 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: docker.io/lancachenet/monolithic
   pullPolicy: IfNotPresent
-  tag: latest@sha256:3352e5de2027c12fb9dd77a8c51d3992e560316d633b6dc523d1599a190cf392
+  tag: latest@sha256:155817065b13cc427aa0014acc34bbb389591400d7639c95abcfcfb2230ad7f0
 prefillImage:
   repository: ghcr.io/ich777/lancache-prefill
   pullPolicy: IfNotPresent
-  tag: latest@sha256:237c5283d9df16b1a2f93f27dec24e9b6e8faf09d0ba71e8737f7614191ac915
+  tag: latest@sha256:17c485ed10027fff93861b13defb1e1860651973c034c90ad9327834a4d1b5d8
 securityContext:
   container:
     readOnlyRootFilesystem: false
@@ -132,7 +133,5 @@ persistence:
     enabled: true
     mountPath: /data/prefill
     targetSelectAll: true
-portal:
-  open:
-    enabled: false
+
 updated: true

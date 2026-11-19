@@ -1,14 +1,13 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: docker.io/kylemanna/bitcoind
-  tag: latest@sha256:2400e64960457b22be55299a2d7fa2aaa217f3dfc4afb84387e5511fe8ce5055
+  tag: latest@sha256:6402dda4113475e220d8fcbc84be3fc60e5495fd4983cc482d2a5e4c9f30f571
 persistence:
   blockhainstorage:
     enabled: true
     mountPath: /bitcoin/.bitcoin
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

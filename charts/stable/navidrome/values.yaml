@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
-  repository: docker.io/deluan/navidrome
+  repository: ghcr.io/navidrome/navidrome
   pullPolicy: IfNotPresent
-  tag: 0.54.3@sha256:4915ec6ad11ff76167491654184dfb7bbf341042fea498c20b2534af3dde587f
+  tag: 0.64.2@sha256:38dc2727bfcfd5ede290f8ada114fc90368146f265ae4701ddddbcbe2a44ee52
 workload:
   main:
     podSpec:
@@ -9,7 +10,7 @@ workload:
         main:
           env:
             ND_MUSICFOLDER: /music
-            ND_SCANSCHEDULE: "@every 15m"
+            ND_SCANNER_SCHEDULE: "@every 15m"
             ND_LOGLEVEL: info
             ND_SESSIONTIMEOUT: 24h
             ND_ENABLETRANSCODINGCONFIG: false
@@ -26,6 +27,3 @@ persistence:
   music:
     enabled: true
     mountPath: /music
-portal:
-  open:
-    enabled: true

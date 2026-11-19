@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
-  repository: docker.io/haveagitgat/tdarr
+  repository: ghcr.io/haveagitgat/tdarr
   pullPolicy: IfNotPresent
-  tag: 2.27.02@sha256:921cd981fd49004468c67116861f16e825dd0337b067275d9e0d47422036f41a
+  tag: 3.08.00@sha256:84743e5ae433a5b49cb463b2dff2679eb02f0cac24fb88c830f49bf8aa9f1c04
 service:
   main:
     ports:
@@ -31,9 +32,7 @@ persistence:
     mountPath: "/media"
   varrun:
     enabled: true
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: docker.io/bndw/wifi-card
-  tag: latest@sha256:4eaaaee68ea01777debaa15c75fe86bb9477fd01b4e2384b1959f67fd16c57aa
+  tag: latest@sha256:2b918b748dd2b88aa8642772b33d9bae42bd004c971a855181484ad10da2ec49
 
 securityContext:
   container:
@@ -16,7 +17,3 @@ service:
         protocol: http
         targetPort: 80
         port: 8888
-
-portal:
-  open:
-    enabled: true

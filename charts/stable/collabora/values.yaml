@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: docker.io/collabora/code
   pullPolicy: IfNotPresent
-  tag: 24.04.11.1.1@sha256:d5b2d6e54f074d8d936a21dccd7bff258446443733e1fa87a4171e51ecd974dc
+  tag: 26.04.6.1.1@sha256:95f29f1c0a1778999125f53f058d968fe0afb37c95e32ebfb9f3444140faebd2
 collabora:
   username: admin
   password: changeme
@@ -34,8 +35,8 @@ workload:
             - configMapRef:
                 name: collabora-config
           securityContext:
-            runAsUser: 100
-            runAsGroup: 102
+            runAsUser: 1001
+            runAsGroup: 1001
             readOnlyRootFilesystem: false
             allowPrivilegeEscalation: true
             capabilities:
@@ -51,6 +52,3 @@ service:
         protocol: http
         targetPort: 9980
         port: 9980
-portal:
-  open:
-    enabled: true

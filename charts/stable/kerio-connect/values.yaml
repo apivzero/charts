@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: docker.io/chvb/docker-kerio-connect
@@ -6,9 +7,7 @@ persistence:
   kerio-connect:
     enabled: true
     mountPath: /backup
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

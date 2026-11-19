@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: ghcr.io/go-shiori/shiori
   pullPolicy: IfNotPresent
-  tag: v1.7.2@sha256:b7eb94ee5ccf24716b4d502961aa9d8b9e9f6d2014cb6553739c25f6d3f29116
+  tag: v1.8.0@sha256:d3bdfc1b68b8f267a04cf74d73b8a0e1d99ac71c3a9047375e97202f079eb1f6
 service:
   main:
     ports:
@@ -36,6 +37,3 @@ cnpg:
     enabled: true
     user: shiori
     password: shiori
-portal:
-  open:
-    enabled: true

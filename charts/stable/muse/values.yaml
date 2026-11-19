@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: ghcr.io/museofficial/muse
   pullPolicy: IfNotPresent
-  tag: 2.10.0@sha256:28e58e69df8613285cd2922c6c0ecdaa3c5a9992753bccfc678f031a5d2867b1
+  tag: 2.12.0@sha256:b10ea1d4807ef62260947de1d9527b1bb909acb1818b838d0768734b3f5e2665
 securityContext:
   container:
     runAsNonRoot: false
@@ -72,6 +73,3 @@ persistence:
   config:
     enabled: true
     mountPath: /config
-portal:
-  open:
-    enabled: false

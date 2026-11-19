@@ -1,6 +1,7 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: docker.io/mpepping/cyberchef
-  tag: v10.19.4@sha256:91e04eaaa1ba1eac6b8e410d6f7b340e1ea0450d48ccbb52ec67ce6faa3672c5
+  tag: v11.5.0@sha256:d75426ccf924157f4ade18d319b6eb0963559ac228d5e4a59b4c8fefcad9b420
   pullPolicy: IfNotPresent
 securityContext:
   container:
@@ -31,6 +32,3 @@ workload:
               type: http
               path: /
           env: {}
-portal:
-  open:
-    enabled: true

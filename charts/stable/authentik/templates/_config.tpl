@@ -11,6 +11,13 @@ server:
     AUTHENTIK_LISTEN__HTTP: {{ printf "0.0.0.0:%v" .Values.service.http.ports.http.port | quote }}
     AUTHENTIK_LISTEN__METRICS: {{ printf "0.0.0.0:%v" .Values.service.servermetrics.ports.servermetrics.port | quote }}
 
+{{/* Worker-only config */}}
+worker:
+  enabled: true
+  data:
+    AUTHENTIK_LISTEN__METRICS: {{ printf "0.0.0.0:%v" .Values.service.workermetrics.ports.workermetrics.port | quote }}
+
+{{/* Shared config for server and worker */}}
 server-worker:
   enabled: true
   data:
@@ -19,8 +26,6 @@ server-worker:
     AUTHENTIK_POSTGRESQL__USER: {{ .Values.cnpg.main.user }}
     AUTHENTIK_POSTGRESQL__HOST: {{ .Values.cnpg.main.creds.host }}
     AUTHENTIK_POSTGRESQL__PORT: "5432"
-    AUTHENTIK_REDIS__HOST: {{ .Values.redis.creds.plain }}
-    AUTHENTIK_REDIS__PORT: "6379"
 
     {{/* Outposts */}}
     AUTHENTIK_OUTPOSTS__DISCOVER: "false"

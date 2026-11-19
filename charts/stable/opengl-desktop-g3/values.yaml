@@ -1,14 +1,13 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: docker.io/accetto/ubuntu-vnc-xfce-opengl-g3
-  tag: latest@sha256:9e880c9ead769e21f74e24c0bd6ff8b76afb2cc73b70014ccbcc133b8276900e
+  tag: latest@sha256:fa64c529abd8154b24b77a309d1ddcce58e294c88459d633b16a8e5bbdc5e461
 persistence:
   internalshare:
     enabled: true
     mountPath: /UNRAID_SHARE
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

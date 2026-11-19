@@ -1,6 +1,7 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
-  repository: docker.io/benzino77/tasmocompiler
-  tag: latest@sha256:939d8df00b2a7eb68ead836a2f8d48aee2ba3b27e8b813556942d90fb431a6aa
+  repository: ghcr.io/benzino77/tasmocompiler
+  tag: latest@sha256:70f4f58bdc67848d1122ce011c939f1e09250fd7eb300981869ff94395e47e92
   pullPolicy: IfNotPresent
 
 securityContext:
@@ -17,7 +18,3 @@ service:
         port: 14003
         protocol: http
         targetPort: 3000
-
-portal:
-  open:
-    enabled: true

@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: docker.io/escaping/core-keeper-dedicated
-  tag: latest@sha256:faaa824fe1f795c8c0aa9fccc198e2b32aa35ec8dcd24537767330ed5e49e870
+  tag: latest@sha256:87fa7925596264e1460cb6c7c128e9d39ac5445206e04e587993b5d4afa7c90f
 persistence:
   datafiles:
     enabled: true
@@ -9,9 +10,7 @@ persistence:
   serverfiles:
     enabled: true
     mountPath: /home/steam/core-keeper-dedicated
-portal:
-  open:
-    enabled: false
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

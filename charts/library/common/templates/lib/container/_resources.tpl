@@ -27,6 +27,14 @@ objectData: The object data to be used to render the container.
 requests:
   cpu: {{ $resources.requests.cpu }}
   memory: {{ $resources.requests.memory }}
+    {{- if not $objectData.resources.excludeExtra -}}
+      {{- range $k, $v := (omit $resources.requests "cpu" "memory") }} {{/* Omit cpu and memory, as they are handled above */}}
+        {{- if or (not $v) (eq (toString $v) "0") -}}
+          {{- continue -}}
+        {{- end }}
+  {{ $k }}: {{ $v }}
+      {{- end -}}
+    {{- end -}}
   {{- if $resources.limits }}
 limits:
     {{- with $resources.limits.cpu }} {{/* Passing 0, will not render it, meaning unlimited */}}
@@ -46,6 +54,25 @@ limits:
   {{- end -}}
 {{- end -}}
 
+
+{{- define "tc.v1.common.lib.resources.validation.data" -}}
+  {{/* CPU: https://regex101.com/r/D4HouI/1 */}}
+  {{/* MEM: https://regex101.com/r/NNPV2D/1 */}}
+  {{- $regex := (dict
+    "cpu" "^(0\\.[1-9]|[1-9][0-9]*)(\\.[0-9]|m?)$"
+    "memory" "^[1-9][0-9]*([EPTGMK]i?|e[0-9]+)?$"
+  ) -}}
+
+  {{- $errorMsg := (dict
+    "cpu" "(Plain Integer - eg. 1), (Float - eg. 0.5), (Milicpu - eg. 500m)"
+    "memory" "(Suffixed with E/P/T/G/M/K - eg. 1G), (Suffixed with Ei/Pi/Ti/Gi/Mi/Ki - eg. 1Gi), (Plain Integer in bytes - eg. 1024), (Exponent - eg. 134e6)"
+  ) -}}
+
+  {{- $data := (dict "regex" $regex "errorMsg" $errorMsg) -}}
+
+  {{- $data | toJson -}}
+{{- end -}}
+
 {{/* Validates resources to match a pattern */}}
 {{/* Call this template:
 {{ include "tc.v1.common.lib.container.resources.validation" (dict "resources" $resources) }}
@@ -54,14 +81,9 @@ resources: The resources object
 */}}
 {{- define "tc.v1.common.lib.container.resources.validation" -}}
   {{- $resources := .resources -}}
-  {{/* CPU: https://regex101.com/r/D4HouI/1 */}}
-  {{/* MEM: https://regex101.com/r/NNPV2D/1 */}}
-  {{- $regex := (dict
-                "cpu" "^(0\\.[1-9]|[1-9][0-9]*)(\\.[0-9]|m?)$"
-                "memory" "^[1-9][0-9]*([EPTGMK]i?|e[0-9]+)?$") -}}
-  {{- $errorMsg := (dict
-                    "cpu" "(Plain Integer - eg. 1), (Float - eg. 0.5), (Milicpu - eg. 500m)"
-                    "memory" "(Suffixed with E/P/T/G/M/K - eg. 1G), (Suffixed with Ei/Pi/Ti/Gi/Mi/Ki - eg. 1Gi), (Plain Integer in bytes - eg. 1024), (Exponent - eg. 134e6)") -}}
+  {{- $data := (include "tc.v1.common.lib.resources.validation.data" .) | fromJson -}}
+  {{- $regex := $data.regex -}}
+  {{- $errorMsg := $data.errorMsg -}}
 
   {{- $resourceTypes := (list "cpu" "memory") -}}
 

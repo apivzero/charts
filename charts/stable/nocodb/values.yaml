@@ -1,6 +1,7 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: docker.io/nocodb/nocodb
-  tag: 0.258.10@sha256:b5d01a9bf65c636c383a198e02bf05eb4f87110a87f8ca43cb0f58985d3e0d9a
+  tag: 0.301.5@sha256:d9516f0bf546fd6c78a382ab0657626c683fca7aaafdbbe53c66baf15df7fc0d
   pullPolicy: IfNotPresent
 securityContext:
   container:
@@ -65,8 +66,4 @@ cnpg:
     database: nocodb
 redis:
   enabled: true
-  includeCommon: true
   redisUsername: default
-portal:
-  open:
-    enabled: true

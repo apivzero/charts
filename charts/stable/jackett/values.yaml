@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
-  repository: ghcr.io/elfhosted/jackett
+  repository: oci.trueforge.org/containerforge/jackett
   pullPolicy: IfNotPresent
-  tag: 0.22.1162@sha256:6da622089b58dbf170e1bdd2c9b3760b9bda4813f1826493c6f176d57a462ea0
+  tag: 0.24.3081@sha256:e0c572686f6465930db93b6120c2ec0c5acd550f7d72fa0230f90a59b625bc45
 service:
   main:
     ports:
@@ -25,6 +26,3 @@ persistence:
   config:
     enabled: true
     mountPath: "/config"
-portal:
-  open:
-    enabled: true

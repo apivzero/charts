@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: docker.io/shaneisrael/fireshare
-  tag: v1.2.20@sha256:dcc3db5472357897a71f3aa4bb51a9700ebde5bc732fb771344f0670ab2d8f1a
+  tag: v1.9.2@sha256:06e971da3e2210cba078c58954a977e162b5d54e5e2e3a34bebd6c7763c683a1
 
 securityContext:
   container:
@@ -48,7 +49,6 @@ persistence:
   videos:
     enabled: true
     mountPath: /videos
-
-portal:
-  open:
+  images:
     enabled: true
+    mountPath: /images

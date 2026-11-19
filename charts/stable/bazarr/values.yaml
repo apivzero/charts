@@ -1,10 +1,11 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
-  repository: ghcr.io/onedr0p/bazarr
+  repository: oci.trueforge.org/containerforge/bazarr
   pullPolicy: IfNotPresent
-  tag: 1.5.0@sha256:5eb3ff2384c470fa351ff486b1b61660914a2ba144e908258cf111555a583356
+  tag: 1.6.2@sha256:3497611a529cce41180c65b84f591dad0ffe91d6eb5b0cad6e561ce1bcab6a11
 exportarrImage:
   repository: ghcr.io/onedr0p/exportarr
-  tag: v2.0.1@sha256:727e7bc8f2f0934a2117978c59f4476b954018b849a010ea6cfb380bd6539644
+  tag: v2.3.0@sha256:af535d94061cf97a52e1661945ffba78c03f9443eae7c0da1a80a5a4be56b520
   pullPolicy: IfNotPresent
 service:
   main:
@@ -50,7 +51,7 @@ workload:
             INTERFACE: 0.0.0.0
             PORT: "{{ .Values.service.metrics.ports.metrics.port }}"
             URL: '{{ printf "http://%v:%v" (include "tc.v1.common.lib.chart.names.fullname" $) .Values.service.main.ports.main.port }}'
-            APIKEY: "{{ .Values.metrics.main.apiKey }}"
+            APIKEY: "{{ .Values.exportarr.apiKey }}"
 
 persistence:
   config:
@@ -63,6 +64,10 @@ persistence:
           mountPath: /config
           readOnly: true
 
+exportarr:
+  # Required for exportarr
+  apiKey: ""
+
 metrics:
   main:
     enabled: false
@@ -71,9 +76,3 @@ metrics:
       - port: metrics
         path: /metrics
     targetSelector: metrics
-    # Required for exportarr
-    apiKey: ""
-
-portal:
-  open:
-    enabled: true

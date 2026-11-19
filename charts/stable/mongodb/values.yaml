@@ -1,9 +1,9 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
-  repository: docker.io/bitnami/mongodb
+  repository: docker.io/bitnamisecure/mongodb
   pullPolicy: IfNotPresent
-  tag: 8.0.4@sha256:436fc1010ccc54518ab5115d70c2c5dcba437865259f66ee83afae4c2bb9a22d
+  tag: latest@sha256:011d28bb7e79046aac5b45e3c770fddfe1a87814f08d4779294ef515f09f435d
 
-includeCommon: true
 workload:
   main:
     replicas: 1
@@ -24,54 +24,45 @@ workload:
             liveness:
               # -- Enable the liveness probe
               enabled: true
-              # -- Set this to `true` if you wish to specify your own livenessProbe
-              custom: true
-              # -- The spec field contains the values for the default livenessProbe.
-              # If you selected `custom: true`, this field holds the definition of the livenessProbe.
-              # @default -- See below
-              spec:
-                exec:
-                  command:
-                    - /bin/bash
-                    - -ec
-                    - echo "db.runCommand(\"ping\")" | mongosh --host localhost --port 27017 ${MONGODB_DATABASE} --quiet
+              # -- Probe type
+              type: exec
+              # -- Command run by the probe
+              command:
+                - /bin/bash
+                - -ec
+                - echo "db.runCommand(\"ping\")" | mongosh --host localhost --port 27017 ${MONGODB_DATABASE} --quiet
             # -- Redainess probe configuration
             # @default -- See below
             readiness:
               # -- Enable the readiness probe
               enabled: true
-              # -- Set this to `true` if you wish to specify your own readinessProbe
-              custom: true
-              # -- The spec field contains the values for the default readinessProbe.
-              # If you selected `custom: true`, this field holds the definition of the readinessProbe.
-              # @default -- See below
-              spec:
-                exec:
-                  command:
-                    - /bin/bash
-                    - -ec
-                    - echo "db.runCommand(\"ping\")" | mongosh --host localhost --port 27017 ${MONGODB_DATABASE} --quiet
+              # -- Probe type
+              type: exec
+              # -- Command run by the probe
+              command:
+                - /bin/bash
+                - -ec
+                - echo "db.runCommand(\"ping\")" | mongosh --host localhost --port 27017 ${MONGODB_DATABASE} --quiet
             # -- Startup probe configuration
             # @default -- See below
             startup:
               # -- Enable the startup probe
               enabled: true
-              custom: true
-              # -- The spec field contains the values for the default livenessProbe.
-              # If you selected `custom: true`, this field holds the definition of the livenessProbe.
-              # @default -- See below
-              spec:
-                exec:
-                  command:
-                    - /bin/bash
-                    - -ec
-                    - echo "db.runCommand(\"ping\")" | mongosh --host localhost --port 27017 ${MONGODB_DATABASE} --quiet
+              # -- Probe type
+              type: exec
+              # -- Command run by the probe
+              command:
+                - /bin/bash
+                - -ec
+                - echo "db.runCommand(\"ping\")" | mongosh --host localhost --port 27017 ${MONGODB_DATABASE} --quiet
 service:
   main:
     ports:
       main:
         port: 27017
         targetPort: 27017
+        protocol: tcp
+
 securityContext:
   container:
     runAsGroup: 0
@@ -93,6 +84,3 @@ secret:
     data:
       mongodb-password: '{{ ( .Values.password | default "empty" ) }}'
       mongodb-root-password: '{{ ( .Values.rootPassword | default "empty" ) }}'
-portal:
-  open:
-    enabled: false

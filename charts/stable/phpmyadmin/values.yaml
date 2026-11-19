@@ -1,10 +1,9 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
-  repository: docker.io/phpmyadmin/phpmyadmin
-  tag: 5.2.1@sha256:67ba2550fd004399ab0b95b64021a88ea544011e566a9a1995180a3decb6410d
-portal:
-  open:
-    enabled: true
+  repository: docker.io/library/phpmyadmin
+  tag: 5.2.3@sha256:e4b3eb5305cd42d21512bb55def2bab52625d56df927ad4ee1864a9354c84d40
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

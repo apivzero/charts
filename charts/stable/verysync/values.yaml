@@ -1,6 +1,7 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
-  repository: docker.io/jonnyan404/verysync
-  tag: 2.18.3@sha256:b5f328fe69f257d24fe116422ba1758ed9aa69fdaaa3bed7798dc3ed0ff58492
+  repository: ghcr.io/jonnyan404/verysync
+  tag: v2.33.2@sha256:6ef12fb4228ac83e165a466df7f7b20af1f1e6cc5ebdb5a724534c84a26748d6
   pullPolicy: IfNotPresent
 securityContext:
   container:
@@ -41,9 +42,7 @@ persistence:
   sync:
     enabled: true
     mountPath: "/Sync"
-portal:
-  open:
-    enabled: true
+
 workload:
   main:
     podSpec:

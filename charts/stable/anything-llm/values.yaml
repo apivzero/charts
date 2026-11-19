@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: ghcr.io/mintplex-labs/anything-llm
   pullPolicy: IfNotPresent
-  tag: latest@sha256:3ac12ea5659c2a3c46bcca2dccf705fec9412d6a95505b7076f4a82bb89a8637
+  tag: latest@sha256:be5f75b6744e0e6697162dfd2c14b0351514f2b3f8cb1a71bbd349488383e0d2
 securityContext:
   container:
     readOnlyRootFilesystem: false
@@ -150,7 +151,3 @@ persistence:
   outputs:
     enabled: true
     mountPath: "/app/collector/outputs"
-
-portal:
-  open:
-    enabled: true

@@ -1,11 +1,12 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
-  repository: ghcr.io/onedr0p/prowlarr-develop
-  tag: 1.29.1.4903@sha256:aa0f5743b6b0a0d6e321dd55af0b78088199347e3cd1a7e5d635e4f4829adb6d
+  repository: oci.trueforge.org/containerforge/prowlarr
+  tag: 3.0.2.5780@sha256:b8893b3e4d7d86bc7eb5cc6d87878e20bc6476da663a3eb495309cb1b70405dc
   pullPolicy: IfNotPresent
 exportarrImage:
   repository: ghcr.io/onedr0p/exportarr
   pullPolicy: IfNotPresent
-  tag: v2.0.1@sha256:727e7bc8f2f0934a2117978c59f4476b954018b849a010ea6cfb380bd6539644
+  tag: v2.3.0@sha256:af535d94061cf97a52e1661945ffba78c03f9443eae7c0da1a80a5a4be56b520
 securityContext:
   container:
     readOnlyRootFilesystem: false
@@ -29,8 +30,12 @@ workload:
           probes:
             liveness:
               path: /ping
+              httpHeaders:
+                Host: localhost
             readiness:
               path: /ping
+              httpHeaders:
+                Host: localhost
             startup:
               type: tcp
           env:
@@ -105,6 +110,3 @@ metrics:
     targetSelector: metrics
     prometheusRule:
       enabled: false
-portal:
-  open:
-    enabled: true

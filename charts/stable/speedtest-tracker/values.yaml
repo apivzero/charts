@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: ghcr.io/linuxserver/speedtest-tracker
   pullPolicy: IfNotPresent
-  tag: 1.0.2@sha256:f448bd1fda42113d86d714e153f57cafe009d3e21afa8415a42686fbf0cff1b2
+  tag: 1.15.1@sha256:2bab9283fb51ac866048028516e542da3bdb7d1858fa2a6b2009972143716433
 service:
   main:
     ports:
@@ -22,16 +23,13 @@ persistence:
     enabled: false
 redis:
   enabled: true
-  includeCommon: true
   redisUsername: default
 cnpg:
   main:
     enabled: true
     user: speedtest-tracker
     database: speedtest-tracker
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     runAsNonRoot: false
@@ -83,7 +81,7 @@ workload:
             MAIL_PORT: 465
             MAIL_USERNAME: ""
             MAIL_PASSWORD: ""
-            MAIL_ENCRYPTION: "SSL"
+            MAIL_SCHEME: "SSL"
             MAIL_FROM_ADDRESS: ""
             MAIL_FROM_NAME: "Speedtest Tracker"
             TELEGRAM_BOT_TOKEN: ""

@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: docker.io/rhasspy/wyoming-openwakeword
   pullPolicy: IfNotPresent
-  tag: 1.10.0@sha256:3165a5cd8aef84beb882e640aa1f5c01c97f8c0b1f50016164ecdf2ab65d033a
+  tag: 2.1.0@sha256:52cb1168731a1849fc28cf339c935fde58746bbabc94226668a40ef6ddf5d42b
 
 wyoming_openwakeword:
   model: ok_nabu
@@ -19,7 +20,3 @@ service:
         port: 10400
         protocol: tcp
         targetPort: 10400
-
-portal:
-  open:
-    enabled: false

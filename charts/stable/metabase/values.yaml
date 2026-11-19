@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: docker.io/metabase/metabase
   pullPolicy: IfNotPresent
-  tag: v0.52.4@sha256:ea0229a63116ea625ef09085a84ee0d2618311fd34a6e72cc527ae2eb003a5f9
+  tag: v0.65.6@sha256:21a0c25c12a9d6334c9efb3d74db9973707baaf543ae6abb43bd6d42818e01af
 service:
   main:
     ports:
@@ -38,6 +39,3 @@ cnpg:
     enabled: true
     user: metabase
     database: metabase
-portal:
-  open:
-    enabled: true

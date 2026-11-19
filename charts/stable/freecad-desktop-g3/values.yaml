@@ -1,14 +1,13 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: docker.io/accetto/ubuntu-vnc-xfce-freecad-g3
-  tag: latest@sha256:f9e530ebf6fa12091f956a4b4dee16919a0d0b6fbd30d74aac3352dab8affb87
+  tag: latest@sha256:caee5716ab3e3dc71ed5aabfeac70e631a71ebb348a02b020c3274b3b14e5df5
 persistence:
   internalshare:
     enabled: true
     mountPath: /UNRAID_SHARE
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

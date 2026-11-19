@@ -1,0 +1,52 @@
+# yaml-language-server: $schema=./values.schema.json
+image:
+  repository: ghcr.io/connorgallopo/tracearr
+  pullPolicy: IfNotPresent
+  tag: 3.2.1@sha256:6bcaf17c012b4fe11b898f343244af19b3c87b7847bdc652897e2c9781465f2c
+
+securityContext:
+  container:
+    readOnlyRootFilesystem: false
+
+service:
+  main:
+    ports:
+      main:
+        protocol: http
+        targetPort: 3000
+        port: 3000
+
+cnpg:
+  main:
+    enabled: true
+    user: tracearr
+    database: tracearr
+
+redis:
+  enabled: true
+  redisUsername: default
+
+workload:
+  main:
+    podSpec:
+      containers:
+        main:
+          env:
+            PORT: "{{ .Values.service.main.ports.main.port }}"
+            JWT_SECRET: "changeme"
+            COOKIE_SECRET: "changeme"
+            # Optional MaxMind GeoIP license key
+            MAXMIND_LICENSE_KEY: ""
+            CORS_ORIGIN: "*"
+            LOG_LEVEL: info
+            # Enable reverse proxy support
+            TRUST_PROXY: true
+            DATABASE_URL:
+              secretKeyRef:
+                name: cnpg-main-urls
+                key: std
+            REDIS_URL:
+              secretKeyRef:
+                expandObjectName: false
+                name: '{{ printf "%s-%s" .Release.Name "rediscreds" }}'
+                key: url

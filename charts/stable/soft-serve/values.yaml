@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
-  repository: docker.io/charmcli/soft-serve
+  repository: ghcr.io/charmbracelet/soft-serve
   pullPolicy: IfNotPresent
-  tag: v0.8.1@sha256:dab593a1b025e0d653b2c594a795d1fe189403935b41dd461c892ace4a2cf5ce
+  tag: v0.12.4@sha256:740a313b3075ddbf4a24765cda8cfa1560c3fcad96e71d355dc365aeab351db6
 softserve:
   host: localhost
   key_path: /.ssh/soft_serve_server_ed25519
@@ -22,9 +23,7 @@ persistence:
   repos:
     enabled: true
     mountPath: /repos
-portal:
-  open:
-    enabled: false
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

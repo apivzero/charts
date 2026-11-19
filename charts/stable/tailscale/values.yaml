@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
-  repository: docker.io/tailscale/tailscale
+  repository: ghcr.io/tailscale/tailscale
   pullPolicy: IfNotPresent
-  tag: v1.78.3@sha256:9d4c17a8451e2d1282c22aee1f08d28dc106979c39c7b5a35ec6313d4682a43e
+  tag: v1.104.7@sha256:72c1e19e0aedca96b8533bbb0b4368564410ff20b17e53b804eb6c1f04a31be4
 serviceAccount:
   main:
     enabled: true
@@ -38,9 +39,10 @@ tailscale:
   outbound_http_proxy_listen: ""
   extra_args: ""
   daemon_extra_args: ""
-  hostname: ""
+  hostname: "truecharts-tailscale"
   advertise_as_exit_node: false
-hostNetwork: true
+podOptions:
+  hostNetwork: true
 service:
   main:
     enabled: false
@@ -57,9 +59,7 @@ persistence:
     mountPath: /dev/net/tun
     hostPathType: ""
     readOnly: false
-portal:
-  open:
-    enabled: false
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

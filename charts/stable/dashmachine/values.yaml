@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: docker.io/rmountjoy/dashmachine
@@ -6,9 +7,7 @@ persistence:
   appdata:
     enabled: true
     mountPath: /dashmachine/dashmachine/user_data
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

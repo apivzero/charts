@@ -1,15 +1,22 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: ghcr.io/stirling-tools/s-pdf
   pullPolicy: IfNotPresent
-  tag: 0.36.5-ultra-lite@sha256:f61a1f36d829d4573bb271c7b03cfbaad0cff98924e3f333d7cd365499324634
+  tag: 3.3.0-ultra-lite@sha256:4c271fbcec94dec628910ddc7fb79027a8c3a39f9425442583718ea7c0fe1717
 fatImage:
   repository: ghcr.io/stirling-tools/s-pdf
   pullPolicy: IfNotPresent
-  tag: 0.36.5-fat@sha256:97bbc3c16646b170dbeffaf0a7ad9c3261a7b83b73d6c7d4ad0fefc488e8f3f8
+  tag: 3.3.0-fat@sha256:c91c53c8cdb68a230e3d710538a2bbcefcd4f6a32d4aa8f93fb1fc726141d5ad
 fullImage:
   repository: ghcr.io/stirling-tools/s-pdf
   pullPolicy: IfNotPresent
-  tag: 0.36.5@sha256:d03441da7f63d19b4af5e9f30770938dd4ea2697a31cd2151016049c82624b75
+  tag: 3.3.0@sha256:ed7b1775c6706b5e5ea24fa6155f078eff1027bd35a17d21834e4407036025e6
+securityContext:
+  container:
+    runAsNonRoot: false
+    readOnlyRootFilesystem: false
+    runAsUser: 0
+    runAsGroup: 0
 service:
   main:
     ports:
@@ -48,6 +55,3 @@ persistence:
   logs:
     enabled: true
     mountPath: "/logs"
-portal:
-  open:
-    enabled: true

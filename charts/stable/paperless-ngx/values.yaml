@@ -1,13 +1,38 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: ghcr.io/paperless-ngx/paperless-ngx
   pullPolicy: IfNotPresent
-  tag: 2.13.5@sha256:199c67ed55bfb9d58bf90db2ee280880ae9ebc63413e54c73522f9c4ebdc7bad
+  tag: 3.5.1@sha256:8508853b8a0f8394074260957d0be186c8c64f346973b24a7583de4580f306b9
+gotenbergImage:
+  repository: docker.io/gotenberg/gotenberg
+  pullPolicy: IfNotPresent
+  tag: 9.8@sha256:5467aaf0bb2a8b296b589a388bc7fd2a0b245fd71e63a64bb42baba63cbf3914
+tikaImage:
+  repository: docker.io/apache/tika
+  pullPolicy: IfNotPresent
+  tag: 3.3.3.0@sha256:326b238b37904c94ff61fed87afe0af72e6a29fa715933b10af97b7d56f1d4cb
 service:
   main:
     ports:
       main:
         targetPort: 8000
         port: 10140
+  gotenberg:
+    enabled: "{{ .Values.tika.enabled }}"
+    targetSelector: gotenberg
+    ports:
+      gotenberg:
+        enabled: true
+        targetPort: 3000
+        port: 3000
+  tika:
+    enabled: "{{ .Values.tika.enabled }}"
+    targetSelector: tika
+    ports:
+      tika:
+        enabled: true
+        targetPort: 9998
+        port: 9998
 persistence:
   data:
     enabled: true
@@ -22,16 +47,15 @@ persistence:
     enabled: false
 redis:
   enabled: true
-  includeCommon: true
-  redisUsername: default
+  redisUsername: "default"
 cnpg:
   main:
     enabled: true
-    user: paperless-ng
-    database: paperless-ng
-portal:
-  open:
-    enabled: true
+    user: "paperless-ng"
+    database: "paperless-ng"
+tika:
+  enabled: false
+
 securityContext:
   container:
     runAsNonRoot: false
@@ -65,9 +89,13 @@ workload:
             USERMAP_UID: "{{ .Values.securityContext.container.PUID }}"
             USERMAP_GID: "{{ .Values.securityContext.pod.fsGroup }}"
             PAPERLESS_TIME_ZONE: "{{ .Values.TZ }}"
+            PAPERLESS_DBENGINE: "postgresql"
             PAPERLESS_DBNAME: "{{ .Values.cnpg.main.database }}"
             PAPERLESS_DBUSER: "{{ .Values.cnpg.main.user }}"
             PAPERLESS_DBPORT: "5432"
+            PAPERLESS_TIKA_ENABLED: '{{ ternary 1 0 .Values.tika.enabled }}'
+            PAPERLESS_TIKA_GOTENBERG_ENDPOINT: '{{ printf "http://%v-gotenberg:%v" (include "tc.v1.common.lib.chart.names.fullname" $) .Values.service.gotenberg.ports.gotenberg.targetPort }}'
+            PAPERLESS_TIKA_ENDPOINT: '{{ printf "http://%v-tika:%v" (include "tc.v1.common.lib.chart.names.fullname" $) .Values.service.tika.ports.tika.targetPort }}'
             PAPERLESS_WEBSERVER_WORKERS: 2
             PAPERLESS_DBPASS:
               secretKeyRef:
@@ -91,3 +119,51 @@ workload:
             PAPERLESS_ADMIN_MAIL: "admin@admin.com"
             PAPERLESS_OCR_LANGUAGE: "eng"
             PAPERLESS_OCR_LANGUAGES: "eng fra deu spa ita"
+  gotenberg:
+    enabled: "{{ .Values.tika.enabled }}"
+    type: Deployment
+    podSpec:
+      containers:
+        gotenberg:
+          enabled: true
+          primary: true
+          imageSelector: gotenbergImage
+          command:
+            - "gotenberg"
+            - "--chromium-disable-javascript=true"
+            - "--chromium-allow-list=file:///tmp/.*"
+          probes:
+            liveness:
+              type: http
+              path: /health
+              port: "{{ .Values.service.gotenberg.ports.gotenberg.port }}"
+            startup:
+              type: http
+              path: /health
+              port: "{{ .Values.service.gotenberg.ports.gotenberg.port }}"
+            readiness:
+              type: http
+              path: /health
+              port: "{{ .Values.service.gotenberg.ports.gotenberg.port }}"
+  tika:
+    enabled: "{{ .Values.tika.enabled }}"
+    type: Deployment
+    podSpec:
+      containers:
+        tika:
+          enabled: true
+          primary: true
+          imageSelector: tikaImage
+          probes:
+            liveness:
+              type: http
+              path: /
+              port: "{{ .Values.service.tika.ports.tika.port }}"
+            startup:
+              type: http
+              path: /
+              port: "{{ .Values.service.tika.ports.tika.port }}"
+            readiness:
+              type: http
+              path: /
+              port: "{{ .Values.service.tika.ports.tika.port }}"

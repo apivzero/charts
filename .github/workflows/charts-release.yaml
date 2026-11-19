@@ -26,17 +26,18 @@ defaults:
 
 jobs:
   check_changes:
-    runs-on: ubuntu-latest
+    runs-on:
+      group: default
     outputs:
       changes_detected: ${{ steps.filter.outputs.changed }}
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - name: Filter paths
         id: filter
-        uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3
+        uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4
         with:
           list-files: json
           filters: |
@@ -50,19 +51,49 @@ jobs:
     permissions:
       pull-requests: write
     name: "${{ github.ref == 'refs/heads/master' && '(Production)' || '(Preview)' }}"
-    runs-on: actions-runners
+    runs-on:
+      group: default
     needs: check_changes
     steps:
       - name: Checkout
-        uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 # v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           fetch-depth: 0
+
+      - name: Setup Forgetool
+        shell: bash
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        run: |-
+          TAG=""
+          if RELEASES_JSON="$(curl -fsSL \
+            -H "Authorization: Bearer ${GITHUB_TOKEN}" \
+            -H "Accept: application/vnd.github+json" \
+            https://api.github.com/repos/trueforge-org/forgetool/releases/latest)"; then
+            TAG="$(jq -r '.tag_name // empty' <<< "${RELEASES_JSON}")"
+          fi
+          [ -n "${TAG}" ] && [ "${TAG}" != "null" ] || {
+            echo "Failed to determine latest stable forgetool release tag, falling back to v4.1.1"
+            TAG="v4.1.1"
+          }
+          VERSION="${TAG#v}"
+          VERSION="${VERSION#forgetool-v}"
+          case "$(uname -m)" in
+            x86_64) ARCH="amd64" ;;
+            aarch64|arm64) ARCH="arm64" ;;
+            *) echo "Unsupported uname architecture: $(uname -m). Supported uname values: x86_64, aarch64, arm64." && exit 1 ;;
+          esac
+          curl -fsSL -o "${RUNNER_TEMP}/forgetool.tar.gz" "https://github.com/trueforge-org/forgetool/releases/download/${TAG}/forgetool_${VERSION}_linux_${ARCH}.tar.gz" || { echo "Failed to download forgetool release ${TAG} for linux_${ARCH}"; exit 1; }
+          mkdir -p "${RUNNER_TEMP}/forgetool-bin"
+          tar -xzf "${RUNNER_TEMP}/forgetool.tar.gz" -C "${RUNNER_TEMP}/forgetool-bin" forgetool || { echo "Failed to extract forgetool binary from archive"; exit 1; }
+          chmod +x "${RUNNER_TEMP}/forgetool-bin/forgetool"
+          echo "${RUNNER_TEMP}/forgetool-bin" >> "${GITHUB_PATH}"
 
       - name: Get Changelog Format Version
         shell: bash
         if: github.event_name == 'push'
         run: |
-          ver=$(./charttool genchangelog format-version)
+          ver="1"
           rev="1"
           key="changelog-format-$ver-rev-$rev"
           echo "Cache Key is: $key"
@@ -71,15 +102,13 @@ jobs:
       - name: Cache Changelog
         id: cache-changelog
         if: github.event_name == 'push'
-        uses: actions/cache@1bd1e32a3bdc45362d1e726936510720a7c30a57 # v4
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           key: ${{ env.CHANGELOG_CACHE_KEY }}-${{ hashFiles('**/Chart.yaml') }}
           path: changelog.json.gz
           restore-keys: |
             ${{ env.CHANGELOG_CACHE_KEY }}-${{ hashFiles('**/Chart.yaml') }}
             ${{ env.CHANGELOG_CACHE_KEY }}-
-
-
 
       - name: Generate Changelog
         shell: bash
@@ -96,8 +125,15 @@ jobs:
             gunzip "$JSON_FILE.gz" --force # Force overwrite if file already exists
           fi
 
-          ./charttool genchangelog "$REPO_PATH" "$TEMPLATE_PATH" "$OUTPUT_DIR"
-          gzip "$JSON_FILE" --best
+          forgetool charts genchangelog "$REPO_PATH" "$TEMPLATE_PATH" "$OUTPUT_DIR"
+
+          # TODO: Test remove later
+          echo ""
+          echo "rootcontent"
+          ls ./
+          echo ""
+
+          gzip "$JSON_FILE" --best || echo "Compression failed, ignoring..."
 
       - name: Fix Pre-Commit issues
         shell: bash
@@ -108,9 +144,9 @@ jobs:
           find . -name '*.sh' | xargs chmod +x
 
       - name: Install Helm
-        uses: azure/setup-helm@fe7b79cd5ee1e45176fcad797de68ecaf3ca4814 # v4
+        uses: azure/setup-helm@2f5e7bc67f1f9972ab16657bb795f36d8f04de0e # v5
         with:
-          version: v3.14.0
+          version: v4.3.2
 
       # Optional step if GPG signing is used
       - name: Prepare GPG key
@@ -150,59 +186,53 @@ jobs:
         if: github.event_name == 'push'
         run: helm registry logout quay.io
 
+      - name: Checkout website repo
+        if: github.event_name == 'push'
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          repository: trueforge-org/websites
+          path: website   # checkout into ./website
+          ref: main       # branch to push to
+          token: "${{ secrets.BOT_TOKEN }}"
+
       - name: Copy docs to website
-        if: needs.check_changes.outputs.changes_detected == 'true'
+        if: github.event_name == 'push'
         shell: bash
         run: |
           #!/bin/bash
-          echo "Maing sure directories exist..."
-          mkdir -p website/public/img/hotlink-ok/chart-icons || echo "chart-icons path already exists, continuing..."
-          mkdir -p website/public/img/hotlink-ok/chart-icons-small || echo "chart-icons-small path already exists, continuing..."
-          mkdir -p website/src/assets || echo "assets path already exists, continuing..."
 
-          ./charttool genchartlist ./charts
-          mv charts.json website/src/assets/charts.json
+          forgetool charts gendocs --charts-dir ./charts --website-dir ./website
+          rm -rf ./website/truecharts/src/content/docs-common
+          mv ./website/truecharts/src/content/docs/charts/library/common ./website/truecharts/src/content/docs-common
 
-          echo "Copying changelogs to docs"
-          mkdir -p ./website/src/content/docs/charts/
-          mkdir -p ./changelogs
+      # The combined (bundled) values schema of common, one file for each released version,
+      # and the HelmRelease schema that validates spec.values against it
+      - name: Copy common schemas to website
+        if: github.event_name == 'push'
+        shell: bash
+        run: |
+          #!/bin/bash
+          set -euo pipefail
 
-          # Check if there are any directories in changelogs
-          if [ -n "$(find ./changelogs -mindepth 1 -type d)" ]; then
-              cp -r ./changelogs/** ./website/src/content/docs/charts/
-          else
-              echo "No directories in ./changelogs. Skipping copy."
+          schema="charts/library/common/values.schema.json"
+          template="templates/helm-release.schema.json.tpl"
+          version="$(awk '/^version:/ { print $2 }' charts/library/common/Chart.yaml)"
+          if [[ -z "$version" ]] || [[ ! -f "$schema" ]] || [[ ! -f "$template" ]]; then
+            echo "No version, schema or HelmRelease template found for common, not copying the schemas"
+            exit 1
           fi
 
-          export DEBUG=false
-          export STRICT=true
-          go-yq --version
+          mkdir -p ./website/truecharts/public/schemas/common
+          cp "$schema" "./website/truecharts/public/schemas/common/${version}.schema.json"
 
-          for item in charts/*/*/Chart.yaml; do
-            # TODO: Move all website docs structure generation to charttool
-            IFS='/' read -r -a chart_parts <<<"$item"
-            ./.github/scripts/chart-docs.sh "${chart_parts[1]}/${chart_parts[2]}"
-          done
-
-      - name: Comment deploy start
-        if: github.event_name != 'push' && needs.check_changes.outputs.changes_detected == 'true'
-        continue-on-error: true
-        uses: mshick/add-pr-comment@b8f338c590a895d50bcbfa6c5859251edc8952fc # v2
-        with:
-          message-id: cloudflare-deploy
-          message: |
-            ### 🚧 Deploy Preview building...
-
-            |  Name               | Link                                                                          |
-            |---------------------|-------------------------------------------------------------------------------|
-            |🔨 Latest commit     | ${{ github.sha }}                                                             |
-            |🔍 Latest deploy log | https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }} |
-            ---
-
+          # The $ref in the template must stay the same as in the values.schema.json of the charts
+          mkdir -p ./website/truecharts/public/schemas/helm-release
+          sed "s/__COMMON_VERSION__/${version}/g" "$template" \
+            > "./website/truecharts/public/schemas/helm-release/${version}.schema.json"
 
       - name: Prefetch contributor icons
         shell: bash
-        if: needs.check_changes.outputs.changes_detected == 'true'
+        if: github.event_name == 'push'
         run: |
           #!/bin/bash
 
@@ -226,84 +256,16 @@ jobs:
           #
           #done < src/assets/contributors.json
 
-      - name: Setup astro Cache
-        if: needs.check_changes.outputs.changes_detected == 'true'
-        uses: actions/cache@1bd1e32a3bdc45362d1e726936510720a7c30a57 # v4
-        with:
-          # Cache for build and optimized images.
-          key: astro-${{ hashFiles('website/package-lock.json') }}
-          path: ./website/.astro
-          restore-keys: astro-
-
-      - name: Setup npm Cache
-        if: needs.check_changes.outputs.changes_detected == 'true'
-        uses: actions/cache@1bd1e32a3bdc45362d1e726936510720a7c30a57 # v4
-        with:
-          # Cache for npm
-          path: ~/website/.npm
-          key: npm-${{ hashFiles('website/package-lock.json') }}
-          restore-keys: npm-
-
-      - name: Setup node_modules Cache
-        id: modulescache
-        if: needs.check_changes.outputs.changes_detected == 'true'
-        uses: actions/cache@1bd1e32a3bdc45362d1e726936510720a7c30a57 # v4
-        with:
-          # Cache for npm and optimized images.
-          path: ./website/node_modules
-          key: modules-${{ hashFiles('website/package-lock.json') }}
-
-      - name: Setup Node
-        if: needs.check_changes.outputs.changes_detected == 'true' && needs.check_changes.outputs.changes_detected == 'true'
-        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4
-        with:
-          node-version-file: ./website/.nvmrc
-
-      - name: Install Packages
-        if: steps.modulescache.outputs.cache-hit != 'true' && needs.check_changes.outputs.changes_detected == 'true'
-        run: cd website && npm ci
-
-      - name: Check
-        if: needs.check_changes.outputs.changes_detected == 'true'
-        run: cd website && npm run check
-
-      - name: Build
-        if: needs.check_changes.outputs.changes_detected == 'true'
-        run: cd website && npm run build
-
-      - name: Publish to Cloudflare Pages
-        if: needs.check_changes.outputs.changes_detected == 'true'
-        id: cloudflare
-        continue-on-error: true
-        uses: cloudflare/pages-action@f0a1cd58cd66095dee69bfa18fa5efd1dde93bca # v1
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          # By default Cloudflare marks `main` as the "production" branch.
-          # So when this workflow is pushed to refs/heads/main, we set the branch to `main`/"production".
-          branch: ${{ github.ref == 'refs/heads/master' && 'main' || github.head_ref }}
-          # The project name in Cloudflare
-          projectName: website
-          directory: ./website/build
-          wranglerVersion: "3"
-
-      - name: Comment deploy url
-        if: github.event_name != 'push' && needs.check_changes.outputs.changes_detected == 'true'
-        continue-on-error: true
-        uses: mshick/add-pr-comment@b8f338c590a895d50bcbfa6c5859251edc8952fc # v2
-        with:
-          message-id: cloudflare-deploy
-          message: |
-            ### ✅ Deploy Preview ready!
-
-            |  Name                | Link                                                                          |
-            |----------------------|-------------------------------------------------------------------------------|
-            |🔨 Latest commit      | ${{ github.sha }}                                                             |
-            |🔍 Latest deploy log  | https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }} |
-            |😎 Deploy Preview Url | [${{ steps.cloudflare.outputs.url }}](${{ steps.cloudflare.outputs.url }})    |
-            |🌳 Environment        | ${{ steps.cloudflare.outputs.environment }}                                   |
-            ---
-
-      - name: Release-and-Website Completed
-        if: needs.check_changes.outputs.changes_detected == 'true'
-        run: echo "DONE"
+      - name: Commit and push changes
+        if: github.event_name == 'push'
+        run: |
+          cd website
+          git config user.name "TrueForge-Bot"
+          git config user.email "bot@trueforge.org"
+          # Ensure we rebase in case there are changes from other sources in-between
+          git stash push --include-untracked -m "autogenerated TrueCharts changes"
+          git pull --rebase origin main
+          git stash pop
+          git add .
+          git diff-index --quiet HEAD || git commit -m "Update website with latest charts and docs"
+          git push origin main

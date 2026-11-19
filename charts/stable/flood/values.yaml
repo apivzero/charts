@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
-  repository: docker.io/jesec/flood
+  repository: oci.trueforge.org/containerforge/flood
   pullPolicy: IfNotPresent
-  tag: 4.8.5@sha256:029fd802b125a53dd6289776a1793e815d61f8ee33cbb686cfae951a390963fe
+  tag: "4.16.4@sha256:a94428e83809450bd927dc00b8f5abe0348f8b54d6cd6dea0b6c14362f193321"
 workload:
   main:
     podSpec:
@@ -19,6 +20,6 @@ persistence:
   data:
     enabled: true
     mountPath: /data
-portal:
-  open:
+  config:
     enabled: true
+    mountPath: /config

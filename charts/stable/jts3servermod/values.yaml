@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: ghcr.io/galexrt/jts3servermod
   pullPolicy: IfNotPresent
@@ -38,7 +39,3 @@ persistence:
   logs:
     enabled: true
     mountPath: "/jts3servermod/logs"
-
-portal:
-  open:
-    enabled: false

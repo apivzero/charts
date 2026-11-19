@@ -53,9 +53,6 @@ ingress:
         paths:
           - path: /
             pathType: Prefix
-            service:
-              name:
-              port:
     tls:
       - hosts:
           - ci.chart-example.local
@@ -67,9 +64,6 @@ ingress:
         paths:
           - path: /
             pathType: Prefix
-            service:
-              name:
-              port:
     tls:
       - certificateIssuer: sometlsissuer
         hosts:
@@ -77,8 +71,6 @@ ingress:
 
   label:
     enabled: true
-    fixedMiddlewares:
-      - chain-basic
     labels:
       labelexample1: labelvalue2
     hosts:
@@ -86,35 +78,21 @@ ingress:
         paths:
           - path: /
             pathType: Prefix
-            service:
-              name:
-              port:
     tls: []
 
   autolink:
     enabled: true
-    fixedMiddlewares:
-      - chain-basic
     hosts:
       - host: label.chart-example.local
         paths:
           - path: /
             pathType: Prefix
-            service:
-              name:
-              port:
     tls: []
-    autoLink: true
 
   notls:
     enabled: true
-    fixedMiddlewares:
-      - chain-basic
     hosts:
       - host: notls.chart-example.local
         paths:
           - path: /
             pathType: Prefix
-            service:
-              name:
-              port:

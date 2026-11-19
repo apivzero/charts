@@ -1,14 +1,17 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
-  repository: ghcr.io/ich777/chrome
-  tag: latest@sha256:72d54e75cc8372748a5c68b8f2842eb97dfc0be5333f82cca19c27dd00503ae2
+  repository: ghcr.io/linuxserver/chromium
+  tag: latest@sha256:6d2a8da6a45d4083a7287211a619ca29fdb518ebea0ef562c27392ba2f6698d2
 persistence:
   datadir:
     enabled: true
-    mountPath: /chrome
-portal:
-  open:
+    mountPath: /config
+  browsercache:
     enabled: true
+    type: emptyDir
+    mountPath: /config/.cache
+
 securityContext:
   container:
     readOnlyRootFilesystem: false
@@ -27,6 +30,4 @@ workload:
       containers:
         main:
           env:
-            CUSTOM_RES_H: "768"
-            CUSTOM_RES_W: "1280"
-            EXTRA_PARAMETERS: ""
+            CUSTOM_PORT: "{{ .Values.service.main.ports.main.port }}"

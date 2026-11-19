@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: docker.io/papermerge/papermerge
   pullPolicy: IfNotPresent
-  tag: 3.2.0@sha256:11bd6e47622b295ee40f1e719c63235544121839a30e5083d959208931007b62
+  tag: 3.5.3@sha256:78c7a24609066b253cad18c6f8486af505e3b8da30aa73a45f064359a6516d16
 securityContext:
   container:
     runAsNonRoot: false
@@ -39,6 +40,8 @@ persistence:
   media:
     enabled: true
     mountPath: "/core_app/media"
+  varrun:
+    enabled: false
 redis:
   enabled: true
   redisUsername: papermerge
@@ -47,6 +50,3 @@ cnpg:
     enabled: true
     user: papermerge
     database: papermerge
-portal:
-  open:
-    enabled: true

@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: ghcr.io/linuxserver/davos
   pullPolicy: IfNotPresent
-  tag: 2.2.2@sha256:134bf27232d1e6be10b0b53863ede62e95d7ce478fcd3abbc7e868eb755f38c8
+  tag: 2.2.2@sha256:526cf405d5857f3f66f7b0596f3f3feaa5aeb32819ff2fce43b6b1f7fc67baa5
 securityContext:
   container:
     readOnlyRootFilesystem: false
@@ -35,6 +36,3 @@ persistence:
   config:
     enabled: true
     mountPath: /config
-portal:
-  open:
-    enabled: true

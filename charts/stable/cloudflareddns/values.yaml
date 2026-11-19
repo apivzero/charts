@@ -1,33 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
-  repository: ghcr.io/hotio/cloudflareddns
+  repository: oci.trueforge.org/containerforge/cloudflareddns
   pullPolicy: IfNotPresent
-  tag: latest@sha256:b33c4cfe25ae292935e986e34c9a12fe491f50a884e33065edc5c9261d69cafc
-securityContext:
-  container:
-    runAsNonRoot: false
-    readOnlyRootFilesystem: false
-    runAsUser: 0
-    runAsGroup: 0
-cloudflareddns:
-  user: your.cf.email@example.com
-  api_token: ""
-  api_key: ""
-  api_token_zone: ""
-  interval: 300
-  detect_mode: dig-whoami.cloudflare
-  detect_override: ""
-  log_level: 3
-  host_zone_record: []
-  # - domain: example.com
-#   zone: A1jajaja
-#   record: A
-# - domain: foobar.com
-#   zone: B1aksksa
-#   record: A
-# - domain: foobar.com
-#   zone: Cs11kdkkasks
-#   record: AAAA
-
+  tag: 3.0.0@sha256:5c3ea167a85efb00224a1803f9547762416053551714fe111b930dff7bcd5dbd
 service:
   main:
     enabled: false
@@ -46,14 +21,17 @@ workload:
               enabled: false
             startup:
               enabled: false
-          envFrom:
-            - secretRef:
-                name: "secret"
-          env: {}
+          env:
+            UPDATE_IPV4: true
+            UPDATE_IPV6: true
+            DETECTION_MODE: "dig-whoami.cloudflare"
+            LOG_LEVEL: 3
+            CF_APITOKEN: "CLOUDFLARETOKEN"
+            #  CF_USER: not needed with API Token
+            #  CF_APIKEY: not needed with API Token
+            CF_HOSTS: "subdomain.example.com, subdomain.example.org"
+            INTERVAL: 300
 persistence:
   config:
     enabled: true
     mountPath: /config
-portal:
-  open:
-    enabled: false

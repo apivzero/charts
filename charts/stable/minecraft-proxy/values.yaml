@@ -1,14 +1,19 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: ghcr.io/itzg/mc-proxy
-  tag: java21-2024.6.0@sha256:26dbf2405bc75d9cc21e8c52ee767c9c72b50e2f409cbd8e39221fa410e26150
-  pullPolicy: Always
-j11Image:
-  repository: ghcr.io/itzg/mc-proxy
-  tag: java11-2024.6.0@sha256:185b4ef86234965aa95902e89f398015044fbb3b1084606b7f2eb772d87bee25
+  tag: 2026.11.1-java21@sha256:4e6901b4640a913ef6d8470de887b89ff6d19702e410edfbccdbdbce4b54159f
   pullPolicy: Always
 j8Image:
   repository: ghcr.io/itzg/mc-proxy
-  tag: java8-2022.4.1@sha256:e72d8dae94476695b8d7b7d0d4093d57ce4dc4d7dc54fd08e8d386ad75c62a05
+  tag: 2026.11.1-java8@sha256:62a689c4725bc9d8ca83f1bcd76aa5a972e2efc5a16eabf089f21898c0fa0654
+  pullPolicy: Always
+j17Image:
+  repository: ghcr.io/itzg/mc-proxy
+  tag: 2026.11.1-java17@sha256:b97a37f1fcf2e7716a9c232c6b516ea3d78d5d55929e218df13352c3e241c6b8
+  pullPolicy: Always
+j25Image:
+  repository: ghcr.io/itzg/mc-proxy
+  tag: 2026.11.1-java25@sha256:8efdaa9d990f4c509f21b7ced003dd959060777784422fd72fdd537d613c1813
   pullPolicy: Always
 service:
   main:
@@ -64,6 +69,3 @@ persistence:
   plugins:
     enabled: true
     mountPath: "/plugins"
-portal:
-  open:
-    enabled: false

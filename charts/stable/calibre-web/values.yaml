@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
-  repository: lscr.io/linuxserver/calibre-web
+  repository: oci.trueforge.org/containerforge/calibre-web
   pullPolicy: IfNotPresent
-  tag: version-0.6.23@sha256:60afc6620294760d18a50de0baa288ca225ed11d2f16356cb9f1f8aa67065325
+  tag: "0.6.27@sha256:437bc48806b5ed3e372317b42aba843c07dfad0a353707a9490a250fb46ef386"
 securityContext:
   container:
     readOnlyRootFilesystem: false
@@ -35,6 +36,3 @@ persistence:
   config:
     enabled: true
     mountPath: /config
-portal:
-  open:
-    enabled: true

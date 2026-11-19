@@ -1,6 +1,7 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
-  repository: docker.io/mauricenino/dashdot
-  tag: 5.9.0@sha256:e99254bbf994c0cc496b52c1196caaf514d3370cc33cc3f3359a2715498de941
+  repository: ghcr.io/mauricenino/dashdot
+  tag: 6.3.4@sha256:434a54d2937411a06b09c50e55709cc7d3b092c0fe173a9e5c986f9b5a33c7c6
   pullPolicy: IfNotPresent
 securityContext:
   container:
@@ -103,6 +104,3 @@ persistence:
     hostPath: /dev/mem
     mountPath: /dev/mem
     readOnly: true
-portal:
-  open:
-    enabled: true

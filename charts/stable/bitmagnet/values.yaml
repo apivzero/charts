@@ -1,6 +1,7 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: ghcr.io/bitmagnet-io/bitmagnet
-  tag: v0.9.5@sha256:7bf46883d18c520616cd8d11a08a29be2f49e7295843742c9cb363b499239b25
+  tag: v0.10.1@sha256:b6373349a30193b436ce6b05e21f91aa4934074268105dded1f3b065b8c86f19
   pullPolicy: IfNotPresent
 service:
   main:
@@ -26,9 +27,7 @@ cnpg:
     enabled: true
     user: bitmagnet
     database: bitmagnet
-portal:
-  open:
-    enabled: true
+
 workload:
   main:
     podSpec:
@@ -86,7 +85,7 @@ configmap:
   datasource:
     enabled: true
     labels:
-      grafana_datasources: "1"
+      grafana_datasource: "1"
     data:
       bitmagnetpsql.yaml: |-
         apiVersion: 1

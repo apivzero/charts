@@ -1,6 +1,7 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: docker.io/tinymediamanager/tinymediamanager
-  tag: 5.0.13@sha256:7a186bfd39f304c1af0e1de023ea47317953ef42bd38b23174afc2b96ff47837
+  tag: 5.3.5@sha256:26e80b1b1c524bd5d849b1b7510063b25d5efafa135a4bf450e66efe242bb8c6
   pullPolicy: IfNotPresent
 service:
   main:
@@ -18,9 +19,7 @@ persistence:
   tvshows:
     enabled: true
     mountPath: "/media/tvshows"
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     runAsNonRoot: false

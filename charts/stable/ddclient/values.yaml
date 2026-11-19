@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: ghcr.io/linuxserver/ddclient
   pullPolicy: IfNotPresent
-  tag: 3.11.2@sha256:6a73ba73b92aa3e238639225c706966d271e50a798c39435e737c20db8b20213
+  tag: 4.0.0@sha256:8daff71cbdc8ef9b9e2db35617dcff250f3f219fe3f8110940107ceed0f9eb7b
 securityContext:
   container:
     runAsNonRoot: false
@@ -31,6 +32,3 @@ persistence:
   config:
     enabled: true
     mountPath: /config
-portal:
-  open:
-    enabled: false

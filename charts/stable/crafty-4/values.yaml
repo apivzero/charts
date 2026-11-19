@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: registry.gitlab.com/crafty-controller/crafty-4
-  tag: 4.4.4@sha256:ae3ba896cf01d5768e446a311b54d5c2b138a47719e1965f60abbcfe8546a923
+  tag: 4.11.1@sha256:e40accbeeb3e66dea0842c0673484e459eccf021825fb33ad1cd0ef6111ce365
 securityContext:
   container:
     readOnlyRootFilesystem: false
@@ -69,6 +70,3 @@ persistence:
   backups:
     enabled: true
     mountPath: /crafty/backups
-portal:
-  open:
-    enabled: true

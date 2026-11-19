@@ -1,6 +1,7 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: docker.io/brandawg93/peanut
-  tag: 4.3.0@sha256:881f7ad93c54c67fe31542685f1c00f479f5e2cc9a3ac9be71742003d1618d67
+  tag: 6.1.2@sha256:b58b9627f77448f25e29f772870ee01f0f5a245c6ad7d6e0d7f620d1bb0fb623
   pullPolicy: IfNotPresent
 securityContext:
   container:
@@ -12,17 +13,15 @@ service:
     ports:
       main:
         port: 10688
-portal:
-  open:
+
+persistence:
+  config:
     enabled: true
+    mountPath: "/config"
 workload:
   main:
     podSpec:
       containers:
         main:
           env:
-            NUT_HOST: "localhost"
-            NUT_PORT: 3493
-            USERNAME: ""
-            PASSWORD: ""
             WEB_PORT: "{{ .Values.service.main.ports.main.port }}"

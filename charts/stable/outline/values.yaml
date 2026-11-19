@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: docker.io/outlinewiki/outline
   pullPolicy: IfNotPresent
-  tag: 0.81.1@sha256:e539971b59b2523ab54bf792105d1cff6432974a37e18211c175cd053d7feb62
+  tag: 1.13.0@sha256:4583bb244dbb4464d8a632c75044d3b2f9fe44382b6a4b84d97995f473b823e4
 service:
   main:
     ports:
@@ -17,9 +18,7 @@ cnpg:
     enabled: true
     user: outline
     database: outline
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false
@@ -29,33 +28,6 @@ securityContext:
 workload:
   main:
     podSpec:
-      initContainers:
-        1-migratedb:
-          enabled: true
-          imageSelector: image
-          type: init
-          env:
-            URL: "{{ tpl .Values.workload.main.podSpec.containers.main.env.URL $ }}"
-            DATABASE_URL:
-              secretKeyRef:
-                name: cnpg-main-urls
-                key: std
-            REDIS_URL:
-              secretKeyRef:
-                name: secrets
-                key: REDIS_CUSTOM_URL
-            SECRET_KEY:
-              secretKeyRef:
-                name: secrets
-                key: SECRET_KEY
-            UTILS_SECRET:
-              secretKeyRef:
-                name: secrets
-                key: UTILS_SECRET
-          command:
-            - sh
-            - -c
-            - yarn sequelize db:migrate --env=production-ssl-disabled
       containers:
         main:
           probes:

@@ -1,0 +1,48 @@
+# yaml-language-server: $schema=./values.schema.json
+image:
+  repository: docker.io/intel/intel-gpu-plugin
+  pullPolicy: IfNotPresent
+  tag: 0.37.1@sha256:004641b2547d58f1eadce58473fa160ad71377de1eb588cf1f82832387bf3e33
+
+service:
+  main:
+    enabled: false
+    ports:
+      main:
+        enabled: false
+
+workload:
+  main:
+    type: DaemonSet
+    podSpec:
+      containers:
+        main:
+          args:
+            - -shared-dev-num
+            - "5"
+          probes:
+            liveness:
+              enabled: false
+            readiness:
+              enabled: false
+            startup:
+              enabled: false
+
+persistence:
+  devfs:
+    enabled: true
+    type: device
+    mountPath: /dev/dri
+    hostPath: /dev/dri
+    readOnly: true
+  sysfs:
+    enabled: true
+    type: device
+    mountPath: /sys/class/drm
+    hostPath: /sys/class/drm
+    readOnly: true
+  kubeletsockets:
+    enabled: true
+    type: hostPath
+    mountPath: /var/lib/kubelet/device-plugins
+    hostPath: /var/lib/kubelet/device-plugins

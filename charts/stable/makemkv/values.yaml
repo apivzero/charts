@@ -1,6 +1,7 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
-  repository: docker.io/jlesage/makemkv
-  tag: v24.12.1@sha256:9c55c3bda98f00b352903dcc85cda0c6a7d0724cea81af784ec9a8d06de3cd25
+  repository: ghcr.io/jlesage/makemkv
+  tag: v26.09.2@sha256:bfdddd29c5a9958da3003df1e673de7ad6915c846723449c76196d4ef6ca1ca2
   pullPolicy: IfNotPresent
 makemkv:
   # General Settings
@@ -63,9 +64,9 @@ persistence:
   output:
     enabled: true
     mountPath: "/output"
-portal:
-  open:
-    enabled: true
+  varrun:
+    enabled: false
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

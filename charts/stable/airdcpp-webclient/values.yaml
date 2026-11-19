@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: docker.io/gangefors/airdcpp-webclient
   pullPolicy: IfNotPresent
-  tag: 2.13.2@sha256:0c77867b58cfefe9beef2e85dcd1b4e45be5f3376dba3b862aef7b2c6338b0d8
+  tag: 2.14.0@sha256:3bb61bc49b586426c3225e338e5d8104d65a6b6903bb35812d05e9d39d64e4eb
 workload:
   main:
     podSpec:
@@ -53,6 +54,3 @@ persistence:
   config:
     enabled: true
     mountPath: /.airdcpp
-portal:
-  open:
-    enabled: true

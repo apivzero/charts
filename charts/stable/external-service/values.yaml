@@ -1,18 +1,15 @@
+# yaml-language-server: $schema=./values.schema.json
 # Fake external service image
 image:
   repository: alpine
   pullPolicy: IfNotPresent
-  tag: 3.21.0@sha256:21dc6063fd678b478f57c0e13f47560d0ea4eeba26dfc947b2a4f81f686b9f45
-
-global:
-  # Ignore isStopped
-  ignoreIsStopped: true
+  tag: 3.24.4@sha256:f59abe656b692d901e184be3445e084786602108599d2a51d229c0f5a48c71bf
 
 service:
   main:
     type: ExternalIP
     externalIP: "1.1.1.1"
-    useSlice: false
+    useSlice: true
     ports:
       main:
         protocol: https
@@ -26,9 +23,6 @@ workload:
       containers:
         main:
           env: {}
-portal:
-  open:
-    enabled: true
 
 ingress:
   main:

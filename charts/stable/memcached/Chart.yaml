@@ -1,17 +1,20 @@
 annotations:
-  max_scale_version: 24.04.1
-  min_scale_version: 24.04.0
-  truecharts.org/category: database
-  truecharts.org/max_helm_version: "3.15"
-  truecharts.org/min_helm_version: "3.11"
+  artifacthub.io/links: |-
+    - name: support
+    url: https://discord.com/invite/tVsPTHWTtr
   truecharts.org/train: stable
+  trueforge.org/category: database
+  trueforge.org/max_helm_version: "4.1"
+  trueforge.org/max_kubernetes_version: 1.35.0
+  trueforge.org/min_helm_version: "3.14"
+  trueforge.org/train: stable
 apiVersion: v2
-appVersion: 1.6.34
+appVersion: latest
 dependencies:
   - name: common
-    version: 25.3.1
-    repository: oci://tccr.io/truecharts
-    condition: includeCommon
+    version: 30.4.5
+    repository: oci://oci.trueforge.org/truecharts
+    condition: ""
     alias: ""
     tags: []
     import-values: []
@@ -23,7 +26,7 @@ keywords:
   - memcached
   - database
   - cache
-kubeVersion: '>=1.24.0-0'
+kubeVersion: '>=1.33.0-0'
 maintainers:
   - name: TrueCharts
     email: info@truecharts.org
@@ -31,7 +34,8 @@ maintainers:
 name: memcached
 sources:
   - https://github.com/bitnami/bitnami-docker-memcached
-  - https://github.com/truecharts/charts/tree/master/charts/stable/memcached
-  - https://hub.docker.com/r/bitnami/memcached
+  - https://github.com/trueforge-org/truecharts/tree/master/charts/stable/memcached
+  - https://hub.docker.com/r/bitnamisecure/memcached
 type: application
-version: 14.4.0
+version: 18.1.4
+

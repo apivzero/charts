@@ -1,10 +1,9 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: atdr.meo.ws/archiveteam/warrior-dockerfile
-  tag: latest@sha256:afe7e9a9a1cd11d044ec960f48a3f3d8e871d0bd058c204163757e6bc7b74ee6
-portal:
-  open:
-    enabled: true
+  tag: latest@sha256:69d0fa13614b0340cac281eb3547d6a75188b22eb39f4f83f7dc0deea380d85d
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

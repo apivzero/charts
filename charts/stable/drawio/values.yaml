@@ -1,6 +1,7 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: docker.io/jgraph/drawio
-  tag: 26.0.0@sha256:44ff7ee1a74b9da8f1f97dfcf0d582cd64d569dbc5094264c215d6a81b87c4fe
+  tag: 32.7.4@sha256:3e3281733f69416b2b632adad05c9c07d434ebb775e01070d55e9f3247cebe31
   pullPolicy: IfNotPresent
 securityContext:
   container:
@@ -30,6 +31,3 @@ workload:
               type: http
               path: /
           env: {}
-portal:
-  open:
-    enabled: true

@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
-  repository: ghcr.io/onedr0p/theme-park
+  repository: oci.trueforge.org/containerforge/theme-park
   pullPolicy: IfNotPresent
-  tag: 1.18@sha256:210d8f5d9466df493503184fb076bbf1fb9fbc2b42e273cd4516ac3fd1df7ba2
+  tag: 1.24.0@sha256:342405a5c066fd1a987179569034d28117ad731e7929550cb2345f4f12036985
 service:
   main:
     ports:
@@ -12,6 +13,3 @@ persistence:
   config:
     enabled: true
     mountPath: "/config"
-portal:
-  open:
-    enabled: true

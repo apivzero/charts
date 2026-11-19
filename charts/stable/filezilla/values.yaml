@@ -1,6 +1,7 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: ghcr.io/linuxserver/filezilla
-  tag: 3.68.1@sha256:76de22718603e0bace9c665a57bfaac4ef5aebd542cc338f2d48976ff5ec198f
+  tag: 3.69.6@sha256:da3c1517c6ac1434a48dfa923f98c2cf86afd8b5d2df0ba0f4684ee9c25b1642
   pullPolicy: IfNotPresent
 
 securityContext:
@@ -8,13 +9,6 @@ securityContext:
     readOnlyRootFilesystem: false
     runAsUser: 0
     runAsGroup: 0
-
-workload:
-  main:
-    podSpec:
-      containers:
-        main:
-          securityContext:
 
 service:
   main:
@@ -30,7 +24,3 @@ persistence:
     mountPath: "/config"
   varrun:
     enabled: false
-
-portal:
-  open:
-    enabled: true

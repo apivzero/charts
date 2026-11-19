@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: docker.io/causticlab/hass-configurator-docker
@@ -9,9 +10,7 @@ persistence:
   hass-config:
     enabled: true
     mountPath: /hass-config
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

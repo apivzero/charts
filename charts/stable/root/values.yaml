@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: docker.io/bgameiro/arch-cern-root
@@ -6,9 +7,7 @@ persistence:
   appdata:
     enabled: true
     mountPath: /appdata
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

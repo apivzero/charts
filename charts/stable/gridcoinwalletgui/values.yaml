@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: docker.io/sublivion/gridcoinwalletgui
-  tag: latest@sha256:e939d0fe55cda172d754f521c8ee5902ec1ae3745d8e68feb9c8c6bace8f8253
+  tag: latest@sha256:b1b328a4990a1c46f21600e4d8b91041551aa8f8fbd7b48f1516ab54dabb2669
 persistence:
   appdataconfigpath:
     enabled: true
@@ -9,9 +10,7 @@ persistence:
   boincdatadir:
     enabled: true
     mountPath: /var/lib/boinc-client/
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

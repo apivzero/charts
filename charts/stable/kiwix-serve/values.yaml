@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: ghcr.io/kiwix/kiwix-serve
-  tag: 3.7.0@sha256:ebf9b935eb1301661289ff0dc7a17c6406b0ef0602ff7ca1c9d9187dbae81abe
+  tag: 3.8.2@sha256:e478554a9920412eeb5ce1d73f24e4b28445ebed233187cdd03c623c32be46a5
 service:
   main:
     ports:
@@ -12,9 +13,7 @@ persistence:
   data:
     enabled: true
     mountPath: /data
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: docker.io/draganczukp/simply-shorten
@@ -13,9 +14,7 @@ persistence:
   config:
     enabled: true
     mountPath: "/config/db"
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

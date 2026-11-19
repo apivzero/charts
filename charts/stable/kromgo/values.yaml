@@ -1,0 +1,109 @@
+# yaml-language-server: $schema=./values.schema.json
+image:
+  repository: ghcr.io/home-operations/kromgo
+  tag: 0.16.4@sha256:f55f7b5590a394e3ea47f5debf8c75e01898c3f915331aa28568b6fd8d426310
+  pullPolicy: IfNotPresent
+
+# Raw Kromgo configuration
+# checkout the readme for the current configuration setup
+# https://github.com/home-operations/kromgo#badges
+
+kromgo:
+  defaults:
+    badge:
+      # dejavu-sans (default, shields.io-style), dejavu-sans-bold, comic-neue, comic-neue-bold
+      font: dejavu-sans
+      # badge font size in points
+      size: 11
+      # flat (default), flat-square, or plastic
+      style: flat
+      gallery:
+        # list badges in the gallery (default); true hides them
+        hidden: false
+    graph:
+      # cap on a graph's requested window ("0" = unlimited)
+      maxDuration: 1h
+      # image width in px
+      width: 600
+      # image height in px
+      height: 200
+      # show the series legend
+      legend: true
+      # color theme — see Themes below
+      theme: light
+      # text font — see Themes below
+      font: dejavu-sans
+      gallery:
+        # list graphs in the gallery (default); true hides them
+        hidden: false
+  badges:
+    - id: talos_version
+      query: node_os_info{ name="Talos"}
+      valueExpr: labels["version_id"]
+      # mdi:server-outline
+      # si:kubernetes
+      icon: si:talos
+      title: Talos Version
+    - id: kubernetes_version
+      query: kubernetes_build_info{ service="kubernetes"}
+      valueExpr: labels["git_version"]
+      icon: si:kubernetes
+      title: Kubernetes Version
+    - id: flux_version
+      query: label_replace(gotk_resource_info{exported_namespace="flux-system",name="flux",customresource_kind="Kustomization"}, "revision", "$1", "revision", "(.+)@sha256:.+")
+      valueExpr: labels["revision"]
+      icon: si:flux
+      title: Flux Version
+      # Per-badge gallery
+      # gallery: {hidden: true}
+
+service:
+  main:
+    ports:
+      main:
+        port: 80
+      health:
+        enabled: true
+        port: 8080
+
+workload:
+  main:
+    podSpec:
+      containers:
+        main:
+          env:
+            KROMGO_PROMETHEUS_URL: "http://prometheus-operated.kube-prometheus-stack.svc.cluster.local:9090"
+            KROMGO_SERVER_PORT: "{{ $.Values.service.main.ports.main.port }}"
+            KROMGO_HEALTH_PORT: "{{ $.Values.service.main.ports.health.port }}"
+            # KROMGO_SERVER_LOGGING    no  false   Enable HTTP request access logging
+            # KROMGO_SERVER_READ_TIMEOUT   no  — HTTP read timeout (e.g. 5s)
+            # KROGMO_SERVER_WRITE_TIMEOUT  no  — HTTP write timeout (e.g. 10s)
+            # KROGMO_QUERY_TIMEOUT no  30s Timeout applied to each Prometheus query
+            # KROGMO_LOG_LEVEL no  info    Log level: debug, info, warn, error
+            # KROGMO_LOG_FORMAT    no  json    Log format: json or text
+          probes:
+            liveness:
+              type: http
+              path: "/healthz"
+            readiness:
+              type: http
+              path: "/readyz"
+            startup:
+              type: http
+              path: "/readyz"
+
+configmap:
+  kromgo-configfile:
+    enabled: true
+    data:
+      config.yaml: |
+        {{- $.Values.kromgo | toYaml | nindent 2 }}
+
+persistence:
+  configfile:
+    enabled: true
+    type: configmap
+    readOnly: true
+    objectName: kromgo-configfile
+    mountPath: /config/config.yaml
+    subPath: config.yaml

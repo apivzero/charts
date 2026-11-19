@@ -1,6 +1,7 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
-  repository: eclipse-mosquitto
-  tag: 2.0.20@sha256:8b396cec28cd5e8e1a3aba1d9abdbddd42c454c80f703e77c1bec56e152fa54e
+  repository: oci.trueforge.org/containerforge/mosquitto
+  tag: 2.0.22@sha256:eb3fc0e48972b22495897b1c330b6d4d08fca4dc01fbd20c076a39a71708bf27
   pullPolicy: IfNotPresent
 service:
   main:
@@ -20,6 +21,13 @@ workload:
     podSpec:
       containers:
         main:
+          # Use the config and data paths that the host AppArmor "mosquitto" profile
+          # (e.g. on Ubuntu 26.04) allows for /usr/sbin/mosquitto. The image's
+          # /start.sh always reads /mosquitto/config, so start mosquitto directly.
+          command:
+            - /usr/sbin/mosquitto
+            - -c
+            - /etc/mosquitto/mosquitto.conf
           probes:
             liveness:
               enabled: true
@@ -61,7 +69,7 @@ configmap:
         {{- end }}
         {{- if .Values.persistence.data.enabled }}
         persistence true
-        persistence_location {{ .Values.persistence.data.mountPath }}
+        persistence_location {{ trimSuffix "/" .Values.persistence.data.mountPath }}/
         autosave_interval 1800
         {{- end }}
         {{- if .Values.persistence.configinc.enabled }}
@@ -70,16 +78,13 @@ configmap:
 persistence:
   data:
     enabled: true
-    mountPath: "/mosquitto/data"
+    mountPath: "/var/lib/mosquitto"
   configinc:
     enabled: true
-    mountPath: "/mosquitto/configinc"
+    mountPath: "/etc/mosquitto/conf.d"
   mosquitto-config:
     enabled: true
-    mountPath: "/mosquitto/config/mosquitto.conf"
+    mountPath: "/etc/mosquitto/mosquitto.conf"
     subPath: "mosquitto.conf"
     type: configmap
     objectName: config
-portal:
-  open:
-    enabled: false

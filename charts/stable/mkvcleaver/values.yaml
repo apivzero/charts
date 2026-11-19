@@ -1,6 +1,7 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
-  repository: docker.io/jlesage/mkvcleaver
-  tag: v24.12.1@sha256:ae061907ed81c26c29bc7438c73c5642ce9b873076eed22d645ac90b9338fad6
+  repository: ghcr.io/jlesage/mkvcleaver
+  tag: v26.09.1@sha256:78ad0d50155d028196e5edd38bbd56692edc70fe273018470095e065d5498256
   pullPolicy: IfNotPresent
 mkvcleaver:
   KEEP_APP_RUNNING: false
@@ -47,7 +48,6 @@ service:
   main:
     ports:
       main:
-        type: tcp
         port: 5800
         targetPort: 5800
   vnc:
@@ -64,6 +64,3 @@ persistence:
   storage:
     enabled: true
     mountPath: "/storage"
-portal:
-  open:
-    enabled: true

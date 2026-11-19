@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: docker.io/advplyr/fotosho
@@ -12,9 +13,7 @@ persistence:
   thumbs:
     enabled: true
     mountPath: /thumbnails
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

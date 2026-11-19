@@ -1,6 +1,7 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: docker.io/mtlynch/picoshare
-  tag: 1.4.5@sha256:ad26acf987c96b8fcdeeecf9d2d661e5d91bf199675b31df8688ac119a0ac031
+  tag: v1.5.5@sha256:4f4bd8e09aaa4649ec7904e12a395ae437e4aad3b20fba9c53be387d34cd779f
   pullPolicy: IfNotPresent
 service:
   main:
@@ -26,6 +27,3 @@ persistence:
   data:
     enabled: true
     mountPath: "/data"
-portal:
-  open:
-    enabled: true

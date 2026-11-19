@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: ghcr.io/gilesknap/gphotos-sync
@@ -9,9 +10,7 @@ persistence:
   data:
     enabled: true
     mountPath: /storage
-portal:
-  open:
-    enabled: false
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

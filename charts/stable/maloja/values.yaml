@@ -1,14 +1,13 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: docker.io/krateng/maloja
-  tag: latest@sha256:c76bca4be5b382118df83a8ab6be5b7a2c69622503a24f0948d04ff22caacde2
+  tag: latest@sha256:4c39b5daa893451a379802f267a1d83f2b5d15d8b369e73349e530133cc8fdb6
 persistence:
   config:
     enabled: true
     mountPath: /config
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

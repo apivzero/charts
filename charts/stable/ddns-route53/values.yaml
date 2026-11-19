@@ -1,11 +1,10 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: docker.io/crazymax/ddns-route53
-  tag: latest@sha256:d10e583abf0f5665217d557d8cafb9806e6fb079b7d255b516fe1f5dbf90a1b3
+  tag: latest@sha256:8bb44744ea8b9656df08cf3ddfa9975943ec74e986e384a88bee22c2c3f4f80e
 persistence: {}
-portal:
-  open:
-    enabled: false
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

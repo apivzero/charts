@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: ghcr.io/a-sync/game-server-watcher
   pullPolicy: IfNotPresent
-  tag: v3.1.21@sha256:6d9556962868569bcd5a97711135e9b0d78fc98fc0e0ae0bd4f9d2b8181c03e4
+  tag: v3.1.26@sha256:5cb29907003a64021271aa3e553f40eaf59d71a961bdc9108bdc2e2dc3645467
 
 securityContext:
   container:
@@ -49,7 +50,3 @@ persistence:
   data:
     enabled: true
     mountPath: "/data"
-
-portal:
-  open:
-    enabled: true

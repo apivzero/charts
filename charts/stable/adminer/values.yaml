@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: adminer
-  tag: latest@sha256:34d37131366c5aa84e1693dbed48593ed6f95fb450b576c1a7a59d3a9c9e8802
+  tag: latest@sha256:7605e298e5a2ac74d806283362fa253a4e0a42cfd881e8fa2c155f0631899f6c
 securityContext:
   container:
     readOnlyRootFilesystem: false
@@ -33,6 +34,3 @@ service:
         port: 18080
         protocol: http
         targetPort: 8080
-portal:
-  open:
-    enabled: true

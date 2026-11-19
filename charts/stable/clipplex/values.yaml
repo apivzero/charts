@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: docker.io/jonnike/clipplex
@@ -6,9 +7,7 @@ persistence:
   clips:
     enabled: true
     mountPath: /app/app/static/media
-portal:
-  open:
-    enabled: true
+
 service:
   main:
     ports:

@@ -1,6 +1,7 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
-  repository: docker.io/netdata/netdata
-  tag: v2.1.0@sha256:fc0f7e7c6f042828f9e7370b9e6f41da30b328009ac5ab977b5578e806e83062
+  repository: ghcr.io/netdata/netdata
+  tag: v2.12.3@sha256:dea39b58b1892113360f27dffb3afb84bbdbda3b00e03e9e6163d2cfac848e91
   pullPolicy: IfNotPresent
 # -- The service account the pods will use to interact with the Kubernetes API
 serviceAccount:
@@ -121,9 +122,7 @@ persistence:
     type: configmap
     objectName: configs
     targetSelectAll: true
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false
@@ -133,6 +132,7 @@ securityContext:
         - SYS_PTRACE
     runAsUser: 0
     runAsGroup: 0
+  pod:
     fsGroup: 201
 workload:
   main:

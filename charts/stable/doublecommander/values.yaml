@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: ghcr.io/linuxserver/doublecommander
   pullPolicy: IfNotPresent
-  tag: latest@sha256:b452b2d3338f36864a3af3f3cd60a10ee28084147d02b629fb58ae62de35a428
+  tag: latest@sha256:88f97cce23aedb1e8a3fe447246864886b23b6aa28c5993d16a1e6efbb56d8f9
 securityContext:
   container:
     readOnlyRootFilesystem: false
@@ -39,6 +40,3 @@ persistence:
   config:
     enabled: true
     mountPath: /config
-portal:
-  open:
-    enabled: true

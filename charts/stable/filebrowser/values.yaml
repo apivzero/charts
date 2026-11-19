@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: docker.io/filebrowser/filebrowser
   pullPolicy: IfNotPresent
-  tag: v2.31.2@sha256:a4da9ca8364b0a1fc5dd36f7add92582bf673c0ae0bda8dd9bd13062c41d1715
+  tag: v2.63.23@sha256:a469ea076d4a1b4b1d86a41d130f2f536cd9da996a2b1fb39c0d7635f9d89b9a
 workload:
   main:
     podSpec:
@@ -39,6 +40,3 @@ persistence:
   data:
     enabled: true
     mountPath: /data
-portal:
-  open:
-    enabled: true

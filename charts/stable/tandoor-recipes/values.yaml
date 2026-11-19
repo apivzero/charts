@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
-  repository: docker.io/vabene1111/recipes
+  repository: ghcr.io/tandoorrecipes/recipes
   pullPolicy: IfNotPresent
-  tag: 1.5.24@sha256:e790307a447f0a546df6bd16421f0b82b38ba2fdea52601d07143a54fd708db4
+  tag: 2.7.6@sha256:6c467bf484044a0305ff39bed5badb48b58bb963d4276fc248e101921151895b
 securityContext:
   container:
     readOnlyRootFilesystem: false
@@ -11,6 +12,16 @@ securityContext:
 workload:
   main:
     podSpec:
+      initContainers:
+        init-mkdir:
+          enabled: true
+          type: init
+          imageSelector: "image"
+          command:
+            - /bin/sh
+            - -c
+          args:
+            - mkdir -p /run/nginx
       containers:
         main:
           env:
@@ -32,18 +43,25 @@ workload:
             CSRF_TRUSTED_ORIGINS: ""
             DEBUG: 0
             FRACTION_PREF_DEFAULT: 0
-            GUNICORN_MEDIA: 1
+            GUNICORN_MEDIA: 0
             SECRET_KEY:
               secretKeyRef:
                 key: SECRET_KEY
                 name: recipes-secrets
             SHOPPING_MIN_AUTOSYNC_INTERVAL: 5
-            TIMEZONE: "{{ .Values.TZ }}"
+
 service:
   main:
     ports:
       main:
         port: 10029
+
+ingress:
+  main:
+    integrations:
+      homepage:
+        widget:
+          type: tandoor
 persistence:
   media:
     enabled: true
@@ -57,6 +75,3 @@ cnpg:
     enabled: true
     user: recipes
     database: recipes
-portal:
-  open:
-    enabled: true

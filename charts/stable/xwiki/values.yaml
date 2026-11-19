@@ -1,6 +1,7 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
-  repository: xwiki
-  tag: 16.10.2-postgres-tomcat@sha256:157de80c839b4d3b0854c0d135ac0c9efb2e7e805404182e793eeeafba340a53
+  repository: public.ecr.aws/docker/library/xwiki
+  tag: 18.9.0-postgres-tomcat@sha256:3e3d28bfb102bd7005f8a31ad0accb55e27d8edd42d0b1ba8a8e52b43f9afb78
   pullPolicy: IfNotPresent
 service:
   main:
@@ -17,9 +18,7 @@ cnpg:
     enabled: true
     user: xwiki
     database: xwiki
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

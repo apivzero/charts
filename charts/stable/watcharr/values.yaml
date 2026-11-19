@@ -1,6 +1,7 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: ghcr.io/sbondco/watcharr
-  tag: v1.44.2@sha256:85df9a7f4e7cb73d89edf546c9458a096d40d2641c22e36d6ad41aa15da47625
+  tag: v4.4.0@sha256:28673ff5eac318cb6fda2251bfd53d3402810288d4c335ce6c98060ace0940e6
   pullPolicy: IfNotPresent
 
 securityContext:
@@ -45,7 +46,3 @@ persistence:
   data:
     enabled: true
     mountPath: "/data"
-
-portal:
-  open:
-    enabled: true

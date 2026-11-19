@@ -1,14 +1,13 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: docker.io/lswl/vertex
-  tag: stable@sha256:f590952acdc849440e6518e58847cc409856c78879ef8ca598a55d3a33cc71ac
+  tag: stable@sha256:c62ce1ae12b0ee6f84d6480b6eed4ed81378f4d3f369e1b99da0f0b92c914cb8
 persistence:
   config:
     enabled: true
     mountPath: /vertex
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: docker.io/dtjs48jkt/twonkyserver
-  tag: latest@sha256:81e9784fd965c9670ff78ee7d55f4cdeea656fff7aad118fd4325cda880ef34f
+  tag: latest@sha256:dca3fd8e301d723d2c40785de23613733a23094c8799281b2d9befb59b803fe6
 persistence:
   config:
     enabled: true
@@ -9,9 +10,7 @@ persistence:
   data:
     enabled: true
     mountPath: /data
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: docker.io/petersem/posterr
-  tag: latest@sha256:8a3f009f5371eac3faffceb25ec4b301f590cc3c2cf5e60d943ad37963ae301b
+  tag: latest@sha256:292ebe1cb686d326b3014f1a85cbc6e0c5ef4eb4a8501470a0fd775e696b4d26
 service:
   main:
     ports:
@@ -16,9 +17,7 @@ persistence:
   custom:
     enabled: true
     mountPath: /usr/src/app/public/custom
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

@@ -1,12 +1,14 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: docker.io/anirdev/slink
   pullPolicy: IfNotPresent
-  tag: v1.2.1@sha256:11e123869839fb54160ffaba8bc0b4c2c8d28cf29d693dacf47bdb8d876798c8
+  tag: v1.14.6@sha256:7f7cab180971caeb83ce8818a676be04a7923dff6bf6e201ae0a9ce4f64be593
 securityContext:
   container:
     readOnlyRootFilesystem: false
-    runAsGroup: 0
     runAsUser: 0
+    runAsGroup: 0
+    runAsNonRoot: false
 service:
   main:
     ports:
@@ -29,9 +31,6 @@ persistence:
   images:
     enabled: true
     mountPath: "/app/slink/images"
-portal:
-  open:
-    enabled: true
 ingress:
   main:
     required: true

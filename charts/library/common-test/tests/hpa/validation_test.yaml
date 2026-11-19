@@ -1,0 +1,1179 @@
+suite: hpa validation test
+templates:
+  - common.yaml
+release:
+  name: test-release-name
+  namespace: test-release-namespace
+tests:
+  - it: should fail with name longer than 63 characters
+    set:
+      workload: &workload
+        workload-name:
+          enabled: true
+          primary: true
+          type: Deployment
+          podSpec:
+            containers:
+              container-name:
+                enabled: true
+                primary: true
+                probes:
+                  readiness:
+                    enabled: false
+                  liveness:
+                    enabled: false
+                  startup:
+                    enabled: false
+      hpa:
+        other-horizontal-pod-autoscale-name-super-long-name-that-is-longer-than-63-characters:
+          enabled: true
+    asserts:
+      - failedTemplate:
+          errorMessage: Name [other-horizontal-pod-autoscale-name-super-long-name-that-is-longer-than-63-characters] is not valid. Must start and end with an alphanumeric lowercase character. It can contain '-'. And must be at most 63 characters.
+
+  - it: should fail with name starting with underscore
+    set:
+      workload: *workload
+      hpa:
+        _other-hpa-name:
+          enabled: true
+    asserts:
+      - failedTemplate:
+          errorMessage: Name [_other-hpa-name] is not valid. Must start and end with an alphanumeric lowercase character. It can contain '-'. And must be at most 63 characters.
+
+  - it: should fail with labels not a dict
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          labels: "not a dict"
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/labels'': got string, want object'
+
+  - it: should fail with annotations not a dict
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          annotations: "not a dict"
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/annotations'': got string, want object'
+  - it: should fail with minReplicas not an integer
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          minReplicas: "not an integer"
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/minReplicas'': got string, want integer'
+  - it: should fail with maxReplicas not an integer
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          maxReplicas: "not an integer"
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/maxReplicas'': got string, want integer'
+  - it: should fail with minReplicas greater than maxReplicas
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          minReplicas: 5
+          maxReplicas: 3
+    asserts:
+      - failedTemplate:
+          errorMessage: Horizontal Pod Autoscaler - Expected [hpa.hpa-name.minReplicas] to be less than [hpa.hpa-name.maxReplicas], but got [5] and [3]
+
+  - it: should fail with invalid selectPolicy (scaleUp)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          behavior:
+            scaleUp:
+              selectPolicy: "not a valid policy"
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/behavior/scaleUp/selectPolicy'': value must be one of ''Max'', ''Min'', ''Disabled'''
+
+  - it: should fail with invalid stabilityWindowSeconds (scaleUp)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          behavior:
+            scaleUp:
+              stabilizationWindowSeconds: "not an integer"
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/behavior/scaleUp/stabilizationWindowSeconds'': got string, want integer'
+
+  - it: should fail with invalid policies (scaleUp)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          behavior:
+            scaleUp:
+              policies: "not a valid policies"
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/behavior/scaleUp/policies'': got string, want array'
+
+  - it: should fail with invalid policy type (scaleUp)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          behavior:
+            scaleUp:
+              policies:
+                - type: "not a valid type"
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/behavior/scaleUp/policies/0'': missing properties ''.*'''
+
+  - it: should fail with invalid policy value (scaleUp)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          behavior:
+            scaleUp:
+              policies:
+                - type: Percent
+                  value: "not an integer"
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/behavior/scaleUp/policies/0'': missing property ''periodSeconds'''
+
+  - it: should fail with invalid policy periodSeconds (scaleUp)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          behavior:
+            scaleUp:
+              policies:
+                - type: Percent
+                  value: 50
+                  periodSeconds: "not an integer"
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/behavior/scaleUp/policies/0/periodSeconds'': got string, want integer'
+
+  - it: should fail with number less than 1 in periodSeconds (scaleUp)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          behavior:
+            scaleUp:
+              policies:
+                - type: Percent
+                  periodSeconds: 0
+                  value: 100
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/behavior/scaleUp/policies/0/periodSeconds'': minimum: got 0, want 1'
+
+  - it: should fail with number greater than 1800 in periodSeconds (scaleUp)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          behavior:
+            scaleUp:
+              policies:
+                - type: Percent
+                  periodSeconds: 1801
+                  value: 100
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/behavior/scaleUp/policies/0/periodSeconds'': maximum: got 1,801, want 1,800'
+
+  - it: should fail with invalid number in value (scaleUp)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          behavior:
+            scaleUp:
+              policies:
+                - type: Percent
+                  periodSeconds: 60
+                  value: -1
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/behavior/scaleUp/policies/0/value'': minimum: got -1, want 1'
+
+  - it: should fail with invalid selectPolicy (scaleDown)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          behavior:
+            scaleDown:
+              selectPolicy: "not a valid policy"
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/behavior/scaleDown/selectPolicy'': value must be one of ''Max'', ''Min'', ''Disabled'''
+
+  - it: should fail with invalid stabilityWindowSeconds (scaleDown)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          behavior:
+            scaleDown:
+              stabilizationWindowSeconds: "not an integer"
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/behavior/scaleDown/stabilizationWindowSeconds'': got string, want integer'
+
+  - it: should fail with invalid policies (scaleDown)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          behavior:
+            scaleDown:
+              policies: "not a valid policies"
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/behavior/scaleDown/policies'': got string, want array'
+
+  - it: should fail with invalid policy type (scaleDown)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          behavior:
+            scaleDown:
+              policies:
+                - type: "not a valid type"
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/behavior/scaleDown/policies/0'': missing properties ''.*'''
+
+  - it: should fail with invalid policy value (scaleDown)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          behavior:
+            scaleDown:
+              policies:
+                - type: Percent
+                  value: "not an integer"
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/behavior/scaleDown/policies/0'': missing property ''periodSeconds'''
+
+  - it: should fail with invalid policy periodSeconds (scaleDown)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          behavior:
+            scaleDown:
+              policies:
+                - type: Percent
+                  value: 50
+                  periodSeconds: "not an integer"
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/behavior/scaleDown/policies/0/periodSeconds'': got string, want integer'
+
+  - it: should fail with number less than 1 in periodSeconds (scaleDown)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          behavior:
+            scaleDown:
+              policies:
+                - type: Percent
+                  periodSeconds: 0
+                  value: 100
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/behavior/scaleDown/policies/0/periodSeconds'': minimum: got 0, want 1'
+
+  - it: should fail with number greater than 1800 in periodSeconds (scaleDown)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          behavior:
+            scaleDown:
+              policies:
+                - type: Percent
+                  periodSeconds: 1801
+                  value: 100
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/behavior/scaleDown/policies/0/periodSeconds'': maximum: got 1,801, want 1,800'
+
+  - it: should fail with invalid number in value (scaleDown)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          behavior:
+            scaleDown:
+              policies:
+                - type: Percent
+                  periodSeconds: 60
+                  value: -1
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/behavior/scaleDown/policies/0/value'': minimum: got -1, want 1'
+
+  - it: should fail with invalid metrics
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          metrics: "not a valid metrics"
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/metrics'': got string, want array'
+
+  - it: should fail with invalid metric type
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          metrics:
+            - type: "not a valid type"
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/metrics/0/type'': value must be one of ''Resource'', ''Pods'', ''Object'', ''External'', ''ContainerResource'''
+
+  # Resource metric
+  - it: should fail with invalid resource (resource metric)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          metrics:
+            - type: Resource
+              resource: "not a valid resource"
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/metrics/0/resource'': got string, want object'
+
+  - it: should fail with invalid resource name (resource metric)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          metrics:
+            - type: Resource
+              resource:
+                name: invalid-name-123
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/metrics/0/resource/name'': value must be one of ''cpu'', ''memory'''
+
+  - it: should fail with invalid resource target (resource metric)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          metrics:
+            - type: Resource
+              resource:
+                name: cpu
+                target: "not a valid target"
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/metrics/0/resource/target'': got string, want object'
+
+  - it: should fail with invalid resource target type (resource metric)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          metrics:
+            - type: Resource
+              resource:
+                name: cpu
+                target:
+                  type: "not a valid type"
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/metrics/0/resource/target/type'': value must be one of ''AverageValue'', ''Utilization'''
+
+  - it: should fail with invalid resource target averageValue (resource metric)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          metrics:
+            - type: Resource
+              resource:
+                name: cpu
+                target:
+                  type: AverageValue
+                  averageValue: {}
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/metrics/0/resource/target/averageValue'': got object, want integer or string'
+
+  - it: should fail with invalid resource target utilization (resource metric)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          metrics:
+            - type: Resource
+              resource:
+                name: cpu
+                target:
+                  type: Utilization
+                  averageUtilization: "not an integer"
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/metrics/0/resource/target/averageUtilization'': got string, want integer'
+
+  - it: should fail with invalid resource target value (resource metric)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          metrics:
+            - type: Resource
+              resource:
+                name: cpu
+                target:
+                  type: Utilization
+                  averageUtilization: 100
+                  value: ["not an integer"]
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/metrics/0/resource/target/value'': got array, want integer or string'
+
+  # ContainerResource metric
+  - it: should fail with invalid containerResource (container resource metric)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          metrics:
+            - type: ContainerResource
+              containerResource: "not a valid containerResource"
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/metrics/0/containerResource'': got string, want object'
+
+  - it: should fail with invalid containerResource name (container resource metric)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          metrics:
+            - type: ContainerResource
+              containerResource:
+                name: invalid-name-123
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/metrics/0/containerResource/name'': value must be one of ''cpu'', ''memory'''
+
+  - it: should fail with invalid containerResource target (container resource metric)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          metrics:
+            - type: ContainerResource
+              containerResource:
+                name: cpu
+                container: container-name
+                target: "not a valid target"
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/metrics/0/containerResource/target'': got string, want object'
+
+  - it: should fail with invalid containerResource target type (container resource metric)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          metrics:
+            - type: ContainerResource
+              containerResource:
+                name: cpu
+                container: container-name
+                target:
+                  type: "not a valid type"
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/metrics/0/containerResource/target/type'': value must be one of ''AverageValue'', ''Utilization'''
+
+  - it: should fail with invalid containerResource target averageValue (container resource metric)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          metrics:
+            - type: ContainerResource
+              containerResource:
+                name: cpu
+                container: container-name
+                target:
+                  type: AverageValue
+                  averageValue: {}
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/metrics/0/containerResource/target/averageValue'': got object, want integer or string'
+
+  - it: should fail with invalid containerResource target utilization (container resource metric)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          metrics:
+            - type: ContainerResource
+              containerResource:
+                name: cpu
+                container: container-name
+                target:
+                  type: Utilization
+                  averageUtilization: "not an integer"
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/metrics/0/containerResource/target/averageUtilization'': got string, want integer'
+
+  - it: should fail with invalid containerResource target value (container resource metric)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          metrics:
+            - type: ContainerResource
+              containerResource:
+                name: cpu
+                container: container-name
+                target:
+                  type: Utilization
+                  averageUtilization: 100
+                  value: ["not an integer"]
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/metrics/0/containerResource/target/value'': got array, want integer or string'
+
+  - it: should fail with invalid containerResource container (container resource metric)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          metrics:
+            - type: ContainerResource
+              containerResource:
+                name: cpu
+                container: "not a valid container"
+                target:
+                  type: Utilization
+                  averageUtilization: 100
+    asserts:
+      - failedTemplate:
+          errorMessage: Horizontal Pod Autoscaler - Expected [hpa.hpa-name.metrics.0.containerResource.container] to be one of [container-name], but got [not a valid container]
+
+  - it: should fail with invalid pods metric
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          metrics:
+            - type: Pods
+              pods: "not a valid pods"
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/metrics/0/pods'': got string, want object'
+
+  - it: should fail with invalid pods metric metric (pods metric)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          metrics:
+            - type: Pods
+              pods:
+                metric: "not a valid metric"
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/metrics/0/pods/metric'': got string, want object'
+
+  - it: should fail with invalid pods metric name (pods metric)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          metrics:
+            - type: Pods
+              pods:
+                metric:
+                  name: 123
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/metrics/0/pods/metric/name'': got number, want string'
+
+  - it: should fail with invalid pods target (pods metric)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          metrics:
+            - type: Pods
+              pods:
+                metric:
+                  name: pod-metric
+                target: "not a valid target"
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/metrics/0/pods/target'': got string, want object'
+
+  - it: should fail with invalid pods target averageValue (pods metric)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          metrics:
+            - type: Pods
+              pods:
+                metric:
+                  name: pod-metric
+                target:
+                  type: AverageValue
+                  averageValue: {}
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/metrics/0/pods/target/averageValue'': got object, want integer or string'
+
+  - it: should fail with invalid pods metric selector (pods metric)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          metrics:
+            - type: Pods
+              pods:
+                metric:
+                  name: pod-metric
+                  selector: "not a valid selector"
+                target:
+                  type: AverageValue
+                  averageValue: 100m
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/metrics/0/pods/metric/selector'': got string, want object'
+
+  - it: should fail with invalid pods metric selector matchLabels (pods metric)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          metrics:
+            - type: Pods
+              pods:
+                metric:
+                  name: pod-metric
+                  selector:
+                    matchLabels: "not a valid matchLabels"
+                target:
+                  type: AverageValue
+                  averageValue: 100m
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/metrics/0/pods/metric/selector/matchLabels'': got string, want object'
+
+  - it: should fail with invalid pods metric selector matchLabels value (pods metric)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          metrics:
+            - type: Pods
+              pods:
+                metric:
+                  name: pod-metric
+                  selector:
+                    matchLabels:
+                      key: {}
+                target:
+                  type: AverageValue
+                  averageValue: 100m
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/metrics/0/pods/metric/selector/matchLabels/key'': got object, want string'
+
+  - it: should fail with invalid object metric
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          metrics:
+            - type: Object
+              object: "not a valid object"
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/metrics/0/object'': got string, want object'
+
+  - it: should fail with invalid object metric (object metric)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          metrics:
+            - type: Object
+              object:
+                metric: "not a valid metric"
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/metrics/0/object/metric'': got string, want object'
+  - it: should fail with invalid object metric name (object metric)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          metrics:
+            - type: Object
+              object:
+                metric:
+                  name: 123
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/metrics/0/object/metric/name'': got number, want string'
+  - it: should fail with invalid object target (object metric)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          metrics:
+            - type: Object
+              object:
+                metric:
+                  name: object-metric
+                target: "not a valid target"
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/metrics/0/object/target'': got string, want object'
+  - it: should fail with invalid object target type (object metric)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          metrics:
+            - type: Object
+              object:
+                metric:
+                  name: object-metric
+                target:
+                  type: "not a valid type"
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/metrics/0/object/target/type'': value must be one of ''AverageValue'', ''Value'''
+  - it: should fail with invalid object target averageValue (object metric)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          metrics:
+            - type: Object
+              object:
+                metric:
+                  name: object-metric
+                target:
+                  type: AverageValue
+                  averageValue: {}
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/metrics/0/object/target/averageValue'': got object, want integer or string'
+  - it: should fail with invalid object target value (object metric)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          metrics:
+            - type: Object
+              object:
+                metric:
+                  name: object-metric
+                target:
+                  type: Value
+                  value: ["not an integer"]
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/metrics/0/object/target/value'': got array, want integer or string'
+  - it: should fail with invalid object metric selector (object metric)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          metrics:
+            - type: Object
+              object:
+                metric:
+                  name: object-metric
+                  selector: "not a valid selector"
+                target:
+                  type: AverageValue
+                  averageValue: 100m
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/metrics/0/object/metric/selector'': got string, want object'
+  - it: should fail with invalid object metric selector matchLabels (object metric)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          metrics:
+            - type: Object
+              object:
+                metric:
+                  name: object-metric
+                  selector:
+                    matchLabels: "not a valid matchLabels"
+                target:
+                  type: AverageValue
+                  averageValue: 100m
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/metrics/0/object/metric/selector/matchLabels'': got string, want object'
+  - it: should fail with invalid object metric selector matchLabels value (object metric)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          metrics:
+            - type: Object
+              object:
+                metric:
+                  name: object-metric
+                  selector:
+                    matchLabels:
+                      key: {}
+                target:
+                  type: AverageValue
+                  averageValue: 100m
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/metrics/0/object/metric/selector/matchLabels/key'': got object, want string'
+  - it: should fail with invalid object describedObject (object metric)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          metrics:
+            - type: Object
+              object:
+                metric:
+                  name: object-metric
+                target:
+                  type: AverageValue
+                  averageValue: 100m
+                describedObject: "not a valid describedObject"
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/metrics/0/object/describedObject'': got string, want object'
+
+  - it: should fail with invalid object describedObject name (object metric)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          metrics:
+            - type: Object
+              object:
+                metric:
+                  name: object-metric
+                target:
+                  type: AverageValue
+                  averageValue: 100m
+                describedObject:
+                  apiVersion: apps/v1
+                  kind: Deployment
+                  name: 123
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/metrics/0/object/describedObject/name'': got number, want string'
+
+  - it: should fail with invalid object describedObject kind (object metric)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          metrics:
+            - type: Object
+              object:
+                metric:
+                  name: object-metric
+                target:
+                  type: AverageValue
+                  averageValue: 100m
+                describedObject:
+                  name: some-name
+                  kind: 1
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/metrics/0/object/describedObject/kind'': got number, want string'
+
+  - it: should fail with invalid object describedObject apiVersion (object metric)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          metrics:
+            - type: Object
+              object:
+                metric:
+                  name: object-metric
+                target:
+                  type: AverageValue
+                  averageValue: 100m
+                describedObject:
+                  name: some-name
+                  kind: Deployment
+                  apiVersion: 1
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/metrics/0/object/describedObject/apiVersion'': got number, want string'
+
+  - it: should fail with invalid external metric
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          metrics:
+            - type: External
+              external: "not a valid external"
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/metrics/0/external'': got string, want object'
+
+  - it: should fail with invalid external metric metric (external metric)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          metrics:
+            - type: External
+              external:
+                metric: "not a valid metric"
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/metrics/0/external/metric'': got string, want object'
+
+  - it: should fail with invalid external metric name (external metric)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          metrics:
+            - type: External
+              external:
+                metric:
+                  name: 123
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/metrics/0/external/metric/name'': got number, want string'
+
+  - it: should fail with invalid external target (external metric)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          metrics:
+            - type: External
+              external:
+                metric:
+                  name: external-metric
+                target: "not a valid target"
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/metrics/0/external/target'': got string, want object'
+
+  - it: should fail with invalid external target type (external metric)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          metrics:
+            - type: External
+              external:
+                metric:
+                  name: external-metric
+                target:
+                  type: "not a valid type"
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/metrics/0/external/target/type'': value must be one of ''AverageValue'', ''Value'''
+
+  - it: should fail with invalid external target averageValue (external metric)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          metrics:
+            - type: External
+              external:
+                metric:
+                  name: external-metric
+                target:
+                  type: AverageValue
+                  averageValue: {}
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/metrics/0/external/target/averageValue'': got object, want integer or string'
+  - it: should fail with invalid external target value (external metric)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          metrics:
+            - type: External
+              external:
+                metric:
+                  name: external-metric
+                target:
+                  type: Value
+                  value: ["not an integer"]
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/metrics/0/external/target/value'': got array, want integer or string'
+
+  - it: should fail with invalid external metric selector (external metric)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          metrics:
+            - type: External
+              external:
+                metric:
+                  name: external-metric
+                  selector: "not a valid selector"
+                target:
+                  type: Value
+                  value: 100
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/metrics/0/external/metric/selector'': got string, want object'
+
+  - it: should fail with invalid external metric selector matchLabels (external metric)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          metrics:
+            - type: External
+              external:
+                metric:
+                  name: external-metric
+                  selector:
+                    matchLabels: "not a valid matchLabels"
+                target:
+                  type: Value
+                  value: 100
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/metrics/0/external/metric/selector/matchLabels'': got string, want object'
+
+  - it: should fail with invalid external metric selector matchLabels value (external metric)
+    set:
+      workload: *workload
+      hpa:
+        hpa-name:
+          enabled: true
+          metrics:
+            - type: External
+              external:
+                metric:
+                  name: external-metric
+                  selector:
+                    matchLabels:
+                      key: {}
+                target:
+                  type: Value
+                  value: 100
+    asserts:
+      - failedTemplate:
+          errorPattern: 'at ''/hpa/hpa-name/metrics/0/external/metric/selector/matchLabels/key'': got object, want string'

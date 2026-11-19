@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: ghcr.io/drakkan/sftpgo
-  tag: v2.6.4-plugins@sha256:9c21aeb99be0fe911c426267cb0bf357a2aec77e30ffef77f121713b1b9f87bb
+  tag: v2.7.6-plugins@sha256:c2f59aab0e6de518e839b3a77e9aae62b290cbd3dc2f0fbdc1ee38a64c8a46e7
 securityContext:
   container:
     runAsNonRoot: false
@@ -107,6 +108,3 @@ persistence:
   shareaccess:
     enabled: true
     mountPath: /shareaccess
-portal:
-  open:
-    enabled: true

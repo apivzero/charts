@@ -1,16 +1,19 @@
 annotations:
-  max_scale_version: 24.04.1
-  min_scale_version: 24.04.0
-  truecharts.org/category: media
-  truecharts.org/max_helm_version: "3.15"
-  truecharts.org/min_helm_version: "3.11"
+  artifacthub.io/links: |-
+    - name: support
+    url: https://discord.com/invite/tVsPTHWTtr
   truecharts.org/train: stable
+  trueforge.org/category: media
+  trueforge.org/max_helm_version: "4.1"
+  trueforge.org/max_kubernetes_version: 1.35.0
+  trueforge.org/min_helm_version: "3.14"
+  trueforge.org/train: stable
 apiVersion: v2
-appVersion: 0.27.2
+appVersion: 0.32.0
 dependencies:
   - name: common
-    version: 25.3.1
-    repository: oci://tccr.io/truecharts
+    version: 30.4.5
+    repository: oci://oci.trueforge.org/truecharts
     condition: ""
     alias: ""
     tags: []
@@ -21,7 +24,7 @@ home: https://truecharts.org/charts/stable/stash
 icon: https://truecharts.org/img/hotlink-ok/chart-icons/stash.webp
 keywords:
   - porn
-kubeVersion: '>=1.24.0-0'
+kubeVersion: '>=1.33.0-0'
 maintainers:
   - name: TrueCharts
     email: info@truecharts.org
@@ -29,7 +32,8 @@ maintainers:
 name: stash
 sources:
   - https://github.com/stashapp/stash
-  - https://github.com/truecharts/charts/tree/master/charts/stable/stash
+  - https://github.com/trueforge-org/truecharts/tree/master/charts/stable/stash
   - https://hub.docker.com/r/stashapp/stash
 type: application
-version: 17.6.0
+version: 20.2.4
+

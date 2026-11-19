@@ -1,11 +1,12 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
-  repository: ghcr.io/onedr0p/sonarr
+  repository: oci.trueforge.org/containerforge/sonarr
   pullPolicy: IfNotPresent
-  tag: 4.0.11.2680@sha256:be61367714d750b241eec33c10cafd89002564404c18706b3f3e93ea40c2e608
+  tag: "5.0.0.2997@sha256:efb31b9600f6a2e27df0c5d580e7eb8ed1548844b7678bee11d6f1744d7fb41b"
 exportarrImage:
   repository: ghcr.io/onedr0p/exportarr
   pullPolicy: IfNotPresent
-  tag: v2.0.1@sha256:727e7bc8f2f0934a2117978c59f4476b954018b849a010ea6cfb380bd6539644
+  tag: v2.3.0@sha256:af535d94061cf97a52e1661945ffba78c03f9443eae7c0da1a80a5a4be56b520
 service:
   main:
     ports:
@@ -28,14 +29,20 @@ workload:
               enabled: true
               type: http
               path: /ping
+              httpHeaders:
+                Host: localhost
             readiness:
               enabled: true
               type: http
               path: /ping
+              httpHeaders:
+                Host: localhost
             startup:
               enabled: true
               type: http
               path: /ping
+              httpHeaders:
+                Host: localhost
           env:
             SONARR__SERVER__PORT: "{{ .Values.service.main.ports.main.port }}"
              # External | Basic | Forms
@@ -96,6 +103,3 @@ metrics:
     targetSelector: metrics
     prometheusRule:
       enabled: false
-portal:
-  open:
-    enabled: true

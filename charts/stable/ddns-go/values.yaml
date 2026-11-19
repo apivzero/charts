@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
-  repository: docker.io/jeessy/ddns-go
+  repository: ghcr.io/jeessy2/ddns-go
   pullPolicy: IfNotPresent
-  tag: v6.7.7@sha256:f564ee89a5cddb3ecceefbb54adce5474e8874342011d9b5a0aa749f756ac658
+  tag: v6.17.9@sha256:17bfd1e05df8fbfdf0a5a2fcd931fef2026e91dd5e3b6377b4590dab2759a28a
 securityContext:
   container:
     readOnlyRootFilesystem: false
@@ -35,6 +36,3 @@ persistence:
   data:
     enabled: true
     mountPath: /root
-portal:
-  open:
-    enabled: true

@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
-  repository: docker.io/bobokun/qbit_manage
+  repository: ghcr.io/stuffanthings/qbit_manage
   pullPolicy: IfNotPresent
-  tag: v4.1.14@sha256:a64f0781aabe3e66a261c8b21b7192555bc785f178cae40c6e8b88bf9b853c16
+  tag: v4.15.0@sha256:f8db47d6533bac7c7f71d367545c5059d7228bcca188db1e059dbf4a693d8362
 service:
   main:
     enabled: false
@@ -15,9 +16,7 @@ persistence:
   data:
     enabled: true
     mountPath: /data
-portal:
-  open:
-    enabled: false
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

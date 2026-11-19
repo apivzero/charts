@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: ghcr.io/nicholaswilde/fossil
   pullPolicy: IfNotPresent
@@ -32,7 +33,4 @@ service:
         targetPort: 8080
 persistence:
   varrun:
-    enabled: true
-portal:
-  open:
     enabled: true

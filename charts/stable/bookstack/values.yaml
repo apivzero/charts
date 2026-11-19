@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: ghcr.io/linuxserver/bookstack
   pullPolicy: IfNotPresent
-  tag: 24.12.20241223@sha256:d1c7c9ac3badb98582b75846db3cccb29b65dafbda2f68a33758032d7a0555b2
+  tag: 26.09.20260929@sha256:7a6779d345d4d678614aa1a0a8a4d8456aeb98de10dfae700b839c3140c89f39
 securityContext:
   container:
     readOnlyRootFilesystem: false
@@ -40,9 +41,5 @@ persistence:
     mountPath: /config
 mariadb:
   enabled: true
-  includeCommon: true
   mariadbUsername: bookstack
   mariadbDatabase: bookstack
-portal:
-  open:
-    enabled: true

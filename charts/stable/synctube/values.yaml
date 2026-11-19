@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: docker.io/littlestache/synctube
@@ -13,9 +14,7 @@ service:
         port: 4200
         protocol: http
         targetPort: 4200
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

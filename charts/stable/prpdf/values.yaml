@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: docker.io/knex666/prpdf
-  tag: latest@sha256:aa195e83c9ccd84f4ba9b9da4136438f8d7c56560b67d1d992bf1d6db99acd0a
+  tag: latest@sha256:50964b7d20ea98e588b488119c840bdf2244c0cf02c185c99be4c0cf9dbdb968
 persistence:
   config:
     enabled: true
@@ -12,9 +13,7 @@ persistence:
   hostpath2:
     enabled: true
     mountPath: /source/static/pdf/
-portal:
-  open:
-    enabled: false
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

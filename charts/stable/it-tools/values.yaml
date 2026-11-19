@@ -1,19 +1,21 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
-  repository: docker.io/corentinth/it-tools
+  repository: oci.trueforge.org/containerforge/it-tools
   pullPolicy: IfNotPresent
-  tag: 2024.5.13-a0bc346@sha256:c191615f23eb6a18b8faca4dba15fc11caefea250ce3a8e29d249757544092eb
+  tag: 2024.10.22@sha256:720d110a064bc42fd39585db4389d23dd9bd06bf80c76498e4c1fb67e38c8e2b
 service:
   main:
     ports:
       main:
         protocol: http
-        targetPort: 80
+        targetPort: 8080
         port: 18082
 persistence:
   cache:
     enabled: true
     type: emptyDir
     mountPath: "/var/cache/nginx"
-portal:
-  open:
+  config:
     enabled: true
+    type: emptyDir
+    mountPath: /config

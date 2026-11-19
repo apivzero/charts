@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: docker.io/mikeah/prusaslicer-novnc
@@ -16,9 +17,7 @@ service:
         port: 16080
         protocol: http
         targetPort: 8080
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

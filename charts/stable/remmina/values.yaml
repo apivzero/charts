@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: ghcr.io/linuxserver/remmina
   pullPolicy: IfNotPresent
-  tag: 1.4.35@sha256:afb8a46e8c09406a94beb259921879d2af0f458035812649fc2da4d654114ba6
+  tag: 1.4.43@sha256:fd394933f0c1d290153ddf278f332fad6575c98e67d5ed36d5cc643b72d8b921
 service:
   main:
     ports:
@@ -14,9 +15,7 @@ persistence:
     mountPath: "/config"
   varrun:
     enabled: true
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

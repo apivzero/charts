@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: docker.io/shneezin/breitbandmessung-node
@@ -9,9 +10,7 @@ persistence:
   messurementlogs:
     enabled: true
     mountPath: /export/
-portal:
-  open:
-    enabled: false
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

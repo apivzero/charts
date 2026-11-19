@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: ghcr.io/linuxserver/piwigo
   pullPolicy: IfNotPresent
-  tag: 15.3.0@sha256:71b8611488449b4a20ba5486e0f12f00c65862ab0249dfc8a40f7704a296ce3b
+  tag: 16.5.0@sha256:2f8f02e69c705f274b902e62130d806bfcc18adffc1788d443cf84426b631d74
 securityContext:
   container:
     runAsNonRoot: false
@@ -52,9 +53,5 @@ persistence:
     enabled: true
 mariadb:
   enabled: true
-  includeCommon: true
   mariadbUsername: piwigo
   mariadbDatabase: piwigo
-portal:
-  open:
-    enabled: true

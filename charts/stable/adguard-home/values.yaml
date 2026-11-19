@@ -1,6 +1,7 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: docker.io/adguard/adguardhome
-  tag: v0.107.55@sha256:2979cc78a28aceb77f90980a5440578dbb7bc406dffe261e9ae402750193bde0
+  tag: v0.107.80@sha256:e2e1b48c832f7705be915873f95de0d5114de573736441d7f2923a8a6293027c
   pullPolicy: IfNotPresent
 securityContext:
   container:
@@ -119,6 +120,3 @@ persistence:
   data:
     enabled: true
     mountPath: /opt/adguardhome/work
-portal:
-  open:
-    enabled: true

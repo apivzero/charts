@@ -1,6 +1,7 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: ghcr.io/ctfd/ctfd
-  tag: 3.7.5@sha256:7f456b23727286c9df2b58e0b7398cc0196e2b74e4c1c5b3cda7a5b71034637d
+  tag: 3.8.9@sha256:84aff1e50b6a6f931b5da90c6f5b7c623ba4583217a9b00e9d4c1b7c53b9739f
   pullPolicy: IfNotPresent
 
 service:
@@ -26,15 +27,6 @@ workload:
               secretKeyRef:
                 name: ctfd-secrets
                 key: SECRET_KEY
-            DATABASE_PORT: 3306
-            DATABASE_NAME: "{{ .Values.mariadb.mariadbDatabase }}"
-            DATABASE_USER: "{{ .Values.mariadb.mariadbUsername }}"
-            DATABASE_HOST:
-              secretKeyRef:
-                expandObjectName: false
-                name: '{{ printf "%s-%s" .Release.Name "mariadbcreds" }}'
-                key: plainhost
-            DATABASE_PASSWORD: "{{ .Values.mariadb.password }}"
             REDIS_URL:
               secretKeyRef:
                 expandObjectName: false
@@ -54,16 +46,13 @@ workload:
             # majorleaguecyber
             OAUTH_CLIENT_ID: ""
             OAUTH_CLIENT_SECRET: ""
-
-mariadb:
-  enabled: true
-  includeCommon: true
-  mariadbUsername: ctfd
-  mariadbDatabase: ctfd
-
+securityContext:
+  container:
+    readOnlyRootFilesystem: false
+    runAsGroup: 0
+    runAsUser: 0
 redis:
   enabled: true
-  includeCommon: true
   redisUsername: default
 
 persistence:
@@ -73,7 +62,3 @@ persistence:
   logs:
     enabled: true
     mountPath: "/logs"
-
-portal:
-  open:
-    enabled: true

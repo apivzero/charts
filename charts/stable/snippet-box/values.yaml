@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: docker.io/pawelmalak/snippet-box
@@ -31,6 +32,3 @@ persistence:
   data:
     enabled: true
     mountPath: /app/data
-portal:
-  open:
-    enabled: true

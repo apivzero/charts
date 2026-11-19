@@ -1,6 +1,7 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
-  repository: docker.io/koenkk/zigbee2mqtt
-  tag: 1.42.0@sha256:732ae43d714610040bd049487b60af3b2dbcfdefb5f169897455b60d715e2131
+  repository: ghcr.io/koenkk/zigbee2mqtt
+  tag: 2.14.3@sha256:fb4a6b0f6868ad1cd6a9996479802b2420e599c3463b62bbff8c8cd9a908f43a
   pullPolicy: IfNotPresent
 service:
   main:
@@ -12,9 +13,7 @@ persistence:
     enabled: true
     mountPath: "/data"
     targetSelectAll: true
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     runAsNonRoot: false

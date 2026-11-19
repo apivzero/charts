@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: docker.io/golift/unpackerr
   pullPolicy: IfNotPresent
-  tag: 0.14.5@sha256:8493ffc2dd17e0b8a034552bb52d44e003fa457ee407da97ccc69328bce4a815
+  tag: v1.0.1@sha256:fc8b69571033f197d4db5cf22a573acb3bb891c9f8033431b9a1fcf679ca3e9c
 service:
   main:
     enabled: false
@@ -27,9 +28,7 @@ persistence:
     ## Do not delete the pvc upon helm uninstall
     # skipuninstall: false
     # existingClaim: ""
-portal:
-  open:
-    enabled: false
+
 workload:
   main:
     podSpec:

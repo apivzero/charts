@@ -1,58 +1,59 @@
+# yaml-language-server: $schema=./values.schema.json
+
 image:
-  repository: docker.io/itzg/minecraft-server
-  tag: 2024.12.1@sha256:7ac4583059984ba8864dd039721c40db13bcc1a802519e77de3af182490e9c86
+  repository: ghcr.io/itzg/minecraft-server
+  tag: 2026.11.0-java25@sha256:8d5080d8dcd0a2629c2e4f248678373a337a40537ad6ef2857c7dbcda6e3eadd
   pullPolicy: Always
+
+# ---- Java 25 ----
+j25jdkImage:
+  repository: ghcr.io/itzg/minecraft-server
+  tag: 2026.11.0-java25-jdk@sha256:3c1e738dce018897dea0800a6a9f43f55138aa0e392632056a6a47148ffc2587
+  pullPolicy: Always
+
+# ---- Java 21 (Recommended for modern MC versions) ----
 j21Image:
-  repository: docker.io/itzg/minecraft-server
-  tag: 2024.12.1-java21@sha256:7ac4583059984ba8864dd039721c40db13bcc1a802519e77de3af182490e9c86
+  repository: ghcr.io/itzg/minecraft-server
+  tag: 2026.11.0-java21@sha256:5fbaa7d1eb8d5575cd009c247f872d1fd6b5cd0f096e8ea173648cd4e43d52d4
   pullPolicy: Always
-j21graalvmImage:
-  repository: docker.io/itzg/minecraft-server
-  tag: 2024.12.1-java21-graalvm@sha256:e19a44d8bd3907389a309d5a52a991a38f5a44be5e640a6f012e33a0885b8d00
-  pullPolicy: Always
+
 j21alpineImage:
-  repository: docker.io/itzg/minecraft-server
-  tag: 2024.12.1-java21-alpine@sha256:6b835c4468dbd97a7a80deb188c44a6ea8fa2770b7d73eb9a3f053248fbe16ad
+  repository: ghcr.io/itzg/minecraft-server
+  tag: 2026.11.0-java21-alpine@sha256:04d475faae804ef5404209a118af40a748671a42d72d8e5f1bd3a4bad53dc23d
   pullPolicy: Always
+
+j21jdkImage:
+  repository: ghcr.io/itzg/minecraft-server
+  tag: 2026.11.0-java21-jdk@sha256:728d626ca66aab1be5ca548f0f2851cfff035eb74b624fc521de8174efb4a4ac
+  pullPolicy: Always
+
+# ---- Java 17 (Safe & Supported) ----
 j17Image:
-  repository: docker.io/itzg/minecraft-server
-  tag: 2024.12.1-java17@sha256:503fbaec45dc0a004652a9d0a9939ea5baad1ba7ab7d11e10f963268c7aca4b3
+  repository: ghcr.io/itzg/minecraft-server
+  tag: 2026.11.0-java17@sha256:35f069ed801f4b14655acb52fdb7745dccfe69399867f57608ae4136a32c3c9e
   pullPolicy: Always
+
 j17jdkImage:
-  repository: docker.io/itzg/minecraft-server
+  repository: ghcr.io/itzg/minecraft-server
   tag: 2024.6.1-java17-jdk@sha256:2c43fcede436aff9f50b1adf4448d55d221651be471ef41412232c141bfa89f6
   pullPolicy: Always
-j17graalvmImage:
-  repository: docker.io/itzg/minecraft-server
-  tag: 2024.12.1-java17-graalvm@sha256:9a12a6769dfed6777477236ee294ad839fe2a0aee3468b0a01616e75394acbb3
+
+# ---- Java 16 ----
+j16Image:
+  repository: ghcr.io/itzg/minecraft-server
+  tag: 2026.11.0-java16@sha256:20483a23124254f0fbe260db3fe67852491ac87d740b12cac1de1cf04ee18b6c
   pullPolicy: Always
-j17alpineImage:
-  repository: docker.io/itzg/minecraft-server
-  tag: 2024.12.1-java17-alpine@sha256:4d3c60b5d7c7276e57146af72fd982ee54a68fd3bb594dc8594d1902da0ee113
-  pullPolicy: Always
+
+# ---- Java 11 ----
 j11Image:
-  repository: docker.io/itzg/minecraft-server
-  tag: 2024.12.1-java11@sha256:47dddf0bac9d3745e535bc3b1aa33b586d15893ad2e4162a8e4d450562cc4fe2
+  repository: ghcr.io/itzg/minecraft-server
+  tag: 2026.11.0-java11@sha256:cc22586b7650601b9c4751d4077215c665177776174b098d33a08240ff781b46
   pullPolicy: Always
+
+# ---- Java 8 (Use plain java8 only) ----
 j8Image:
-  repository: docker.io/itzg/minecraft-server
-  tag: 2024.12.1-java8@sha256:9562d996306c5433a2593513c064dccd912733ec08b518cc41ec32d35b4866a6
-  pullPolicy: Always
-j8graalvmImage:
-  repository: docker.io/itzg/minecraft-server
-  tag: 2024.12.1-java8-graalvm-ce@sha256:76219c1d45759b360c9cc52f85718725b364dddf53ee18931841dff1f6054419
-  pullPolicy: Always
-j8jdkImage:
-  repository: docker.io/itzg/minecraft-server
-  tag: 2024.12.1-java8-jdk@sha256:bca02d72205187ea48eea75e881084cd2898ebcb285b5b7518ae5fa71e7776bb
-  pullPolicy: Always
-j8alpineImage:
-  repository: docker.io/itzg/minecraft-server
-  tag: 2024.9.0-java8-alpine@sha256:ee8505b9670a82b7703ec35b2a87fe9b7f7823b50ae50fad18bf1fe511e577f9
-  pullPolicy: Always
-mcBackupImage:
-  repository: docker.io/itzg/mc-backup
-  tag: latest@sha256:b40aebf4f089b373495c92483c7990222560977b5e703de507733401b38456f8
+  repository: ghcr.io/itzg/minecraft-server
+  tag: 2026.11.0-java8@sha256:91c8edad666c51ce0148022931dac327c973e6d8084cddb0e9090e2c60622f9c
   pullPolicy: Always
 
 service:
@@ -73,17 +74,14 @@ service:
       rcon:
         enabled: true
         port: 25575
-
-mcbackup:
-  zstd_params:
-    - --long=25
-    - --single-thread
-  # comma separated list
-  excludes:
-    - "*.jar"
-    - "cache"
-    - "logs"
-    - "*.tmp"
+  ssh:
+    enabled: true
+    ports:
+      ssh:
+        enabled: true
+        protocol: tcp
+        targetPort: 2222
+        port: 2222
 
 workload:
   main:
@@ -112,6 +110,7 @@ workload:
             QUERY_PORT: "{{ .Values.service.main.ports.query.port }}"
             RCON_PORT: "{{ .Values.service.rcon.ports.rcon.port }}"
             ENABLE_QUERY: "true"
+            ENABLE_SSH: "false"
             EULA: "TRUE"
             GUI: "FALSE"
             OVERRIDE_SERVER_PROPERTIES: true
@@ -194,54 +193,8 @@ workload:
             # CF_OVERRIDES_SKIP_EXISTING
             # CF_PARALLEL_DOWNLOADS
             # CF_SET_LEVEL_FROM
-        mcbackup:
-          enabled: true
-          imageSelector: mcBackupImage
-          probes:
-            liveness:
-              enabled: false
-            readiness:
-              enabled: false
-            startup:
-              enabled: false
-          env:
-            BACKUP_METHOD: "tar"
-            DEST_DIR: "{{.Values.persistence.backups.mountPath }}"
-            SRC_DIR: "{{.Values.persistence.data.mountPath }}"
-            SERVER_PORT: "{{ .Values.service.main.ports.main.port }}"
-            RCON_HOST: '{{ printf "%s-rcon" (include "tc.v1.common.lib.chart.names.fullname" $) }}'
-            RCON_PORT: "{{ .Values.service.rcon.ports.rcon.port }}"
-            RCON_PASSWORD: "{{ .Values.workload.main.podSpec.containers.main.env.RCON_PASSWORD }}"
-            SERVER_HOST: '{{ include "tc.v1.common.lib.chart.names.fullname" $ }}'
-
-            ZSTD_PARAMETERS: '{{ join " " .Values.mcbackup.zstd_params }}'
-            EXCLUDES: '{{ join "," .Values.mcbackup.excludes }}'
-
-            INITIAL_DELAY: "2m"
-            BACKUP_INTERVAL: "24h"
-            PRUNE_BACKUPS_DAYS: "7"
-            PAUSE_IF_NO_PLAYERS: "false"
-            PLAYERS_ONLINE_CHECK_INTERVAL: "5m"
-            LINK_LATEST: "false"
-            TAR_COMPRESS_METHOD: "zstd"
 
 persistence:
   data:
     enabled: true
-    targetSelector:
-      main:
-        main:
-          mountPath: /data
-        mcbackup:
-          mountPath: /data
-          readOnly: true
-  backups:
-    enabled: true
-    targetSelector:
-      main:
-        mcbackup:
-          mountPath: /backups
-
-portal:
-  open:
-    enabled: false
+    mountPath: /data

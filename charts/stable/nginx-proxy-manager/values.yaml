@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: docker.io/jc21/nginx-proxy-manager
   pullPolicy: IfNotPresent
-  tag: 2.12.2@sha256:170f1974d8fc8ca245bcfae5590bc326de347b19719972bf122400fb13dfa42c
+  tag: 2.17.0@sha256:91277490a919c792aa73b8d291af1ca84d32be74df988e543137976515763534
 service:
   main:
     ports:
@@ -36,12 +37,9 @@ persistence:
     size: 256Gi
 mariadb:
   enabled: true
-  includeCommon: true
   mariadbUsername: npm
   mariadbDatabase: npm
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     runAsNonRoot: false
@@ -56,25 +54,19 @@ workload:
           probes:
             liveness:
               enabled: true
-              custom: true
-              spec:
-                exec:
-                  command:
-                    - /bin/check-health
+              type: exec
+              command:
+                - /bin/check-health
             readiness:
               enabled: true
-              custom: true
-              spec:
-                exec:
-                  command:
-                    - /bin/check-health
+              type: exec
+              command:
+                - /bin/check-health
             startup:
               enabled: true
-              custom: true
-              spec:
-                exec:
-                  command:
-                    - /bin/check-health
+              type: exec
+              command:
+                - /bin/check-health
           env:
             DISABLE_IPV6: true
             DB_MYSQL_PORT: 3306

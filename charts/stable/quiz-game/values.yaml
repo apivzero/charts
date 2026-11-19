@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: docker.io/patrickstigler/quiz-game
@@ -6,9 +7,7 @@ persistence:
   config:
     enabled: true
     mountPath: /app
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

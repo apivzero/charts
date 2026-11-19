@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: docker.io/hkalexling/mango
@@ -9,9 +10,7 @@ persistence:
   data:
     enabled: true
     mountPath: /root/mango
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

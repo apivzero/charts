@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: ghcr.io/linuxserver/mstream
   pullPolicy: IfNotPresent
-  tag: 5.13.1@sha256:e5e0f8516e4cd9d5e5906b1090c95ab05eba3c1fb2fc45b6b1799d5ca3561e00
+  tag: 6.33.1@sha256:28aa5fac4d604fd8a696f30ecdbe6d637f39f84599e84868a7de2dabaadc89cb
 service:
   main:
     ports:
@@ -14,9 +15,7 @@ persistence:
     mountPath: "/config"
   varrun:
     enabled: true
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: docker.io/tsightler/ring-mqtt
-  tag: 5.8.0@sha256:43717ab265a9c97dbb1fc029bfcbc8925e82a0f6bc2b28280dfd673c7f902541
+  tag: 5.9.3@sha256:4a4e0db460d7023aa5851ff25491401fd23b2fd153b7269af481f0953cd6f00a
 securityContext:
   container:
     readOnlyRootFilesystem: false
@@ -61,6 +62,3 @@ persistence:
           mountPath: /data/config.json
           subPath: config.json
           readOnly: true
-portal:
-  open:
-    enabled: false

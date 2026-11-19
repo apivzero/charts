@@ -1,9 +1,9 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
-  repository: docker.io/bitnami/redis
+  repository: docker.io/bitnamisecure/redis
   pullPolicy: IfNotPresent
-  tag: 7.4.1@sha256:35e07729aa2f349457eebab2784960afa0f27b919fc54fd9c5dac9311eb6aaf7
+  tag: latest@sha256:59078af5aec997137eb95f34fed376487b471e05c9a244c2812a13598c434950
 
-includeCommon: true
 workload:
   main:
     replicas: 1
@@ -127,13 +127,10 @@ service:
       main:
         port: 6379
         targetPort: 6379
-volumeClaimTemplates:
+persistence:
   data:
     enabled: true
-    accessModes:
-      - ReadWriteOnce
     mountPath: "/bitnami/redis"
-persistence:
   redis-health:
     enabled: true
     type: configmap
@@ -153,6 +150,3 @@ persistence:
         path: ping_liveness_local_and_master.sh
       - key: ping_readiness_local_and_master.sh
         path: ping_readiness_local_and_master.sh
-portal:
-  open:
-    enabled: false

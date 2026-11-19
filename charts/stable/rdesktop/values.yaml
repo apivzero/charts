@@ -1,98 +1,99 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: lscr.io/linuxserver/rdesktop
-  tag: latest@sha256:19f2e71ca883a775bb7ed60b268c28d5d9c1b7f5ccaf341d5c4ba3bf3f9caafe
+  tag: ubuntu-kde@sha256:8985315c11e81cb233a781ffa3486e07d01896eab3ac61e1f65c5d14422f4f3f
 ubuntuXFCEImage:
   repository: lscr.io/linuxserver/rdesktop
-  tag: ubuntu-xfce@sha256:df614991016fa095c0496a2c2c09b0592c7f37338f9ba91d1b213a09e417244c
+  tag: ubuntu-xfce@sha256:cbf4ee807472acdea1c8d8483c7801c2a0e9a6ad155d1c103fa6c39b5768fb7b
   pullPolicy: Always
 fedoraXFCEImage:
   repository: lscr.io/linuxserver/rdesktop
-  tag: fedora-xfce@sha256:fc127393dec17c95a5ea9072b847931fc90b052cc8e0f110ac8c95d32113c43f
+  tag: fedora-xfce@sha256:eb37f58646a901dc7727cf448cae36daaefaba79de33b5058dab79aa4c04aefb
   pullPolicy: Always
 archXFCEImage:
   repository: lscr.io/linuxserver/rdesktop
-  tag: arch-xfce@sha256:e4f94dfd100775cb91c0b2f9d2d307d18d8a6de72e6439c15ab84acc30b188c1
+  tag: arch-xfce@sha256:eb37f58646a901dc7727cf448cae36daaefaba79de33b5058dab79aa4c04aefb
   pullPolicy: Always
 alpineKDEImage:
   repository: lscr.io/linuxserver/rdesktop
-  tag: alpine-kde@sha256:42925be94679bd4f19c599ce6ffbdd068cd154927f9bb469000e0468a6e8e718
+  tag: alpine-kde@sha256:eb37f58646a901dc7727cf448cae36daaefaba79de33b5058dab79aa4c04aefb
   pullPolicy: Always
 ubuntuKDEImage:
   repository: lscr.io/linuxserver/rdesktop
-  tag: ubuntu-kde@sha256:f6ab1dd57db083ba025545bc243f46cc2b9e449f20efd46d9fe429a4d738c985
+  tag: ubuntu-kde@sha256:8985315c11e81cb233a781ffa3486e07d01896eab3ac61e1f65c5d14422f4f3f
   pullPolicy: Always
 fedoraKDEImage:
   repository: lscr.io/linuxserver/rdesktop
-  tag: fedora-kde@sha256:7c8aa3c81b4a84ac4dda5e04c6cd513960210f9a699bb9f1f8126c41d54026a2
+  tag: fedora-kde@sha256:eb37f58646a901dc7727cf448cae36daaefaba79de33b5058dab79aa4c04aefb
   pullPolicy: Always
 archKDEImage:
   repository: lscr.io/linuxserver/rdesktop
-  tag: arch-kde@sha256:42f2ebbfb0c7b6b749352296a1e8394716fe2899df78636e4c43cf594811cafe
+  tag: arch-kde@sha256:eb37f58646a901dc7727cf448cae36daaefaba79de33b5058dab79aa4c04aefb
   pullPolicy: Always
 alpineMATEImage:
   repository: lscr.io/linuxserver/rdesktop
-  tag: alpine-mate@sha256:669ec410ac36c977e6fd203159f96d910e4aced9d6279b07c88e012390be9998
+  tag: alpine-mate@sha256:eb37f58646a901dc7727cf448cae36daaefaba79de33b5058dab79aa4c04aefb
   pullPolicy: Always
 ubuntuMATEImage:
   repository: lscr.io/linuxserver/rdesktop
-  tag: ubuntu-mate@sha256:a3c92dd82b129f42517a59e87d58db7edaa69ac992d9d1467f3e8414b1e3ebd4
+  tag: ubuntu-mate@sha256:2b7afb3bdd3beca08eddcce04f5a7010a40576a3009967df738a9a587177c744
   pullPolicy: Always
 fedoraMATEImage:
   repository: lscr.io/linuxserver/rdesktop
-  tag: fedora-mate@sha256:1afc940f552214b7857323d8124c242977a8113c7cdbdf5bdd27b7a986664cd9
+  tag: fedora-mate@sha256:eb37f58646a901dc7727cf448cae36daaefaba79de33b5058dab79aa4c04aefb
   pullPolicy: Always
 archMATEImage:
   repository: lscr.io/linuxserver/rdesktop
-  tag: arch-mate@sha256:4dad7b75ae1c72b06370dcb7b170841ab3b2399f7d25e01868f952785895ecb7
+  tag: arch-mate@sha256:eb37f58646a901dc7727cf448cae36daaefaba79de33b5058dab79aa4c04aefb
   pullPolicy: Always
 alpineI3Image:
   repository: lscr.io/linuxserver/rdesktop
-  tag: alpine-i3@sha256:321a36137ee3f638da497587dd0b1c33949400c765d476627b626c1a9d9e5bf8
+  tag: alpine-i3@sha256:eb37f58646a901dc7727cf448cae36daaefaba79de33b5058dab79aa4c04aefb
   pullPolicy: Always
 ubuntuI3Image:
   repository: lscr.io/linuxserver/rdesktop
-  tag: ubuntu-i3@sha256:39b67b0b9c851796c61b0e1c2f394114975b4d737c301b82e6aba6b9cae873fd
+  tag: ubuntu-i3@sha256:ad1cb0dbc23163851e35ae2fdb27b61b9f843d590d539768cf25dc6758be21dc
   pullPolicy: Always
 fedoraI3Image:
   repository: lscr.io/linuxserver/rdesktop
-  tag: fedora-i3@sha256:ddcc62343b5259c1aa932d47befcf2e694a136f66467955d18ee7d7ea2280d9b
+  tag: fedora-i3@sha256:eb37f58646a901dc7727cf448cae36daaefaba79de33b5058dab79aa4c04aefb
   pullPolicy: Always
 archI3Image:
   repository: lscr.io/linuxserver/rdesktop
-  tag: arch-i3@sha256:2fd3a85535d393039895471c0bb06cda43e1e5668d005e96bed23cbb6347c8ed
+  tag: arch-i3@sha256:eb37f58646a901dc7727cf448cae36daaefaba79de33b5058dab79aa4c04aefb
   pullPolicy: Always
 alpineOpenBoxImage:
   repository: lscr.io/linuxserver/rdesktop
-  tag: alpine-openbox@sha256:dde7db32c4b784d855e8fb8e26129b94a4d7dfb421737952fc295e1ab41c1c44
+  tag: alpine-openbox@sha256:eb37f58646a901dc7727cf448cae36daaefaba79de33b5058dab79aa4c04aefb
   pullPolicy: Always
 ubuntuOpenBoxImage:
   repository: lscr.io/linuxserver/rdesktop
-  tag: ubuntu-openbox@sha256:65faf168ffa25de67b7de432843553bfcd9e1a7829951a74f47be2ce3f02b8cc
+  tag: ubuntu-openbox@sha256:5e91d5f7af31f51b601d2304b58e3e75ba03cb88bf4e970bff00941d9b296930
   pullPolicy: Always
 fedoraOpenBoxImage:
   repository: lscr.io/linuxserver/rdesktop
-  tag: fedora-openbox@sha256:a1381422d01341d72be6da84185098fa3e6a824306883908b06cea1a8dba2d33
+  tag: fedora-openbox@sha256:eb37f58646a901dc7727cf448cae36daaefaba79de33b5058dab79aa4c04aefb
   pullPolicy: Always
 archOpenBoxImage:
   repository: lscr.io/linuxserver/rdesktop
-  tag: arch-openbox@sha256:296e13a68f21a6bb8de21fc5ce229fc905a85ee940b9acb16516853dda0f9e4e
+  tag: arch-openbox@sha256:eb37f58646a901dc7727cf448cae36daaefaba79de33b5058dab79aa4c04aefb
   pullPolicy: Always
 alpineICEWMImage:
   repository: lscr.io/linuxserver/rdesktop
-  tag: alpine-icewm@sha256:69f67d2505739865d632cf0cc1d18592340d01d85eb8a631114ba44fd3ef4215
+  tag: alpine-icewm@sha256:eb37f58646a901dc7727cf448cae36daaefaba79de33b5058dab79aa4c04aefb
   pullPolicy: Always
 ubuntuICEWMImage:
   repository: lscr.io/linuxserver/rdesktop
-  tag: ubuntu-icewm@sha256:ad4a6147a3925c7d54fc9b987839146bbcf74227c480d9b8eeeac4327d706078
+  tag: ubuntu-icewm@sha256:b06cdb635d332454be8f1b73e003c45e509600555160b2dad02667e4508095ca
   pullPolicy: Always
 fedoraICEWMImage:
   repository: lscr.io/linuxserver/rdesktop
-  tag: fedora-icewm@sha256:35daaf2e53d3fd40e7e5de94fd305bde7003ea7c64f1b4c5caeb667a9392ecea
+  tag: fedora-icewm@sha256:eb37f58646a901dc7727cf448cae36daaefaba79de33b5058dab79aa4c04aefb
   pullPolicy: Always
 archICEWMImage:
   repository: lscr.io/linuxserver/rdesktop
-  tag: arch-icewm@sha256:6dc9e50f3845ed31403cd2a22f3c3050089e7fa831b7b5321d89d63c1560fd19
+  tag: arch-icewm@sha256:eb37f58646a901dc7727cf448cae36daaefaba79de33b5058dab79aa4c04aefb
   pullPolicy: Always
 workload:
   main:
@@ -111,9 +112,7 @@ persistence:
   config:
     enabled: true
     mountPath: /config
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

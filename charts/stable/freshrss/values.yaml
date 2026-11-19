@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: ghcr.io/linuxserver/freshrss
   pullPolicy: IfNotPresent
-  tag: 1.25.0@sha256:134f7567f0e86989b4532139383d10c01aba019b77b0d05676fabfea9dda3a24
+  tag: 1.30.4@sha256:2a7656d689b115cf5ade58b9dac1de5692df8e89fe92d77cc7f32b3d11622950
 securityContext:
   container:
     readOnlyRootFilesystem: false
@@ -18,6 +19,3 @@ persistence:
   config:
     enabled: true
     mountPath: /config
-portal:
-  open:
-    enabled: true

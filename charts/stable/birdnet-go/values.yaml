@@ -1,0 +1,18 @@
+# yaml-language-server: $schema=./values.schema.json
+image:
+  repository: ghcr.io/tphakala/birdnet-go
+  tag: 20261031@sha256:5eebc826c137a78aa7f91f0a4f3a02d9775f1a19d720f63b309ec5ae608b8698
+  pullPolicy: IfNotPresent
+service:
+  main:
+    ports:
+      main:
+        port: 8080
+        targetPort: 8080
+persistence:
+  config:
+    enabled: true
+    mountPath: /config
+  data:
+    enabled: true
+    mountPath: /data

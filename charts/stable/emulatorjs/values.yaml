@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: ghcr.io/linuxserver/emulatorjs
   pullPolicy: IfNotPresent
-  tag: 1.9.2@sha256:48ad3c7b148afc9f58f31718ad64d7bef0cc05e0ac6f0fd0c8b223097dd32fe9
+  tag: 1.9.2@sha256:b7003f7d4f383dd32d210ba08f24c840276fdf92c211bd18a798d47647311290
 securityContext:
   container:
     runAsNonRoot: false
@@ -56,6 +57,3 @@ persistence:
   data:
     enabled: true
     mountPath: /data
-portal:
-  open:
-    enabled: true

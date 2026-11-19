@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
-  repository: docker.io/esphome/esphome
+  repository: oci.trueforge.org/containerforge/esphome
   pullPolicy: IfNotPresent
-  tag: 2024.12.2@sha256:b2c6322700acb67ecf14e6781d5ee953ee6a0e888c0037ee8ac9d49ba48294a9
+  tag: "2026.11.0@sha256:ce0ba7e2bb1f412809d7b9f202fd0de061dd803f35ac6e586cab07c0c242b3fe"
 securityContext:
   container:
     runAsNonRoot: false
@@ -43,9 +44,11 @@ persistence:
   config:
     enabled: true
     mountPath: /config
-  platformio:
+  # caches platformio packages to prevent excess downloads
+  cache:
     enabled: true
-    mountPath: /.platformio
-portal:
-  open:
+    mountPath: /cache
+  # caches compiled code to not require rebuilds
+  build:
     enabled: true
+    mountPath: /build

@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: ghcr.io/dgtlmoon/changedetection.io
   pullPolicy: IfNotPresent
-  tag: 0.48.05@sha256:c207685be4409548d095c960c880d0f9b7889383907e2ebef65ccc1597bbcf7b
+  tag: 0.70.3@sha256:47b1e9cc3eff820e6022b655e3fcc948625f60c1770ae8b9c30aa3bf104dc255
 
 service:
   main:
@@ -26,7 +27,3 @@ persistence:
   datastore:
     enabled: true
     mountPath: "/datastore"
-
-portal:
-  open:
-    enabled: true

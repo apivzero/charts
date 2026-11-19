@@ -1,6 +1,7 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: docker.io/doitandbedone/ispyagentdvr
-  tag: 5.8.4.0@sha256:00e1f62d100223e909855ddde64a5d7c6def219c5924391e70723497a2d30c3f
+  tag: 7.1.8.0@sha256:5b8af985d759df11a19a1fb7070628d2f8e23f240419595bbb2d8bfe39a699c7
   pullPolicy: IfNotPresent
 service:
   main:
@@ -89,9 +90,7 @@ persistence:
   ffmpeg:
     enabled: true
     mountPath: "/agent/ffmpeg6"
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     runAsNonRoot: false

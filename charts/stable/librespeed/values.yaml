@@ -1,6 +1,7 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: ghcr.io/linuxserver/librespeed
-  tag: 5.4.20240804@sha256:1513bbf55b718af1a89e5a532bfd378214ff63ccb9edd36d8321b5c182681888
+  tag: 6.3.1@sha256:fa0ce663af2ecef06c143db770c9f46c60738c64bd9cc98ea36018fff841012a
   pullPolicy: IfNotPresent
 service:
   main:
@@ -12,9 +13,7 @@ persistence:
   config:
     enabled: true
     mountPath: "/config"
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

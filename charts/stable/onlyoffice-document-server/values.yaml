@@ -1,6 +1,7 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: docker.io/onlyoffice/documentserver
-  tag: 8.2.2@sha256:3489a54c581414055dd9bfa3890435e5e6fc8c4ce0ffdd65cf3c7869f680cf81
+  tag: 10.0.0@sha256:ca17889f10b11141cc6441836aebdd2835cf3e1b49681b2fd6e155c94b7850b3
   pullPolicy: IfNotPresent
 service:
   main:
@@ -17,9 +18,7 @@ cnpg:
 # Enabled redis
 redis:
   enabled: true
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

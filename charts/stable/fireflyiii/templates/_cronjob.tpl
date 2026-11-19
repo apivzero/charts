@@ -17,7 +17,7 @@ podSpec:
           enabled: false
         liveness:
           enabled: false
-      imageSelector: alpineImage
+      imageSelector: ubuntuImage
       args:
       - curl
       - "http://{{ $fullname }}:{{ .Values.service.main.ports.main.port }}/api/v1/cron/$(STATIC_CRON_TOKEN)"
@@ -26,7 +26,5 @@ podSpec:
           secretKeyRef:
             name: firefly-secrets
             key: STATIC_CRON_TOKEN
-
-
 
 {{- end -}}

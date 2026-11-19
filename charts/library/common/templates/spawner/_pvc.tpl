@@ -64,6 +64,8 @@
             {{- $_ := set $objectData.static "driver" "nfs.csi.k8s.io" -}}
 
           {{- else if eq $objectData.static.mode "custom" -}}
+            {{/* Validate custom CSI */}}
+            {{- include "tc.v1.common.lib.storage.customCSI.validation" (dict "objectData" $objectData) -}}
 
             {{- $_ := set $objectData "provisioner" $objectData.static.provisioner -}}
             {{- $_ := set $objectData.static "driver" $objectData.static.driver -}}
@@ -115,20 +117,63 @@
               {{- $resticrepository = printf "%s/%s/%s" $baseRepo ($credentials.path | trimSuffix "/") $repoSuffix -}}
             {{- end -}}
 
-            {{- $volsyncSecretData := (dict
+            {{- $volsyncSecretData := dict
+                "RESTIC_REPOSITORY" $resticrepository
+                "RESTIC_PASSWORD" $credentials.encrKey
+                "AWS_ACCESS_KEY_ID" $credentials.accessKey
+                "AWS_SECRET_ACCESS_KEY" $credentials.secretKey
+            -}}
+            {{- if $credentials.region -}}
+              {{- $_ := set $volsyncSecretData "AWS_DEFAULT_REGION" $credentials.region -}}
+            {{- end -}}
+
+            {{- $volsyncSecret := (dict
                 "name" $volsyncSecretName
                 "labels" ($volsync.labels | default dict)
                 "annotations" ($volsync.annotations | default dict)
-                "data" (dict
-                    "RESTIC_REPOSITORY" $resticrepository
-                    "RESTIC_PASSWORD" $credentials.encrKey
-                    "AWS_ACCESS_KEY_ID" $credentials.accessKey
-                    "AWS_SECRET_ACCESS_KEY" $credentials.secretKey
-                )
+                "data" $volsyncSecretData
             ) -}}
 
-            {{- include "tc.v1.common.class.secret" (dict "rootCtx" $ "objectData" $volsyncSecretData) -}}
-             {{/* Create VolSync resources*/}}
+            {{- include "tc.v1.common.class.secret" (dict "rootCtx" $ "objectData" $volsyncSecret) -}}
+
+            {{- if $credentials.customCASecretRef -}}
+              {{/* Get the customCA secret name */}}
+
+              {{- $customCASecretRef := $credentials.customCASecretRef -}}
+              {{- $expandName := (include "tc.v1.common.lib.util.expandName" (dict
+                              "rootCtx" $ "objectData" $customCASecretRef
+                              "name" $customCASecretRef.name "caller" "PVC - VolSync"
+                              "key" (printf "credentials.%s.customCASecretRef.name" $volsyncData.credentials))) -}}
+
+              {{- $CAsecretName := tpl $customCASecretRef.name $ -}}
+              {{- if eq $expandName "true" -}}
+                {{- $fullname := include "tc.v1.common.lib.chart.names.fullname" $ -}}
+                {{- $CAsecretName = (printf "%s-%s" $fullname $CAsecretName) -}}
+              {{- end -}}
+
+              {{- $_ := set $volsyncData "customCA" (dict "name" $CAsecretName "key" $customCASecretRef.key) -}}
+            {{- else if $credentials.customCA -}}
+              {{/* Create Custom CA Secret for VolSync */}}
+
+              {{- $volsyncCASecretName := printf "%s-volsync-ca-%s" (include "tc.v1.common.lib.chart.names.fullname" $ ) (lower $volsync.credentials) -}}
+              {{- $volsyncCAKey := "ca.crt" -}}
+
+              {{- $_ := set $volsyncData "customCA" $volsyncCASecretName -}}
+
+              {{- $volsyncCASecretData := (dict
+                  "name" $volsyncCASecretName
+                  "labels" ($volsync.labels | default dict)
+                  "annotations" ($volsync.annotations | default dict)
+                  "data" (dict
+                      $volsyncCAKey $credentials.customCA
+                  )
+              ) -}}
+
+              {{- include "tc.v1.common.class.secret" (dict "rootCtx" $ "objectData" $volsyncCASecretData) -}}
+              {{- $_ := set $volsyncData "customCA" (dict "name" $volsyncCASecretName "key" $volsyncCAKey) -}}
+            {{- end -}}
+
+            {{/* Create VolSync resources*/}}
             {{- if $srcEnabled -}}
               {{- include "tc.v1.common.class.replicationsource" (dict "rootCtx" $ "objectData" $objectData "volsyncData" $volsyncData) -}}
             {{- end -}}
@@ -172,7 +217,7 @@
       {{- end -}}
 
       {{- if eq $objectData.type "iscsi" -}}
-        {{- if or $objectData.iscsi.authSession $objectData.iscsi.authDiscovery -}}
+        {{- if and $objectData.iscsi (or $objectData.iscsi.authSession $objectData.iscsi.authDiscovery) -}}
           {{/* Set the name of the PVC */}}
           {{- $_ := set $objectData "name" (include "tc.v1.common.lib.storage.pvc.name" (dict "rootCtx" $ "objectName" $name "objectData" $objectData)) -}}
           {{- $_ := set $objectData "shortName" $name -}}

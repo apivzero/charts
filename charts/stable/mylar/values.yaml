@@ -1,6 +1,7 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: lscr.io/linuxserver/mylar3
-  tag: version-v0.8.0@sha256:a448d495f249f40b291c676696252138cf278225d981acc428ea317732bbf243
+  tag: version-v0.11.0@sha256:08db04be13a3536a18aae2d1b455b805dbc3ec26323cc0c78d3c132596efe5ef
   pullPolicy: IfNotPresent
 service:
   main:
@@ -14,9 +15,7 @@ persistence:
     mountPath: "/config"
   varrun:
     enabled: true
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     runAsNonRoot: false

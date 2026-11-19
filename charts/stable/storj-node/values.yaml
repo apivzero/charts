@@ -1,6 +1,7 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: docker.io/storjlabs/storagenode
-  tag: 6f87ea801-v1.71.2-go1.18.8@sha256:ca755aa0de7f30f5451826a564ea4d633d236724e2626c3939fcdba367d362e5
+  tag: latest@sha256:c7ac8eaae9f072f0f32b77d1437968191ed277b7095d33211a72e1ca598f04bb
   pullPolicy: IfNotPresent
 service:
   main:
@@ -31,9 +32,7 @@ persistence:
   storage:
     enabled: true
     mountPath: "/app/config"
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     runAsNonRoot: false

@@ -1,14 +1,13 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: lscr.io/linuxserver/kdenlive
-  tag: latest@sha256:f617fba5df7296fa36d58439c3f0eeeca3bcd73fca8905c99ccc347797a9ed05
+  tag: latest@sha256:c4f138a04c6335d92cc90441b765da6fda57c16ddb8fded3681bc58ecfe30be7
 persistence:
   config:
     enabled: true
     mountPath: /config
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: ghcr.io/autobrr/autobrr
   pullPolicy: IfNotPresent
-  tag: v1.56.1@sha256:ece84c7032c2afef04b145be8f99e6a1e46971dece62328541ac36990b5270f4
+  tag: v1.90.0@sha256:72bb5fe5e8c73f85660f92502d9015b21b07156495f039b55864633b9f8b7a89
 
 service:
   main:
@@ -38,7 +39,3 @@ persistence:
     mountPath: /config/config.toml
     subPath: config.toml
     readOnly: true
-
-portal:
-  open:
-    enabled: true

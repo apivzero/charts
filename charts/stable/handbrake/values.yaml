@@ -1,6 +1,7 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
-  repository: docker.io/jlesage/handbrake
-  tag: v24.12.1@sha256:aa9786d715b0957f6960fad2e98f4781d934f71b18621cc116072db56e49b8aa
+  repository: ghcr.io/jlesage/handbrake
+  tag: v26.09.1@sha256:6f3a121e235d34e7299080e8cbac5284060e942fb2b137f777e2521fb7af65ae
   pullPolicy: IfNotPresent
 service:
   main:
@@ -25,6 +26,7 @@ handbrake:
   AUTOMATED_CONVERSION_FORMAT: "mp4"
   AUTOMATED_CONVERSION_KEEP_SOURCE: true
   AUTOMATED_CONVERSION_NON_VIDEO_FILE_ACTION: "ignore"
+  DARK_MODE: false
 configmap:
   handbrake:
     enabled: true
@@ -38,6 +40,7 @@ configmap:
       AUTOMATED_CONVERSION_PRESET: "{{ .Values.handbrake.AUTOMATED_CONVERSION_PRESET }}"
       AUTOMATED_CONVERSION_FORMAT: "{{ .Values.handbrake.AUTOMATED_CONVERSION_FORMAT }}"
       AUTOMATED_CONVERSION_NON_VIDEO_FILE_ACTION: "{{ .Values.handbrake.AUTOMATED_CONVERSION_NON_VIDEO_FILE_ACTION }}"
+      DARK_MODE: '{{ ternary "1" "0" .Values.handbrake.DARK_MODE }}'
 persistence:
   config:
     enabled: true
@@ -48,9 +51,9 @@ persistence:
   output:
     enabled: true
     mountPath: "/output"
-portal:
-  open:
-    enabled: true
+  varrun:
+    enabled: false
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

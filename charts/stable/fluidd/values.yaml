@@ -1,6 +1,7 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: ghcr.io/fluidd-core/fluidd
-  tag: v1.31.4@sha256:bf9a73fc3e3c64e8b3d39d5af5ef0d8b5ea55e39cff9c1dfd546ae28d4791251
+  tag: v1.38.1@sha256:09fde7bbec2d0016c2ad3270a715b632ddd0ef91d6898ed282ea0a9055aaec6c
   pullPolicy: IfNotPresent
 securityContext:
   container:
@@ -30,6 +31,3 @@ service:
       main:
         port: 10224
         targetPort: 80
-portal:
-  open:
-    enabled: true

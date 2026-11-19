@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
-  repository: docker.io/shaarli/shaarli
-  tag: v0.14.0
+  repository: ghcr.io/shaarli/shaarli
+  tag: v0.16.10@sha256:48a1a8962c58c74c5c36d4927a7c2dcb5bf191a93b83dc480d9827f383ada903
 persistence:
   cache:
     enabled: true
@@ -9,9 +10,7 @@ persistence:
   data:
     enabled: true
     mountPath: /var/www/shaarli/data
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

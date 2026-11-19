@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: ghcr.io/ich777/steamcmd
@@ -12,9 +13,7 @@ persistence:
   token:
     enabled: true
     mountPath: /serverdata/.klei/DoNotStarveTogether
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

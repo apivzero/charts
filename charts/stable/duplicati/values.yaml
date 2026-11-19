@@ -1,6 +1,7 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
-  repository: docker.io/duplicati/duplicati
-  tag: latest@sha256:97b8ef7bcaa095793ef9f39049851f987860a8c832aaf67ef977ff398f9e996e
+  repository: oci.trueforge.org/containerforge/duplicati
+  tag: 2.4.1@sha256:3ba3a0d04bce2ca04d8a6abcdd3c6bb80e08b4c0fb246f084475e9ef7e5bb4a7
   pullPolicy: IfNotPresent
 service:
   main:
@@ -23,11 +24,13 @@ workload:
             startup:
               type: http
               path: /
-          env: {}
+          env:
+            DUPLICATI__WEBSERVICE_PASSWORD: "SuperSecretPassword"
+            SETTINGS_ENCRYPTION_KEY: "real_encryption_key"
+            DUPLICATI__ALLOW_INSECURE_DATAFOLDER: true
+            # DOTNET_SYSTEM_IO_DISABLEFILELOCKING: true
+
 persistence:
   config:
     enabled: true
     mountPath: /data
-portal:
-  open:
-    enabled: true

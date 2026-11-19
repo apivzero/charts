@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
-  repository: ghcr.io/linuxserver/foldingathome
+  repository: oci.trueforge.org/containerforge/foldingathome
   pullPolicy: IfNotPresent
-  tag: 8.3.18@sha256:a11530655be018bc43c9f973bce2a59344f2d140a9e5c843305f765299a5d141
+  tag: "8.4.9@sha256:ab4f90f5b25adbbc2ea65b84495c7133bd229f6ecb5a0424be2342a0308c2040"
 securityContext:
   container:
     runAsNonRoot: false
@@ -42,7 +43,4 @@ persistence:
     enabled: true
     mountPath: /config
   varrun:
-    enabled: true
-portal:
-  open:
     enabled: true

@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: docker.io/tiltedphoques/st-reborn-server
-  tag: 1.7.1@sha256:d3f7b943add65fd392f6fabe9a5a11ce214342ec4d17f3f65638beffed7513c5
+  tag: 1.8.4@sha256:de3f43830bdbd1dc77bba042cae6e975ea751288643936c37d3b45bfd277c273
 persistence:
   config:
     enabled: true
@@ -12,9 +13,7 @@ persistence:
   logs:
     enabled: true
     mountPath: /home/server/logs
-portal:
-  open:
-    enabled: false
+
 service:
   main:
     ports:

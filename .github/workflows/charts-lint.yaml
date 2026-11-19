@@ -23,13 +23,13 @@ jobs:
     steps:
       - name: Checkout [master]
         if: inputs.chartChangesDetected == 'true'
-        uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 # v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           fetch-depth: 1
           ref: master
 
       - name: Checkout [commit]
-        uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 # v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           fetch-depth: 1
           ref: ${{ inputs.checkoutCommit }}
@@ -53,9 +53,26 @@ jobs:
 
       - name: Install Helm
         if: inputs.chartChangesDetected == 'true'
-        uses: azure/setup-helm@fe7b79cd5ee1e45176fcad797de68ecaf3ca4814 # v4
+        uses: azure/setup-helm@2f5e7bc67f1f9972ab16657bb795f36d8f04de0e # v5
         with:
-          version: v3.14.2
+          version: v4.3.2
+
+      - name: Install ./forgetool
+        shell: bash
+        run: |
+          VERSION="3.0.2"
+          FILENAME="forgetool_${VERSION}_linux_amd64.tar.gz"
+          URL="https://github.com/trueforge-org/forgetool/releases/download/v${VERSION}/${FILENAME}"
+
+          mkdir -p temp
+          cd temp
+          # Download the archive
+          curl -L -o "$FILENAME" "$URL"
+
+          # Extract the archive
+          tar -xzf "$FILENAME"
+
+          cd ..
 
       - name: Prep Helm
         if: inputs.chartChangesDetected == 'true'
@@ -105,7 +122,7 @@ jobs:
           charts_path: "./"
         run: |
           CHANGED=$(echo '${{ steps.list-changed.outputs.CHANGED_CHARTS }}' | jq --raw-output '.[]')
-          ./charttool deps ${CHANGED}
+          ./temp/forgetool charts deps ${CHANGED}
 
       - name: Run Chart Linting
         continue-on-error: true

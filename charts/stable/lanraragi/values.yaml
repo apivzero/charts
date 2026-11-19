@@ -1,6 +1,7 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: docker.io/difegue/lanraragi
-  tag: v.0.9.21@sha256:0fec3422dc32bb8f8d05b859d85e6ea1fec16b29360eaf42c61aef0152dd1d25
+  tag: v.0.9.41@sha256:67725ebbd11dc8c73ed073eefdd3aafd2d6b0675a1f867850b8a7f8fb9f39bea
   pullPolicy: IfNotPresent
 service:
   main:
@@ -15,9 +16,7 @@ persistence:
   content:
     enabled: true
     mountPath: "/home/koyomi/lanraragi/content"
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
-  repository: docker.io/itzg/mc-router
+  repository: ghcr.io/itzg/mc-router
   pullPolicy: IfNotPresent
-  tag: 1.25.0@sha256:c471cb6883fe61dfb04b023b60c19f11946e77a907b8c00b4bc049329eed1653
+  tag: 1.56.5@sha256:e2f002006d617b2df898c9beec963baa212c685aae1df83de5a13ebf5b5966c9
 service:
   main:
     ports:
@@ -14,11 +15,13 @@ service:
         enabled: true
         port: 25564
 
+# manual option
 mcrouter:
-  default: vanilla:25565
-  mappings:
-    - vanilla:25565
-    - forge:25565
+  # vanilla:25565
+  default: ""
+  mappings: []
+    # - vanilla:25565
+    # - forge:25565
 
 workload:
   main:
@@ -27,20 +30,47 @@ workload:
         main:
           probes:
             liveness:
-              enabled: true
-              type: tcp
+              port: "{{ .Values.service.api.ports.api.port }}"
+              path: /routes
+              httpHeaders:
+                Accept: application/json
             readiness:
-              enabled: true
-              type: tcp
+              port: "{{ .Values.service.api.ports.api.port }}"
+              path: /routes
+              httpHeaders:
+                Accept: application/json
             startup:
-              enabled: true
-              type: tcp
+              port: "{{ .Values.service.api.ports.api.port }}"
+              path: /routes
+              httpHeaders:
+                Accept: application/json
           env:
             API_BINDING: ":{{ .Values.service.api.ports.api.port }}"
             PORT: "{{ .Values.service.main.ports.main.port }}"
+            # enabled for auto discovery to work
+            IN_KUBE_CLUSTER: true
+            # leave blank for all namespaces
+            # KUBE_NAMESPACE: ""
             DEFAULT: "{{ .Values.mcrouter.default }}"
             MAPPING: '{{ join "," .Values.mcrouter.mappings }}'
 
-portal:
-  open:
-    enabled: false
+rbac:
+  main:
+    enabled: true
+    primary: true
+    clusterWide: true
+    rules:
+      - apiGroups: [""]
+        resources:
+          - "services"
+        verbs:
+          - "list"
+          - "watch"
+
+serviceAccount:
+  main:
+    enabled: true
+    primary: true
+
+podOptions:
+  automountServiceAccountToken: true

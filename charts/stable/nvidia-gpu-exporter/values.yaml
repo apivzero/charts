@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
-  repository: docker.io/utkuozdemir/nvidia_gpu_exporter
+  repository: ghcr.io/utkuozdemir/nvidia_gpu_exporter
   pullPolicy: IfNotPresent
-  tag: 1.2.1@sha256:50e9be96ce3f67a75d7fd3834f2372d295c3dfcf044a36c9235e19ea7f008e58
+  tag: 1.19.0@sha256:4b18ec4390279d90c8f40e952ba1d575f7df1691f29bb5be79843238483b35f5
 securityContext:
   container:
     privileged: true
@@ -79,9 +80,7 @@ metrics:
     endpoints:
       - port: main
         path: "{{ .Values.metricsEndpoint }}"
-portal:
-  open:
-    enabled: false
+
 metricsEndpoint: "/metrics"
 logs:
   general:

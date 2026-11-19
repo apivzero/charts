@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: docker.io/captinsano/tonido
@@ -6,9 +7,7 @@ persistence:
   tonido:
     enabled: true
     mountPath: /unRAID
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

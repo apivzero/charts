@@ -1,15 +1,14 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
-  repository: docker.io/xavierh/goaccess-for-nginxproxymanager
-  tag: latest@sha256:af30b1ea71c87db97a169eba508697c9735e37562aaa85572b41a306d843d8de
+  repository: ghcr.io/xavier-hernandez/goaccess-for-nginxproxymanager
+  tag: latest@sha256:a306dab0ed63d5bedd991d374cb5e3f37b518da708f5fef547665dfd46e02e2f
 persistence:
   hostpath1:
     enabled: true
     mountPath: /opt/log
     readOnly: true
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

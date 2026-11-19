@@ -1,6 +1,7 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: ghcr.io/ellite/wallos
-  tag: 2.42.2@sha256:20a05291f8b470eb13efa645fe4a42221b89b119fb4b9f81f6ef8efb79914b85
+  tag: 5.11.2@sha256:de82c41215a761d33a38a3672526b3ce47d0fe7acb84f5c2a4cb2342c710cf4c
   pullPolicy: IfNotPresent
 
 securityContext:
@@ -25,7 +26,3 @@ persistence:
   logos:
     enabled: true
     mountPath: "/var/www/html/images/uploads/logos"
-
-portal:
-  open:
-    enabled: true

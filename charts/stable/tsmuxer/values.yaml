@@ -1,6 +1,7 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
-  repository: docker.io/jlesage/tsmuxer
-  tag: v24.12.1@sha256:4deb8cef7705dacc56ebb77ecefcaf8d1ec83b1839a60b12c1b75d5c6d4e9bf2
+  repository: ghcr.io/jlesage/tsmuxer
+  tag: v26.09.1@sha256:44c691ee32244ac8b68da5185efa034dbbd68122c0177c0d7efd6e968f83fb56
   pullPolicy: IfNotPresent
 service:
   main:
@@ -37,9 +38,7 @@ persistence:
   storage:
     enabled: true
     mountPath: "/storage"
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

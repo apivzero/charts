@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: docker.io/ipfs/kubo
   pullPolicy: IfNotPresent
-  tag: v0.32.1@sha256:7cc0e0de8f845d6c9fa1dce414c069974c34ed3cd3742e0d4f5bccda4adc376d
+  tag: v0.43.1@sha256:b293923d66e490e70ced64df42ea7a6cf7eac2740e3fb29101df18070fa7be48
 service:
   main:
     ports:
@@ -44,9 +45,7 @@ persistence:
   ipns:
     enabled: true
     mountPath: "/ipns"
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     runAsNonRoot: false

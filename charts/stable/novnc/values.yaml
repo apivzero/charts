@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: ghcr.io/nicholaswilde/novnc
   pullPolicy: IfNotPresent
@@ -11,9 +12,7 @@ service:
 persistence:
   varrun:
     enabled: true
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

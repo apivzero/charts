@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: docker.io/wabayang/jelu
-  tag: latest@sha256:47b54adff06787682cfeabe57430991d74e97eace8c8005b72788c54734726a8
+  tag: latest@sha256:5b381c6e66df043e53215da8722576ab2a22ac01ecebd607b6541290df97f7aa
 persistence:
   config:
     enabled: true
@@ -15,9 +16,7 @@ persistence:
   importspath:
     enabled: true
     mountPath: /files/imports
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

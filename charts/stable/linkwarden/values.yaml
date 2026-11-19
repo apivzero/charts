@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: ghcr.io/linkwarden/linkwarden
   pullPolicy: IfNotPresent
-  tag: v2.8.4@sha256:b7e31a5ae09756bdeaeb2d3c05847059d9b0c6dec013cc5ba45b5f3063c6c1a0
+  tag: v2.17.0@sha256:7c11fde57d1a0c819b6de0079966eba3a33584d718464af7dacde22bd470ae46
 
 config:
   nextauth_url: "http://example.com"
@@ -54,7 +55,3 @@ cnpg:
     enabled: true
     database: linkwarden
     user: linkwarden
-
-portal:
-  open:
-    enabled: true

@@ -9,8 +9,12 @@ tests:
     set:
       credentials:
         test:
-          type: azure
-          connectionString: some-connection-string
+          type: s3
+          url: http://some-url
+          bucket: some-bucket
+          encrKey: some-encr-key
+          accessKey: some-access-key
+          secretKey: some-secret-key
       cnpg:
         my-pg:
           enabled: true
@@ -18,7 +22,7 @@ tests:
             enabled: true
             credentials: test
             manualBackups:
-              - name:
+              - name: ""
     asserts:
       - failedTemplate:
           errorMessage: CNPG Backup - Expected non-empty [name] in [backups.manualBackups] entry
@@ -27,8 +31,12 @@ tests:
     set:
       credentials:
         test:
-          type: azure
-          connectionString: some-connection-string
+          type: s3
+          url: http://some-url
+          bucket: some-bucket
+          encrKey: some-encr-key
+          accessKey: some-access-key
+          secretKey: some-secret-key
       cnpg:
         my-pg:
           enabled: true
@@ -65,3 +73,43 @@ tests:
     asserts:
       - failedTemplate:
           errorMessage: CNPG Backup - Expected [url] in [credentials.test] to start with [http://] or [https://]. It was observed that sometimes can cause issues if it does not. Got [some-url]
+
+  - it: should fail with both customCA and customCASecretRef specified in s3 credentials
+    set:
+      secret:
+        my-secret:
+          enabled: true
+          data:
+            my-key: |-
+              -----BEGIN CERTIFICATE-----
+              ...
+              -----END CERTIFICATE-----
+      credentials:
+        test:
+          type: s3
+          url: https://valid-url.com
+          bucket: some-bucket
+          encrKey: some-encr-key
+          accessKey: some-access-key
+          secretKey: some-secret-key
+          customCA: |-
+            -----BEGIN CERTIFICATE-----
+            ...
+            -----END CERTIFICATE-----
+          customCASecretRef:
+            name: my-secret
+            key: my-key
+      cnpg:
+        my-pg:
+          enabled: true
+          user: test-user
+          database: test-db
+          password: test-password
+          backups:
+            enabled: true
+            credentials: test
+            manualBackups:
+              - name: today
+    asserts:
+      - failedTemplate:
+          errorMessage: CNPG Backup - Both [customCA] and [customCASecretRef] defined in [credentials.test]. Choose one

@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: docker.io/fardjad/tagspaces-lite-web
   pullPolicy: IfNotPresent
@@ -27,6 +28,3 @@ persistence:
     enabled: true
     type: emptyDir
     mountPath: "/var/cache/nginx"
-portal:
-  open:
-    enabled: true

@@ -1,6 +1,7 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: ghcr.io/tasmoadmin/tasmoadmin
-  tag: v4.2.1@sha256:f3e64d6e180ff39a2e1c6ca4e16976fd71d0558c972e8e549d01245ce6e2aa66
+  tag: v5.0.0@sha256:459df5a79b7d4fbef52dc5aa04884ad917bcd6d94e359dfc5c6fd69205c2f471
   pullPolicy: IfNotPresent
 
 securityContext:
@@ -30,7 +31,3 @@ persistence:
   data:
     enabled: true
     mountPath: /data
-
-portal:
-  open:
-    enabled: true

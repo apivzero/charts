@@ -1,14 +1,13 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: docker.io/hexxa/quickshare
-  tag: latest@sha256:7b572a81af1094d22e63b57fec0bcc78f5ba75dfa7f13d8adc6f774fb4788cc1
+  tag: latest@sha256:a47e01e8c3d25ce28b561452c9fee0bbecee4253e59846ad6430ce12ec09d26e
 persistence:
   storagedata:
     enabled: true
     mountPath: /quickshare/root
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

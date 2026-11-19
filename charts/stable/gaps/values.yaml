@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: docker.io/housewrecker/gaps
   pullPolicy: IfNotPresent
@@ -12,9 +13,7 @@ persistence:
   data:
     enabled: true
     mountPath: "/usr/data"
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

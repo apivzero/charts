@@ -1,16 +1,19 @@
 annotations:
-  max_scale_version: 24.04.1
-  min_scale_version: 24.04.0
-  truecharts.org/category: metrics
-  truecharts.org/max_helm_version: "3.15"
-  truecharts.org/min_helm_version: "3.11"
+  artifacthub.io/links: |-
+    - name: support
+    url: https://discord.com/invite/tVsPTHWTtr
   truecharts.org/train: stable
+  trueforge.org/category: metrics
+  trueforge.org/max_helm_version: "4.1"
+  trueforge.org/max_kubernetes_version: 1.35.0
+  trueforge.org/min_helm_version: "3.14"
+  trueforge.org/train: stable
 apiVersion: v2
-appVersion: 1.2.1
+appVersion: 1.19.0
 dependencies:
   - name: common
-    version: 25.3.1
-    repository: oci://tccr.io/truecharts
+    version: 30.4.5
+    repository: oci://oci.trueforge.org/truecharts
     condition: ""
     alias: ""
     tags: []
@@ -23,15 +26,16 @@ keywords:
   - prometheus
   - nvidia-gpu-exporter
   - monitoring
-kubeVersion: '>=1.24.0-0'
+kubeVersion: '>=1.33.0-0'
 maintainers:
   - name: TrueCharts
     email: info@truecharts.org
     url: https://truecharts.org
 name: nvidia-gpu-exporter
 sources:
-  - https://github.com/truecharts/charts/tree/master/charts/stable/nvidia-gpu-exporter
+  - https://ghcr.io/utkuozdemir/nvidia_gpu_exporter
+  - https://github.com/trueforge-org/truecharts/tree/master/charts/stable/nvidia-gpu-exporter
   - https://github.com/utkuozdemir/nvidia_gpu_exporter
-  - https://hub.docker.com/r/utkuozdemir/nvidia_gpu_exporter
 type: application
-version: 4.4.0
+version: 7.5.0
+

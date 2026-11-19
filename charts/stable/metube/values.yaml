@@ -1,6 +1,7 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
-  repository: docker.io/alexta69/metube
-  tag: 2024-10-08@sha256:5d92ae08e18cbc683ec82a01d98a25966a78aeb1209e77f3c84c83534da1264d
+  repository: ghcr.io/alexta69/metube
+  tag: 2026.11.14@sha256:55ce41ab9a78069dc42bd808b20a96aeef4199560a02698a2205ea8a2bc4fef1
   pullPolicy: IfNotPresent
 service:
   main:
@@ -15,9 +16,7 @@ persistence:
   downloads:
     enabled: true
     mountPath: /downloads
-portal:
-  open:
-    enabled: true
+
 workload:
   main:
     podSpec:

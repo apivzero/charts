@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: docker.io/deepquestai/deepstack
   pullPolicy: IfNotPresent
@@ -67,7 +68,5 @@ persistence:
   modelstore:
     enabled: true
     mountPath: /modelstore/detection
-portal:
-  open:
-    enabled: true
+
 updated: true

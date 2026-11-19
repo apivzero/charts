@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: ghcr.io/nicholaswilde/twtxt
   pullPolicy: IfNotPresent
@@ -17,9 +18,7 @@ persistence:
     mountPath: "/data"
   varrun:
     enabled: true
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

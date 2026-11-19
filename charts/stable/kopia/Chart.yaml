@@ -1,16 +1,19 @@
 annotations:
-  max_scale_version: 24.04.1
-  min_scale_version: 24.04.0
-  truecharts.org/category: utility
-  truecharts.org/max_helm_version: "3.15"
-  truecharts.org/min_helm_version: "3.11"
+  artifacthub.io/links: |-
+    - name: support
+    url: https://discord.com/invite/tVsPTHWTtr
   truecharts.org/train: stable
+  trueforge.org/category: utility
+  trueforge.org/max_helm_version: "4.1"
+  trueforge.org/max_kubernetes_version: 1.35.0
+  trueforge.org/min_helm_version: "3.14"
+  trueforge.org/train: stable
 apiVersion: v2
-appVersion: 0.18.2
+appVersion: 0.23.1
 dependencies:
   - name: common
-    version: 25.3.1
-    repository: oci://tccr.io/truecharts
+    version: 30.4.5
+    repository: oci://oci.trueforge.org/truecharts
     condition: ""
     alias: ""
     tags: []
@@ -21,7 +24,7 @@ home: https://truecharts.org/charts/stable/kopia
 icon: https://truecharts.org/img/hotlink-ok/chart-icons/kopia.webp
 keywords:
   - backup
-kubeVersion: '>=1.24.0-0'
+kubeVersion: '>=1.33.0-0'
 maintainers:
   - name: TrueCharts
     email: info@truecharts.org
@@ -29,8 +32,9 @@ maintainers:
 name: kopia
 sources:
   - https://github.com/kopia/kopia
-  - https://github.com/truecharts/charts/tree/master/charts/stable/kopia
-  - https://hub.docker.com/r/kopia/kopia
+  - https://github.com/trueforge-org/containers/tree/main/apps/kopia
+  - https://github.com/trueforge-org/truecharts/tree/master/charts/stable/kopia
   - https://kopia.io/docs/installation/#docker-images
 type: application
-version: 13.5.0
+version: 29.1.8
+

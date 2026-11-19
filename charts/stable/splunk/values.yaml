@@ -1,20 +1,14 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: docker.io/splunk/splunk
-  tag: 9.4.0@sha256:3b725dfd03691f75d453515d96a5987ebf3cd5e0776e5621f6ed4a10b3c0d49c
-
+  tag: 10.6.1@sha256:2a7cf9d2e8a2226773a9fac95b5e0e2cc8752496abfb134a21bdf8f67c9ee44d
 securityContext:
   container:
     runAsNonRoot: false
     readOnlyRootFilesystem: false
     runAsUser: 0
     runAsGroup: 0
-
-splunk:
-  acceptLicense: true
-  password: changeme
-  extraArgs: []
-
 service:
   dataingest:
     enabled: true
@@ -51,10 +45,9 @@ workload:
     podSpec:
       containers:
         main:
-          envFrom:
-            - secretRef:
-                name: "secret"
-
+          env:
+            SPLUNK_START_ARGS: --accept-license
+            SPLUNK_PASSWORD: changeme
 persistence:
   appcreds:
     enabled: true
@@ -65,7 +58,3 @@ persistence:
   data:
     enabled: true
     mountPath: /splunkdata
-
-portal:
-  open:
-    enabled: true

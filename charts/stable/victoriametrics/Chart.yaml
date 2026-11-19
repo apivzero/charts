@@ -1,0 +1,41 @@
+annotations:
+  artifacthub.io/links: |-
+    - name: support
+    url: https://discord.com/invite/tVsPTHWTtr
+  truecharts.org/train: stable
+  trueforge.org/category: database
+  trueforge.org/max_helm_version: "4.1"
+  trueforge.org/max_kubernetes_version: 1.35.0
+  trueforge.org/min_helm_version: "3.14"
+  trueforge.org/train: stable
+apiVersion: v2
+appVersion: 1.156.0
+dependencies:
+  - name: common
+    version: 30.4.5
+    repository: oci://oci.trueforge.org/truecharts
+    condition: ""
+    alias: ""
+    tags: []
+    import-values: []
+deprecated: false
+description: Fast, cost-effective monitoring solution and time series database
+home: https://truecharts.org/charts/stable/victoriametrics
+icon: https://truecharts.org/img/hotlink-ok/chart-icons/victoriametrics.webp
+keywords:
+  - victoriametrics
+  - database
+  - metrics
+kubeVersion: '>=1.33.0-0'
+maintainers:
+  - name: TrueCharts
+    email: info@truecharts.org
+    url: https://truecharts.org
+name: victoriametrics
+sources:
+  - https://github.com/VictoriaMetrics/VictoriaMetrics/tree/master
+  - https://github.com/trueforge-org/truecharts/tree/master/charts/stable/victoriametrics
+  - https://hub.docker.com/r/victoriametrics/victoria-metrics
+type: application
+version: 6.4.0
+

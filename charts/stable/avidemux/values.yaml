@@ -1,6 +1,7 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
-  repository: docker.io/jlesage/avidemux
-  tag: v24.12.1@sha256:83b9c26705619864ebee6ba28f611187504874cd9bc985e70f86202b2e7b2a98
+  repository: ghcr.io/jlesage/avidemux
+  tag: v26.09.1@sha256:1031e94ad4b27f9dc9e50a4c5c48608574248a2045b772ecb5417ac5d70464f0
   pullPolicy: IfNotPresent
 securityContext:
   container:
@@ -60,6 +61,5 @@ persistence:
   storage:
     enabled: true
     mountPath: /storage
-portal:
-  open:
-    enabled: true
+  varrun:
+    enabled: false

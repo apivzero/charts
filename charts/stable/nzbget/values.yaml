@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
-  repository: ghcr.io/elfhosted/nzbget
+  repository: oci.trueforge.org/containerforge/nzbget
   pullPolicy: IfNotPresent
-  tag: 24.5@sha256:8861eae1bdf7b5be8986dcfb75b793948652d3a63c5b0d355a88a99519027dca
+  tag: "26.3.0@sha256:4bdb811a6f3ac0fe57a04072bb0f737a454fee4ba5f22d4d96e1caf43eeebc87"
 service:
   main:
     ports:
@@ -12,9 +13,7 @@ persistence:
   config:
     enabled: true
     mountPath: "/config"
-portal:
-  open:
-    enabled: true
+
 workload:
   main:
     podSpec:

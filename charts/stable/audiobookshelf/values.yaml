@@ -1,6 +1,7 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
-  repository: docker.io/advplyr/audiobookshelf
-  tag: 2.17.5@sha256:aa88c9f4652872a2a72043511a87d17ec743b60f53e8024e9868ebec5aae59bd
+  repository: ghcr.io/advplyr/audiobookshelf
+  tag: 2.38.0@sha256:60064c23f32fd9099fd39e82c5132c51701d1221135bbca04cd099b589e1edc3
   pullPolicy: IfNotPresent
 securityContext:
   container:
@@ -43,6 +44,11 @@ persistence:
   metadata:
     enabled: true
     mountPath: /metadata
-portal:
-  open:
-    enabled: true
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 750Mi
+  requests:
+    cpu: 50m
+    memory: 125Mi

@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
-  repository: ghcr.io/linuxserver/lazylibrarian
+  repository: oci.trueforge.org/containerforge/lazylibrarian
   pullPolicy: IfNotPresent
-  tag: latest@sha256:b4f4660f3adc3b5e76fec4e55f2b6c79dd4d38802633d89733aad48831c6cb2b
+  tag: 7.0.0@sha256:ebfa2a256f99f519ab5d7bd526fd429c35dd72828cc951c4b586d10d3a0bee97
 service:
   main:
     ports:
@@ -14,9 +15,7 @@ persistence:
     mountPath: "/config"
   varrun:
     enabled: true
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     runAsNonRoot: false

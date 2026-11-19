@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: teamspeak
-  tag: 3.13.7@sha256:ddbeb29446ca423498692bd9f3ae67ff109121f80a95c7d405b1083c02c80087
+  tag: 3.13.9@sha256:88335936d0969ffb7182c292f72319167db3722770a8db0c175b4e6fb8bc03ad
 persistence:
   data:
     enabled: true
@@ -9,9 +10,7 @@ persistence:
   config:
     enabled: true
     mountPath: /var/run/ts3server
-portal:
-  open:
-    enabled: false
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

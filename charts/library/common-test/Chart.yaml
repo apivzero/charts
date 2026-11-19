@@ -1,13 +1,18 @@
 annotations:
-  truecharts.org/category: unsorted
-  truecharts.org/max_helm_version: "3.15"
-  truecharts.org/min_helm_version: "3.11"
+  artifacthub.io/links: |-
+    - name: support
+    url: https://discord.com/invite/tVsPTHWTtr
   truecharts.org/train: library
+  trueforge.org/category: unsorted
+  trueforge.org/max_helm_version: "4.1"
+  trueforge.org/max_kubernetes_version: 1.35.0
+  trueforge.org/min_helm_version: "3.14"
+  trueforge.org/train: library
 apiVersion: v2
 appVersion: unknown
 dependencies:
   - name: common
-    version: ~25.4.0
+    version: '*'
     repository: file://../common/
     condition: ""
     alias: ""
@@ -22,13 +27,15 @@ keywords:
   - truecharts
   - common
   - test
-kubeVersion: '>=1.24.0-0'
+kubeVersion: '>=1.33.0-0'
 maintainers:
   - name: TrueCharts
     email: info@truecharts.org
     url: https://truecharts.org
 name: common-test
 sources:
-  - https://github.com/truecharts/charts/tree/master/charts/library/common-test
+  - https://github.com/trueforge-org/containers/tree/main/apps/ubuntu
+  - https://github.com/trueforge-org/truecharts/tree/master/charts/library/common-test
 type: application
 version: 1.0.0
+

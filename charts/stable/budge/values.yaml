@@ -1,6 +1,7 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: ghcr.io/linuxserver/budge
-  tag: 0.0.9@sha256:9cb7020bbc0a7b64178245898b4deb72e7b17ff3eb30de339826750bce9e5ac4
+  tag: 0.0.9@sha256:efc0a9f474c380a1a141979bcd46c97c9e0435a94f60688d3b37bd85f4b732d3
   pullPolicy: IfNotPresent
 securityContext:
   container:
@@ -26,6 +27,3 @@ persistence:
   config:
     enabled: true
     mountPath: /config
-portal:
-  open:
-    enabled: true

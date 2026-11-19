@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: docker.io/boredazfcuk/icloudpd
@@ -133,7 +134,3 @@ persistence:
   data:
     enabled: true
     mountPath: /home/apps/iCloud
-
-portal:
-  open:
-    enabled: false

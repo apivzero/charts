@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: docker.io/alturismo/guide2go
@@ -12,9 +13,7 @@ persistence:
   tvh:
     enabled: true
     mountPath: /TVH
-portal:
-  open:
-    enabled: false
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

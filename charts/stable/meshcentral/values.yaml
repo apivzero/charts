@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: ghcr.io/ylianst/meshcentral
   pullPolicy: IfNotPresent
-  tag: 1.1.35@sha256:171c9b6e5ef8df7dfa2dcfc5d9a1a24b2eade0bce7f73ae1926c3a15855359d0
+  tag: 1.3.1@sha256:266b01942545829f11d53e6cecd5c2e48033d9edb48bbd3a9a569482ff1d050d
 workload:
   main:
     podSpec:
@@ -969,7 +970,6 @@ service:
 cnpg:
   main:
     enabled: true
-    username: meshcentral
     database: meshcentral
 persistence:
   data:
@@ -996,6 +996,3 @@ persistence:
     objectName: mesh-secret
     mountPath: /opt/meshcentral/meshcentral-data/config.json
     subPath: config.json
-portal:
-  open:
-    enabled: true

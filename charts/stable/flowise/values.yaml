@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: docker.io/flowiseai/flowise
   pullPolicy: IfNotPresent
-  tag: 2.2.3@sha256:bd99a55d707cc9640930ffe75f5c96b42b19b7fb69abce94ad9f367c395dd601
+  tag: 3.1.4@sha256:3922767afb52a5777759fd8b28a3c9eee864daea96018a791f2429eae2a76571
 securityContext:
   container:
     runAsNonRoot: false
@@ -81,6 +82,3 @@ cnpg:
     enabled: true
     user: flowise
     database: flowise
-portal:
-  open:
-    enabled: true

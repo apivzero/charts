@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: docker.io/ipsingh06/seedsync
@@ -21,6 +22,3 @@ persistence:
   downloads:
     enabled: true
     mountPath: /downloads
-portal:
-  open:
-    enabled: true

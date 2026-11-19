@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: docker.io/thomst08/requestrr
   pullPolicy: IfNotPresent
-  tag: v2.1.7@sha256:6de400daa5c78d3e79188ff7ebb50df8e8ed15b781f3145a07ecb46b41b12380
+  tag: v2.1.10@sha256:4e0b3f9d770d166043ea8d064cd57869548153b954ee19919b50e823eb78c817
 
 securityContext:
   container:
@@ -22,8 +23,4 @@ persistence:
     enabled: true
     mountPath: "/root/config"
   varrun:
-    enabled: true
-
-portal:
-  open:
     enabled: true

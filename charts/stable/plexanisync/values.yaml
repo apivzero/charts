@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: ghcr.io/rickdb/plexanisync
   pullPolicy: IfNotPresent
-  tag: 1.4.1@sha256:e7ca8590b8065f424695179c494c97fbef3aed6155a7d9d6e57f7d152f26b297
+  tag: 1.4.4@sha256:c42034ced809b3a2a9b74139b1a3f5dade31af4d18a413b6f49da37b55ab9f18
 securityContext:
   container:
     runAsNonRoot: false
@@ -74,6 +75,3 @@ persistence:
     objectName: secret
     mountPath: /plexanisync/settings.ini
     subPath: settings.ini
-portal:
-  open:
-    enabled: false

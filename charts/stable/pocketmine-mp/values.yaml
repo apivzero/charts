@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: ghcr.io/pmmp/pocketmine-mp
   pullPolicy: IfNotPresent
-  tag: 5.23.2@sha256:a600c285ad7333ccb80a1fd3ba61e4ea913d7da970750f725cdc403f3faf75cd
+  tag: 5.44.3@sha256:58bc978b4ef951025d6fb03f5d95af118bb327b9fcb0438eb172c0bb2612ebb7
 
 securityContext:
   container:
@@ -45,7 +46,3 @@ persistence:
   plugins:
     enabled: true
     mountPath: "/plugins"
-
-portal:
-  open:
-    enabled: false

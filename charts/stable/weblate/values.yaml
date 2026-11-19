@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: docker.io/weblate/weblate
   tag: 4.16.4-1@sha256:6614e1ad2a02e871c812b536b32ce8d91cf01582b1e6888ddee81d75958585e0
@@ -193,14 +194,19 @@ cnpg:
     enabled: true
     user: weblate
     database: weblate
-portal:
-  open:
-    enabled: true
+resources:
+  limits:
+    cpu: 2000m
+    memory: 3000Mi
+  requests:
+    cpu: 200m
+    memory: 500Mi
 securityContext:
   container:
     readOnlyRootFilesystem: false
     runAsUser: 1000
     runAsGroup: 0
+  pod:
     fsGroup: 1000
 workload:
   main:

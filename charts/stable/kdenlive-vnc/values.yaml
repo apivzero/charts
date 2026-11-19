@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: docker.io/tessypowder/docker-kdenlive
@@ -6,9 +7,7 @@ persistence:
   content:
     enabled: true
     mountPath: /sharedContent
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

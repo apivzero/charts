@@ -1,14 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
-  repository: docker.io/kometateam/kometa
-  tag: v2.1.0@sha256:af441b1eeaa3be6a55820f16102d950d12fa52f3bb791b835a6a768385cd3a30
+  repository: oci.trueforge.org/containerforge/kometa
+  tag: 2.5.5@sha256:116f37c6450d445794f9146680e1f1fd988525bb65c27b3bb7a28e87665edba1
   pullPolicy: IfNotPresent
-
-securityContext:
-  container:
-    runAsNonRoot: false
-    readOnlyRootFilesystem: false
-    runAsUser: 0
-    runAsGroup: 0
 
 service:
   main:
@@ -63,7 +57,3 @@ persistence:
     enabled: true
     mountPath: /config
     targetSelectAll: true
-
-portal:
-  open:
-    enabled: false

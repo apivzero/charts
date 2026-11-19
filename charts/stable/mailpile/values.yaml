@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: docker.io/rroemhild/mailpile
@@ -9,9 +10,7 @@ persistence:
   path2:
     enabled: true
     mountPath: /root/.gnupg
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

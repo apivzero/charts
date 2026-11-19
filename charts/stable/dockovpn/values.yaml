@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: docker.io/alekslitvinenk/openvpn
   pullPolicy: IfNotPresent
@@ -48,6 +49,3 @@ persistence:
   config:
     enabled: true
     mountPath: "/opt/Dockovpn_data"
-portal:
-  open:
-    enabled: true

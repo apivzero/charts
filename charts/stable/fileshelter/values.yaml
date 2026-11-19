@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: docker.io/epoupon/fileshelter
-  tag: 6.2.0@sha256:4610b3a8cfec8e2350d33946670955c68c887a49159ee0cfe7bc6b068c9f75a4
+  tag: 6.4.0@sha256:6524840f2501d8e5362200c4bf4379d6f84416211d37900171d111110c77e83a
 securityContext:
   container:
     readOnlyRootFilesystem: false
@@ -17,6 +18,3 @@ persistence:
   config:
     enabled: true
     mountPath: /var/fileshelter
-portal:
-  open:
-    enabled: true

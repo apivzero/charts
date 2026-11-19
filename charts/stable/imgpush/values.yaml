@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: docker.io/hauxir/imgpush
-  tag: latest@sha256:2e390756537974ad7b01e6779a457c42f59ae8f1f7a82c61a8ed34487040f2a6
+  tag: latest@sha256:46bf9c2b4fd3be05c3d3470e0dd480399fb69a1e9631a095e25edd3de655c962
 persistence:
   storagecache:
     enabled: true
@@ -9,9 +10,7 @@ persistence:
   storageimages:
     enabled: true
     mountPath: /images
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

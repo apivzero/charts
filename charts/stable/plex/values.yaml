@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
-  repository: ghcr.io/onedr0p/plex
+  repository: oci.trueforge.org/containerforge/plex
   pullPolicy: IfNotPresent
-  tag: 1.41.3.9314-a0bfb8370@sha256:38fcbef239341db591f8ff87f20777d9a783b79f757fc42e360041d7ba78eada
+  tag: 1.43.5.11079@sha256:440c706bc18e21e14f3d9a492165d5b14f47d00b39eb5bb636f6527573178b40
 service:
   main:
     ports:
@@ -47,6 +48,10 @@ workload:
             # User Defined
             ALLOWED_NETWORKS: "172.16.0.0/12,10.0.0.0/8,192.168.0.0/16"
             PLEX_CLAIM: ""
-portal:
-  open:
-    enabled: true
+resources:
+  limits:
+    cpu: 4000m
+    memory: 8000Mi
+  requests:
+    cpu: 500m
+    memory: 1000Mi

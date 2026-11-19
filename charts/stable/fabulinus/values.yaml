@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: docker.io/tytn/fabulinus
   pullPolicy: IfNotPresent
@@ -59,7 +60,3 @@ persistence:
   models:
     enabled: true
     mountPath: "/code/models"
-
-portal:
-  open:
-    enabled: true

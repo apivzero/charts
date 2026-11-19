@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
-  repository: docker.io/cyfershepard/jellystat
+  repository: ghcr.io/cyfershepard/jellystat
   pullPolicy: IfNotPresent
-  tag: latest@sha256:c1d5766238ed71602c15656c5d3d930735d1f86781b2d5c3fec2eebf8fb9ca31
+  tag: latest@sha256:e61c759ec706da378bc8374e797da1dfd298ab30f804cefd82d192c301a888c7
 securityContext:
   container:
     runAsNonRoot: false
@@ -62,6 +63,3 @@ cnpg:
     # static name
     user: jfstat
     database: jfstat
-portal:
-  open:
-    enabled: true

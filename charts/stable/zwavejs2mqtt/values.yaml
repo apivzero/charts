@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
-  repository: docker.io/zwavejs/zwave-js-ui
+  repository: ghcr.io/zwave-js/zwave-js-ui
   pullPolicy: IfNotPresent
-  tag: 9.29.0@sha256:458e614feea64bbc422081e26e32d46f44edf5ce45f4eefab39a1efe46813ba3
+  tag: 11.27.0@sha256:0f3ad23ccf5ff2256ad8cc060ab0fc987b8f52a8427eac337f93b058fa628f35
 service:
   main:
     ports:
@@ -19,10 +20,6 @@ persistence:
   config:
     enabled: true
     mountPath: "/usr/src/app/store"
-
-portal:
-  open:
-    enabled: true
 securityContext:
   container:
     readOnlyRootFilesystem: false

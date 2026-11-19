@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: ghcr.io/linuxserver/grav
   pullPolicy: IfNotPresent
-  tag: 1.7.48@sha256:bf3edae2d6a86c2f6440346f9dbeafe316ea639c2934c96b0a3ab8bcc24a9120
+  tag: 2.2.30@sha256:e0ac373ae6e4060ec4da17a26ee02dd52c805eac08099b57c9f240a925accd36
 service:
   main:
     ports:
@@ -14,9 +15,7 @@ persistence:
     mountPath: "/config"
   varrun:
     enabled: true
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

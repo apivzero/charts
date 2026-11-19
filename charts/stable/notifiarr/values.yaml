@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
-  repository: docker.io/golift/notifiarr
+  repository: ghcr.io/notifiarr/notifiarr
   pullPolicy: IfNotPresent
-  tag: 0.8.3@sha256:7922f7d0e0336ca0e91182820c5d4b2ddc2d86083fa847c5a1088b41d5b20903
+  tag: v0.10.0@sha256:f83a85c60eebb21a446975a32d6ca4bc2f03226966d9eb8e46befdafb015f81e
 notifiarr:
   # This will be your password for your first-time login.
   # Use the username 'admin' and the API key as password to log in.
@@ -69,6 +70,3 @@ persistence:
     type: emptyDir
     mountPath: /tmpdir
     medium: Memory
-portal:
-  open:
-    enabled: true

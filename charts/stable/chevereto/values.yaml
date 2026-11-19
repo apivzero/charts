@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: ghcr.io/rodber/chevereto-free
   pullPolicy: IfNotPresent
@@ -8,6 +9,7 @@ securityContext:
     readOnlyRootFilesystem: false
     runAsUser: 0
     runAsGroup: 0
+  pod:
     fsGroup: 33
 chevereto:
   https: false
@@ -72,6 +74,3 @@ mariadb:
   enabled: true
   mariadbUsername: chevereto
   mariadbDatabase: chevereto
-portal:
-  open:
-    enabled: true

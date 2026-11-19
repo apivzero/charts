@@ -1,9 +1,9 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
-  repository: docker.io/bitnami/memcached
+  repository: docker.io/bitnamisecure/memcached
   pullPolicy: IfNotPresent
-  tag: 1.6.34@sha256:5213bae337a3f6e087860a3236300d091f0697bfbf3bd1c00403bbf7122b2f4f
+  tag: latest@sha256:6c2290e460bece5f2041aeb2ab65074ac222058ccb97cd8f793aae13988e4983
 
-includeCommon: true
 service:
   main:
     ports:
@@ -11,10 +11,6 @@ service:
         port: 11211
         protocol: tcp
         targetPort: 11211
-portal:
-  open:
-    enabled: false
-
 configmap:
   dashboard:
     enabled: true

@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: docker.io/jenkins/jenkins
   pullPolicy: IfNotPresent
-  tag: 2.491-jdk17@sha256:2cff8b173d41b8d272b43c6b67625b099be2d0240ccadb2090677f78b7baaf9e
+  tag: 2.544-jdk17@sha256:c9059deaa1a6b393ea6a447b13efca888d1817a57b924df9424a7075f51d9348
 security:
   container:
     runAsGroup: 1000
@@ -49,6 +50,3 @@ persistence:
   data:
     enabled: true
     mountPath: /var/jenkins_home
-portal:
-  open:
-    enabled: true

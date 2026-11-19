@@ -11,6 +11,7 @@ on:
       - "charts/library/common/**"
       - "charts/library/common-test/**"
       - ".github/workflows/common-tests.yaml"
+      - ".github/scripts/install_dependencies.sh"
   #pull_request:
   #  branches:
   #    - main
@@ -21,50 +22,56 @@ on:
 
 jobs:
   check_changes:
-    runs-on: ubuntu-latest
+    runs-on:
+      group: default
     outputs:
-      changes_detected: ${{ steps.filter.outputs.changed }}
+      changes_detected: ${{ steps.filter.outputs.changed == 'true' || github.event_name == 'workflow_dispatch' }}
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
       - name: Filter paths
         id: filter
-        uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3
+        uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4
         with:
           list-files: json
           filters: |
             changed:
             - 'charts/library/common/**'
+            - 'charts/library/common-test/**'
+            - '.github/workflows/common-tests.yaml'
+            - '.github/scripts/install_dependencies.sh'
 
   lint:
     name: Lint Common
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     needs: check_changes
     if: needs.check_changes.outputs.changes_detected == 'true'
     strategy:
       fail-fast: false
       matrix:
         helm-version:
-          - v3.14.4
+          - v3.14.0
+          - v3.20.0
+          - v4.1.0
     steps:
       - name: Checkout
-        uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 # v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           fetch-depth: 1
 
       - name: Install Helm
-        uses: azure/setup-helm@fe7b79cd5ee1e45176fcad797de68ecaf3ca4814 # v4
+        uses: azure/setup-helm@2f5e7bc67f1f9972ab16657bb795f36d8f04de0e # v5
         with:
           version: ${{ matrix.helm-version }}
 
-      - uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b # v5
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7
         with:
           python-version: "3.10"
 
       - name: Set up chart-testing
-        uses: helm/chart-testing-action@e6669bcd63d7cb57cb4380c33043eebe5d111992 # v2.6.1
+        uses: helm/chart-testing-action@720270857a28afd41e2426521a7801db09e9b510 # v2.9.0
 
       - name: Run chart-testing (lint)
         id: lint
@@ -78,27 +85,29 @@ jobs:
     needs:
       - lint
     name: Unit Tests
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     env:
-      helmUnitVersion: 0.7.1
+      helmUnitVersion: 1.0.3
     strategy:
       fail-fast: false
       matrix:
         helm-version:
-          - v3.14.4
+          - v3.14.0
+          - v3.20.0
+          - v4.1.0
     steps:
       - name: Checkout
-        uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 # v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           fetch-depth: 1
 
       - name: Install Helm
-        uses: azure/setup-helm@fe7b79cd5ee1e45176fcad797de68ecaf3ca4814 # v4
+        uses: azure/setup-helm@2f5e7bc67f1f9972ab16657bb795f36d8f04de0e # v5
         with:
           version: ${{ matrix.helm-version }}
 
       - name: Cache helm plugins
-        uses: actions/cache@1bd1e32a3bdc45362d1e726936510720a7c30a57 # v4
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: |
             /home/runner/.local/share/helm/plugins/helm-unittest
@@ -110,29 +119,187 @@ jobs:
       - name: Run Unittests
         shell: bash
         run: |
-          (helm unittest -h > /dev/null) || helm plugin install https://github.com/helm-unittest/helm-unittest --version v${helmUnitVersion} || (sleep 10 && helm plugin install https://github.com/helm-unittest/helm-unittest --version v${helmUnitVersion}) || echo "finished unittest reinstall tries"
+          set -x
+          helm_ver=${{ matrix.helm-version}}
+          helm_ver="${helm_ver#v}"
+
+          VERIFY_FLAG=""
+          if [ "$(printf '%s\n' "4.0.0" "$helm_ver" | sort -V | head -n1)" = "4.0.0" ]; then
+            VERIFY_FLAG="--verify=false"
+          fi
+
+          (helm unittest -h > /dev/null) || \
+            helm plugin install https://github.com/helm-unittest/helm-unittest --version=v${helmUnitVersion} $VERIFY_FLAG || \
+            (sleep 10 && helm plugin install https://github.com/helm-unittest/helm-unittest --version=v${helmUnitVersion} $VERIFY_FLAG) || \
+            echo "finished unittest reinstall tries"
 
           # Run tests
           cd charts/library/common-test/
           helm dependency update
           helm unittest -f "tests/**/*.yaml" . -v ./unit-values.yaml
 
-  install:
+  coverage-validation:
     needs:
       - lint
-    name: Install Charts
-    runs-on: ubuntu-24.04
+    name: Coverage Validation
+    runs-on: ubuntu-26.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 1
+
+      - name: Install Helm
+        uses: azure/setup-helm@2f5e7bc67f1f9972ab16657bb795f36d8f04de0e # v5
+        with:
+          version: v4.3.2
+
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7
+        with:
+          python-version: "3.10"
+
+      - name: Install Python dependencies
+        run: pip install PyYAML ruamel.yaml
+
+      # Each check also writes its output to coverage-report/, for the PR comment on failure
+      - name: Run schema validation
+        id: schema
+        shell: bash
+        run: |
+          mkdir -p coverage-report
+          (
+            set -e
+            python3 charts/library/common/generate_bundled_schema.py --check
+            python3 charts/library/common/generate_template_keys_structure.py --check
+            # The values of charts change without a change in common, so an outdated file is not an error of this PR.
+            # The coverage check below uses the rebuilt file.
+            python3 charts/library/common/generate_complete_values_structure.py --check ||
+              echo "::warning::complete-values-structure.yaml is not up to date, run generate_complete_values_structure.py"
+            python3 charts/library/common/generate_complete_values_structure.py
+            python3 charts/library/common/test_schema.py --max-failures 0 --output-file stable_schema_validation.log
+            python3 charts/library/common/check_complete_values_schema_coverage.py
+          ) 2>&1 | tee coverage-report/schema.log
+
+      # The checks below also run when an earlier one failed, so each reports its own result
+      - name: Run unittest schema coverage check
+        id: unittest
+        if: ${{ !cancelled() }}
+        shell: bash
+        run: |
+          mkdir -p coverage-report
+          python3 charts/library/common/check_unittest_schema_coverage.py --summary-md coverage-report/unittest-summary.md 2>&1 |
+            tee coverage-report/unittest.log
+
+      - name: Check docs
+        id: docs
+        if: ${{ !cancelled() }}
+        shell: bash
+        run: |
+          mkdir -p coverage-report
+          python3 charts/library/common/generate_docs.py --check 2>&1 | tee coverage-report/docs.log
+
+      # On a pull request, the "Pull Request: Coverage Comment" workflow posts this report as a comment.
+      # It runs from workflow_run, because the token of a pull_request from a fork can't comment.
+      - name: Build PR comment report
+        if: ${{ !cancelled() && github.event_name == 'pull_request' }}
+        shell: bash
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          SCHEMA_OUTCOME: ${{ steps.schema.outcome }}
+          UNITTEST_OUTCOME: ${{ steps.unittest.outcome }}
+          DOCS_OUTCOME: ${{ steps.docs.outcome }}
+        run: |
+          mkdir -p coverage-report
+          cd coverage-report
+          echo "$PR_NUMBER" > pr-number
+          echo "$HEAD_SHA" > head-sha
+          failed=0
+          {
+            for check in "schema|Schema validation|$SCHEMA_OUTCOME" \
+                         "unittest|Unittest schema coverage|$UNITTEST_OUTCOME" \
+                         "docs|Docs|$DOCS_OUTCOME"; do
+              IFS='|' read -r id title outcome <<< "$check"
+              # A skipped check did not pass either, for example when a step before it failed
+              [ "$outcome" != "success" ] || continue
+              failed=1
+              echo "### ❌ $title"
+              echo
+              if [ ! -f "$id.log" ]; then
+                echo "The check has no output (outcome: $outcome), see the workflow run."
+                echo
+                continue
+              fi
+              if [ -f "$id-summary.md" ]; then
+                cat "$id-summary.md"
+                echo
+              fi
+              echo "<details><summary>Output</summary>"
+              echo
+              echo '```text'
+              # A PR comment holds at most 65536 characters, so long output is cut in the middle
+              if [ "$(wc -c < "$id.log")" -gt 16000 ]; then
+                head -c 12000 "$id.log"
+                printf '\n\n... output cut, see the full log in the workflow run ...\n\n'
+                tail -c 4000 "$id.log"
+              else
+                cat "$id.log"
+              fi
+              echo '```'
+              echo
+              echo "</details>"
+              echo
+            done
+          } > failures.md
+          echo "$failed" > failed
+          {
+            if [ "$failed" = "1" ]; then
+              echo "## ❌ Common coverage validation failed"
+              echo
+              echo "Commit \`$HEAD_SHA\`, [workflow run]($RUN_URL)."
+              echo
+              cat failures.md
+            else
+              echo "## ✅ Common coverage validation passed"
+              echo
+              echo "Commit \`$HEAD_SHA\`, [workflow run]($RUN_URL)."
+            fi
+          } > comment.md
+          rm failures.md
+
+      - name: Upload PR comment report
+        if: ${{ !cancelled() && github.event_name == 'pull_request' }}
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: common-coverage-report
+          path: |
+            coverage-report/comment.md
+            coverage-report/failed
+            coverage-report/pr-number
+            coverage-report/head-sha
+          retention-days: 7
+
+      - name: Upload schema validation log
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: stable-schema-validation-log
+          path: stable_schema_validation.log
+
+  install:
+    # Install jobs are the slowest, do not start them if a fast check already failed
+    needs:
+      - lint
+      - unittest
+      - coverage-validation
+    name: Install Charts (${{ matrix.versions.k3s }}, ${{ matrix.versions.helm }}, ${{ matrix.values }})
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        # We test the latest k3s version and the lowest supported by either the oldest supported SCALE or FluxCD release
-        k3s-version:
-          - v1.26
-          - v1.29
-        # We test the latest k3s version and the lowest supported by either the oldest supported SCALE or FluxCD release
-        helm-version:
-          - v3.12.1
-          - v3.14.4
+        # Pull requests test the lowest supported and the latest versions. Everything else tests all combinations
+        versions: ${{ fromJSON(github.event_name == 'pull_request' && '[{"k3s":"v1.33","helm":"v3.14.0"},{"k3s":"v1.35","helm":"v4.1.0"}]' || '[{"k3s":"v1.33","helm":"v3.14.0"},{"k3s":"v1.33","helm":"v3.20.0"},{"k3s":"v1.33","helm":"v4.1.0"},{"k3s":"v1.34","helm":"v3.14.0"},{"k3s":"v1.34","helm":"v3.20.0"},{"k3s":"v1.34","helm":"v4.1.0"},{"k3s":"v1.35","helm":"v3.14.0"},{"k3s":"v1.35","helm":"v3.20.0"},{"k3s":"v1.35","helm":"v4.1.0"}]') }}
         values:
           - basic-values.yaml
           - configmap-values.yaml
@@ -145,7 +312,8 @@ jobs:
           - persistence-values.yaml
           - extra-containers-values.yaml
           - rbac-values.yaml
-          - ingress-values.yaml
+          # Only run ingress tests without as no valid certissuer -> helm v4 waits for cert to be ready
+          - ingress-wo-tls-values.yaml
           - networkPolicy-values.yaml
           # TODO: broken
           # - codeserver-values.yaml
@@ -154,37 +322,44 @@ jobs:
           - cnpg-values.yaml
           - cnpg-multi-values.yaml
           - register-operator-values.yaml
-          - portal-svc-values.yaml
-          - portal-ingress-values.yaml
+          - autopermissions-values.yaml
+          - credentials-values.yaml
+          - credentialsList-values.yaml
+          - init-values.yaml
+          - priorityclass-values.yaml
+          - schedule-values.yaml
+          - storageclass-values.yaml
           ## TODO: reenable when we've some credentials ready to rock for testing
           # - volsync-dest-values.yaml
           # - volsync-src-values.yaml
+          # - volsync-dest-direct-values.yaml
+          # - volsync-src-direct-values.yaml
 
     steps:
       - name: Checkout
-        uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 # v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           fetch-depth: 1
 
       - name: Install Helm
-        uses: azure/setup-helm@fe7b79cd5ee1e45176fcad797de68ecaf3ca4814 # v4
+        uses: azure/setup-helm@2f5e7bc67f1f9972ab16657bb795f36d8f04de0e # v5
         with:
-          version: ${{ matrix.helm-version }}
+          version: ${{ matrix.versions.helm }}
 
-      - uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b # v5
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7
         with:
           python-version: "3.10"
 
       - name: Set up chart-testing
-        uses: helm/chart-testing-action@e6669bcd63d7cb57cb4380c33043eebe5d111992 # v2.6.1
+        uses: helm/chart-testing-action@720270857a28afd41e2426521a7801db09e9b510 # v2.9.0
 
       - name: Create k3d cluster - Attempt 1/3
         continue-on-error: true
         id: createc1
-        uses: nolar/setup-k3d-k3s@293b8e5822a20bc0d5bcdd4826f1a665e72aba96 # tag=v1.0.9
+        uses: nolar/setup-k3d-k3s@62c9d1bd2bc843275c85d2e7dcd696edc1160eee # v1.1.0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          version: ${{ matrix.k3s-version }}
+          version: ${{ matrix.versions.k3s }}
           # Flags found here https://github.com/k3d-io/k3d
           k3d-args: --k3s-arg --disable=metrics-server@server:*
 
@@ -196,10 +371,10 @@ jobs:
         continue-on-error: true
         if: steps.createc1.outcome=='failure'
         id: createc2
-        uses: nolar/setup-k3d-k3s@293b8e5822a20bc0d5bcdd4826f1a665e72aba96 # tag=v1.0.9
+        uses: nolar/setup-k3d-k3s@62c9d1bd2bc843275c85d2e7dcd696edc1160eee # v1.1.0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          version: ${{ matrix.k3s-version }}
+          version: ${{ matrix.versions.k3s }}
           # Flags found here https://github.com/k3d-io/k3d
           k3d-args: --k3s-arg --disable=metrics-server@server:*
 
@@ -210,10 +385,10 @@ jobs:
       - name: Create k3d cluster - Attempt 3/3
         id: createc3
         if: steps.createc2.outcome=='failure'
-        uses: nolar/setup-k3d-k3s@293b8e5822a20bc0d5bcdd4826f1a665e72aba96 # tag=v1.0.9
+        uses: nolar/setup-k3d-k3s@62c9d1bd2bc843275c85d2e7dcd696edc1160eee # v1.1.0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          version: ${{ matrix.k3s-version }}
+          version: ${{ matrix.versions.k3s }}
           # Flags found here https://github.com/k3d-io/k3d
           k3d-args: --k3s-arg --disable=metrics-server@server:*
 
@@ -226,22 +401,9 @@ jobs:
           chmod +x kail
 
       - name: Add Dependencies
+        shell: bash
         run: |
-          if [[ "${{ matrix.values }}" =~ (ingress|metrics|cnpg|volsync).*-values.yaml ]]; then
-            helm install prometheus-operator oci://tccr.io/truecharts/prometheus-operator --namespace prometheus-operator --create-namespace --wait
-          fi
-          if [[ "${{ matrix.values }}" =~ cnpg.*-values.yaml ]]; then
-            helm install cloudnative-pg oci://tccr.io/truecharts/cloudnative-pg --namespace cloudnative-pg --create-namespace --wait
-          fi
-          if [[ "${{ matrix.values }}" =~ ingress.*-values.yaml ]]; then
-            helm install cert-manager oci://tccr.io/truecharts/cert-manager --namespace cert-manager --create-namespace --wait
-            helm install traefik oci://tccr.io/truecharts/traefik --namespace traefik --create-namespace --wait \
-              --set service.main.type=ClusterIP --set service.tcp.type=ClusterIP
-          fi
-          if [[ "${{ matrix.values }}" =~ volsync.*-values.yaml ]]; then
-            helm install volumesnapshots oci://tccr.io/truecharts/volumesnapshots --namespace volumesnapshots --create-namespace --wait
-            helm install volsync oci://tccr.io/truecharts/volsync --namespace volsync --create-namespace --wait
-          fi
+          ./.github/scripts/install_dependencies.sh charts/library/common-test "${{ matrix.values }}"
 
       - name: Run chart-testing (install)
         run: |
@@ -268,18 +430,20 @@ jobs:
 
   # Summarize matrix https://github.community/t/status-check-for-a-matrix-jobs/127354/7
   common-tests-complete:
-    needs: [lint, unittest, install]
+    needs: [check_changes, lint, unittest, coverage-validation, install]
     if: ${{ always() }}
-    name: Common Tets Completed
-    runs-on: ubuntu-latest
+    name: Common Tests Completed
+    runs-on:
+      group: default
     steps:
       - name: Check Results
         run: |
           if [[ "${{ needs.check_changes.outputs.changes_detected }}" == 'true' && ( "${{ needs.lint.result }}" != "success" || \
                 "${{ needs.unittest.result }}" != "success" || \
+                "${{ needs.coverage-validation.result }}" != "success" || \
                 "${{ needs.install.result }}" != "success") ]]; then
             echo "One or more jobs failed!"
             exit 1
           else
-            echo "Common Lint, Tests and unittests Completed Successfully"
+            echo "Common Lint, Tests, Coverage Validation and unittests Completed Successfully"
           fi

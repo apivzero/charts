@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: docker.io/jsavargas/telethon_downloader
-  tag: latest@sha256:8b8d84b3ebfb1d557c8826acabcc3216597050e5f1aca2a92fca08e1f8ea1ded
+  tag: latest@sha256:f9ad5f0caff72301cefddad3c9e866d064d627a7054b5fa8ae7b0d6d07de4af2
 persistence:
   config:
     enabled: true
@@ -12,9 +13,7 @@ persistence:
   pathwatch:
     enabled: true
     mountPath: /watch
-portal:
-  open:
-    enabled: false
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

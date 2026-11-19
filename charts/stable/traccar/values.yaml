@@ -1,6 +1,7 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: docker.io/traccar/traccar
-  tag: 6.5@sha256:e569632fe9d6dfef3152e8602992508cfe5bc3ea2f24ae4220e8445af3679a60
+  tag: 6.17@sha256:b32d9346adf46df7c33c58577e17ad60f6feadd1f3cd87c876041f6c79317ef1
   pullPolicy: IfNotPresent
 service:
   main:
@@ -17,9 +18,12 @@ cnpg:
     enabled: true
     user: traccar
     database: traccar
-portal:
-  open:
-    enabled: true
+securityContext:
+  container:
+    runAsNonRoot: false
+    readOnlyRootFilesystem: false
+    runAsUser: 0
+    runAsGroup: 0
 workload:
   main:
     podSpec:

@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
-  repository: docker.io/shlinkio/shlink
+  repository: ghcr.io/shlinkio/shlink
   pullPolicy: IfNotPresent
-  tag: 4.4.0@sha256:89df56bc72a04809476cf2cbfd94c8fce222da89b57642d0e92b717452646e07
+  tag: 5.1.8@sha256:68a722f7677008a50ccf3a9e570966bc37d7627fe6a870b86be28c5dcf9085ee
 service:
   main:
     ports:
@@ -14,11 +15,8 @@ cnpg:
     database: shlink
 redis:
   enabled: true
-  includeCommon: true
   redisUsername: "default"
-portal:
-  open:
-    enabled: false
+
 securityContext:
   container:
     runAsNonRoot: false

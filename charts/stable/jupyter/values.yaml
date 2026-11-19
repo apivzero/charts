@@ -1,35 +1,36 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
-  repository: docker.io/jupyter/base-notebook
+  repository: quay.io/jupyter/base-notebook
   pullPolicy: IfNotPresent
-  tag: 2023-10-20@sha256:8c903974902b0e9d45d9823c2234411de0614c5c98c4bb782b3d4f55b3e435e6
+  tag: "notebook-7.4.7@sha256:5d1c5649c20a156742c63135f426562e83dc9a0a76fff19b909b5845b85330a7"
 minimalImage:
-  repository: docker.io/jupyter/minimal-notebook
+  repository: quay.io/jupyter/minimal-notebook
   pullPolicy: IfNotPresent
-  tag: 2023-10-20@sha256:1c4c8b6c7c27059c353d4e80523c2696e34723fde67d27418873ebeb42032551
+  tag: "notebook-7.4.7@sha256:c17170eb047202ff6c5cc7adcf0d896f7d2bd663975f31b2ce20659bdfbcf04b"
 rImage:
-  repository: docker.io/jupyter/r-notebook
+  repository: quay.io/jupyter/r-notebook
   pullPolicy: IfNotPresent
-  tag: 2023-10-20@sha256:e845470a05d348b642911ae2cbfca2a9df260c8f5d5ac5e22d96ba9ac557a70e
+  tag: "notebook-7.4.7@sha256:6fabd176420d460ac08625eba6a144313474ca27629ed3e34e876c06fc14906e"
 scipyImage:
-  repository: docker.io/jupyter/scipy-notebook
+  repository: quay.io/jupyter/scipy-notebook
   pullPolicy: IfNotPresent
-  tag: 2023-10-20@sha256:fca4bcc9cbd49d9a15e0e4df6c666adf17776c950da9fa94a4f0a045d5c4ad33
+  tag: "notebook-7.4.7@sha256:3458d4fbb313f7090d83eb900f8516848a504e29dcf33efde50b1fdbbc2723d1"
 tensorflowImage:
-  repository: docker.io/jupyter/tensorflow-notebook
+  repository: quay.io/jupyter/tensorflow-notebook
   pullPolicy: IfNotPresent
-  tag: 2023-10-20@sha256:173f124f638efe870bb2b535e01a76a80a95217e66ed00751058c51c09d6d85d
+  tag: "notebook-7.4.7@sha256:9280a79c023789508fd3c13eea295b098897d9f73c827bc154d8adb1270ceafc"
 datascienceImage:
-  repository: docker.io/jupyter/datascience-notebook
+  repository: quay.io/jupyter/datascience-notebook
   pullPolicy: IfNotPresent
-  tag: 2023-10-20@sha256:989636579136ff077456368ca44aed80cba7de7e9c30d989f23899bd79c9b5bf
+  tag: "notebook-7.4.7@sha256:b12188b08b13b64e6198eead1e948bc0812d7f5c91575ae37207da0fb750759d"
 pysparkImage:
-  repository: docker.io/jupyter/pyspark-notebook
+  repository: quay.io/jupyter/pyspark-notebook
   pullPolicy: IfNotPresent
-  tag: 2023-10-20@sha256:7d0b19de594978b8c0541194d91e29abba40e20aa124873bcf5e9cda2fe037f7
+  tag: "notebook-7.4.7@sha256:6287c0ba787930d8dec08f8c5c81866b1e86be14adbfb3efe2b18d4e5db877ff"
 allsparkImage:
-  repository: docker.io/jupyter/all-spark-notebook
+  repository: quay.io/jupyter/all-spark-notebook
   pullPolicy: IfNotPresent
-  tag: 2023-10-20@sha256:b63bae2d9d34779ac969deeb4834efd838991f77269ca9a76bf6b0d1f8678d29
+  tag: "notebook-7.4.7@sha256:ad00c652eb2b6afbcb183587770bcbe49372b3e1dae7e62a9fa055260ec81920"
 jupyter:
   jupyter_cmd: lab
   restartable: true
@@ -44,9 +45,7 @@ persistence:
   data:
     enabled: true
     mountPath: /home/jovyan/work
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

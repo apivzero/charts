@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: ghcr.io/sethforprivacy/simple-monerod
-  tag: v0.18.3.4@sha256:a17e6e72c8eafb05d04a4dc5f2dda8a9f0c237c7013b0936fcee180c4a284104
+  tag: v0.18.5.4@sha256:1d48b2b2fb22e7dff04f97132495bdc7b83608faffd3b2c213a09d72a4f7f99c
 
 monero:
   rpcbindip: "0.0.0.0"
@@ -10,6 +11,14 @@ monero:
   noigd: true
   enablednsblocklist: true
   pruneblockchain: true
+
+workload:
+  main:
+    podSpec:
+      containers:
+        main:
+          env:
+            HOME: /home/monero
 
 securityContext:
   container:
@@ -37,7 +46,3 @@ persistence:
   blockchainstorage:
     enabled: true
     mountPath: /home/monero/.bitmonero
-
-portal:
-  open:
-    enabled: true

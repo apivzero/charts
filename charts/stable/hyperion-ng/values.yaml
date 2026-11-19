@@ -1,6 +1,7 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: docker.io/sirfragalot/hyperion.ng
-  tag: 2.0.16@sha256:9173cad785e875ee948bce027ebd9cd4c2a4332387b1fd879e41009c6eed1dc0
+  tag: 2.2.0@sha256:1848762c12cdd24a29dc311f100ee9f864f813c9d3b2aacf0b1e3f7876117e55
   pullPolicy: IfNotPresent
 service:
   main:
@@ -33,9 +34,7 @@ persistence:
   config:
     enabled: true
     mountPath: "/root/.hyperion"
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     runAsNonRoot: false

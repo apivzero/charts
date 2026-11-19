@@ -1,15 +1,16 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: docker.io/ollama/ollama
   pullPolicy: IfNotPresent
-  tag: 0.5.4@sha256:18bfb1d605604fd53dcad20d0556df4c781e560ebebcd923454d627c994a0e37
+  tag: 0.40.16@sha256:910d0d8107b538fb0894e63163eb195de0cc7aefcbc666dc62d3b18f71124592
 rocmImage:
   repository: docker.io/ollama/ollama
   pullPolicy: IfNotPresent
-  tag: 0.5.4-rocm@sha256:c3a4bb61f86bcfaa54c3e2129ef45b63b5ca69debc3a90f54ac1cf7c0cdcc0c3
+  tag: 0.40.16-rocm@sha256:85b3c895222b1ddc9d63c40b20fc74f37a37593dcbbdfbf28910a925e43ead00
 uiImage:
   repository: ghcr.io/open-webui/open-webui
   pullPolicy: IfNotPresent
-  tag: latest@sha256:345cc8cddd5d9749788dbe7b5bf14ef26e374b4f007e824984bc053df60638e2
+  tag: latest@sha256:d6c085678f7e3f474aa2a92ac9831cb68759dcfd951de250ebbb37dac5cd0255
 
 securityContext:
   container:
@@ -136,7 +137,3 @@ persistence:
       ui:
         ui:
           mountPath: "/app/backend/data"
-
-portal:
-  open:
-    enabled: true

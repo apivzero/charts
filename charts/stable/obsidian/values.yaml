@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: ghcr.io/sytone/obsidian-remote
@@ -9,9 +10,7 @@ persistence:
   vaults:
     enabled: true
     mountPath: /vaults
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

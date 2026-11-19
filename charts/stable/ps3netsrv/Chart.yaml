@@ -1,0 +1,41 @@
+annotations:
+  artifacthub.io/links: |-
+    - name: support
+    url: https://discord.com/invite/tVsPTHWTtr
+  truecharts.org/train: stable
+  trueforge.org/category: games
+  trueforge.org/max_helm_version: "4.1"
+  trueforge.org/max_kubernetes_version: 1.35.0
+  trueforge.org/min_helm_version: "3.14"
+  trueforge.org/train: stable
+apiVersion: v2
+appVersion: 2.0.1
+dependencies:
+  - name: common
+    version: 30.4.5
+    repository: oci://oci.trueforge.org/truecharts
+    condition: ""
+    alias: ""
+    tags: []
+    import-values: []
+deprecated: false
+description: Allows Multiman or Webman to stream and play game backups over the network.
+home: https://truecharts.org/charts/stable/ps3netsrv
+icon: https://truecharts.org/img/hotlink-ok/chart-icons/ps3netsrv.webp
+keywords:
+  - ps3netsrv
+  - Game servers
+  - Network-Other
+kubeVersion: '>=1.33.0-0'
+maintainers:
+  - name: TrueCharts
+    email: info@truecharts.org
+    url: https://truecharts.org
+name: ps3netsrv
+sources:
+  - https://github.com/aldostools/webMAN-MOD/tree/master/_Projects_/ps3netsrv
+  - https://github.com/trueforge-org/truecharts/tree/master/charts/stable/ps3netsrv
+  - https://hub.docker.com/r/shawly/ps3netsrv
+type: application
+version: 6.1.6
+

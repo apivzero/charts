@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: docker.io/modem7/docker-rickroll
   pullPolicy: IfNotPresent
-  tag: latest@sha256:484a0f078e26f587ce1e88a05557170be26f14929a058c5d0c364d057294d483
+  tag: latest@sha256:e0764d70fa3ec3a851bf3773a235e185064095777a0de1c479a09c6c34a8c5f4
 securityContext:
   container:
     runAsNonRoot: false
@@ -32,6 +33,3 @@ workload:
             HEIGHT: "100vh"
             WIDTH: "100%"
             HEADLINE: ""
-portal:
-  open:
-    enabled: true

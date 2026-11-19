@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
-  repository: docker.io/syncthing/syncthing
+  repository: ghcr.io/syncthing/syncthing
   pullPolicy: IfNotPresent
-  tag: 1.28.1@sha256:289b4ca86d77e4938d3e0af7d11f5c0a0fb786e469d5f697c25ab0f9e1f29f34
+  tag: 2.1.7@sha256:2b71da7c0d0a91a6ae5285ad079226fecc0a365d08b27720e1f7037b018f7546
 workload:
   main:
     podSpec:
@@ -47,6 +48,3 @@ persistence:
   config:
     enabled: true
     mountPath: "/var/syncthing"
-portal:
-  open:
-    enabled: true

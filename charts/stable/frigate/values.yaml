@@ -1,11 +1,12 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: ghcr.io/blakeblackshear/frigate
   pullPolicy: IfNotPresent
-  tag: 0.14.1@sha256:22e3d0b486df52c3d669682254c2b1bf4205fa6ad8bd8f8c9f7fe76b1517005d
+  tag: 0.18.2@sha256:fd60f99ffd4eb6c42360ed4e14953e270586f239309ab3983e55b2e97ffac09a
 tensorrtImage:
   repository: ghcr.io/blakeblackshear/frigate
   pullPolicy: IfNotPresent
-  tag: 0.14.1-tensorrt@sha256:a4d5b57972d3bc2480217b00f38e77f0532fb9ad2ff8c8244f65e6ec3f2814e4
+  tag: 0.18.2-tensorrt@sha256:1cafb6ebbaff0aaf275cc3f31951bcf7e29f3989f18a10ba9565091367d8736c
 
 # When this is defined, the contents will be mounted
 # as configmap into the container at /config/config.yml.
@@ -29,7 +30,7 @@ workload:
         init-config:
           enabled: "{{ not .Values.frigateConfig }}"
           type: init
-          imageSelector: alpineImage
+          imageSelector: ubuntuImage
           command:
             - /bin/sh
             - -c
@@ -95,7 +96,3 @@ persistence:
       main:
         main: {}
         init-config: {}
-
-portal:
-  open:
-    enabled: true

@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: docker.io/devidian/spaceengineers
@@ -88,6 +89,3 @@ persistence:
   instances:
     enabled: true
     mountPath: /appdata/space-engineers/instances
-portal:
-  open:
-    enabled: false

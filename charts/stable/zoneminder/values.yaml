@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: docker.io/dlandon/zoneminder.unraid
-  tag: latest@sha256:c91c1a8ab4e72772661d77b6dc302ab56bbe522ad7a7f794b3b531e30378f3e4
+  tag: latest@sha256:6844bffc426668e1bb3611ca6218b871bc7b64ff20fc2b700ca590ee4f31900a
 persistence:
   varrun:
     enabled: false
@@ -11,9 +12,7 @@ persistence:
   datapath:
     enabled: true
     mountPath: /var/cache/zoneminder
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false
@@ -39,6 +38,11 @@ workload:
     podSpec:
       containers:
         main:
+          securityContext:
+            capabilities:
+              add:
+                # init script stops the temporary MariaDB with killall
+                - KILL
           probes:
             liveness:
               path: /zm

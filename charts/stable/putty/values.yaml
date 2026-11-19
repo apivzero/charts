@@ -1,6 +1,7 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
-  repository: docker.io/jlesage/putty
-  tag: v24.12.1@sha256:8d1ebb269ad36a4930d5f845656af6d843b10a62e8375e583dfb6b4c99061817
+  repository: ghcr.io/jlesage/putty
+  tag: v26.09.1@sha256:ecd5868c45a512fef25a6219f6559a3966136ca3f1652998e30584a91f901034
   pullPolicy: IfNotPresent
 service:
   main:
@@ -36,9 +37,7 @@ persistence:
   config:
     enabled: true
     mountPath: "/config"
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

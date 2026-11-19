@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: docker.io/revenz/fenrus
-  tag: latest@sha256:ad2af9f34b3d163cb04536030dead590379c5cdb47faaac9602a4efc7e2b3ed8
+  tag: latest@sha256:7728749bb98c3b0862c853ebf9f741d7e43fddcd84a1ddb8ac73d03ae9741f99
 persistence:
   data:
     enabled: true
@@ -9,9 +10,7 @@ persistence:
   images:
     enabled: true
     mountPath: /app/wwwroot/images
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

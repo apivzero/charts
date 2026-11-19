@@ -1,6 +1,7 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: lscr.io/linuxserver/heimdall
-  tag: 2.6.3@sha256:6828c56bd129606aed0222b841f426afed1d81f1117f570dc1ea775787d2566c
+  tag: 2.6.3@sha256:71597f4461e4f01350bc9cd257ccf23e0041e666ff31bcb7c1671b5eac20b279
   pullPolicy: IfNotPresent
 service:
   main:
@@ -12,9 +13,7 @@ persistence:
   config:
     enabled: true
     mountPath: "/config"
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

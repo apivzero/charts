@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: docker.io/redislabs/redisinsight
-  tag: 2.64.1@sha256:53618017b60bc825b5049d7f0bb40bc6bf5e551ae26a3b3dfc77f5af3733e812
+  tag: 3.10.1@sha256:7aea9c96ee8e34518d7d692c02a081f6e46ff9230e7779212aa10a65c423c18a
 securityContext:
   container:
     readOnlyRootFilesystem: false
@@ -32,6 +33,3 @@ persistence:
   logs:
     enabled: true
     mountPath: /logs
-portal:
-  open:
-    enabled: true

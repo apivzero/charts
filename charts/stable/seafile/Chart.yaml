@@ -1,25 +1,35 @@
 annotations:
-  max_scale_version: 24.04.1
-  min_scale_version: 24.04.0
-  truecharts.org/category: file-storage
-  truecharts.org/max_helm_version: "3.15"
-  truecharts.org/min_helm_version: "3.11"
+  artifacthub.io/links: |-
+    - name: support
+    url: https://discord.com/invite/tVsPTHWTtr
   truecharts.org/train: stable
+  trueforge.org/category: file-storage
+  trueforge.org/max_helm_version: "4.1"
+  trueforge.org/max_kubernetes_version: 1.35.0
+  trueforge.org/min_helm_version: "3.14"
+  trueforge.org/train: stable
 apiVersion: v2
-appVersion: 11.0.13
+appVersion: 14.0.9
 dependencies:
   - name: common
-    version: 25.3.1
-    repository: oci://tccr.io/truecharts
+    version: 30.4.5
+    repository: oci://oci.trueforge.org/truecharts
     condition: ""
     alias: ""
     tags: []
     import-values: []
   - name: mariadb
-    version: 15.7.0
-    repository: oci://tccr.io/truecharts
+    version: 19.1.4
+    repository: oci://oci.trueforge.org/truecharts
     condition: mariadb.enabled
     alias: ""
+    tags: []
+    import-values: []
+  - name: valkey
+    version: 3.1.7
+    repository: oci://oci.trueforge.org/truecharts
+    condition: redis.enabled
+    alias: redis
     tags: []
     import-values: []
 deprecated: false
@@ -31,15 +41,16 @@ keywords:
   - files
   - cloud
   - file-storage
-kubeVersion: '>=1.24.0-0'
+kubeVersion: '>=1.33.0-0'
 maintainers:
   - name: TrueCharts
     email: info@truecharts.org
     url: https://truecharts.org
 name: seafile
 sources:
-  - https://github.com/truecharts/charts/tree/master/charts/stable/seafile
+  - https://github.com/trueforge-org/truecharts/tree/master/charts/stable/seafile
   - https://hub.docker.com/r/seafileltd/seafile-mc
   - https://seafile.com
 type: application
-version: 7.10.0
+version: 18.3.5
+

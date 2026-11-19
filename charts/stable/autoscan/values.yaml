@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
-  repository: ghcr.io/hotio/autoscan
-  tag: latest@sha256:71d5a9a7fd6aecdf83278690fa3a5baaa3cdecf7ce326d5eae3bfcaa746a9325
+  repository: oci.trueforge.org/containerforge/autoscan
+  tag: 1.4.0@sha256:6dc4e8cdeac1ad7a0ea22b76c0c2c25d7c72c33f61ddc0a3f4a196a76d8bae52
 securityContext:
   container:
     readOnlyRootFilesystem: false
@@ -34,6 +35,3 @@ persistence:
   config:
     enabled: true
     mountPath: /config
-portal:
-  open:
-    enabled: false

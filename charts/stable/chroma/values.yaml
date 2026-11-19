@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: ghcr.io/chroma-core/chroma
   pullPolicy: IfNotPresent
-  tag: 0.6.0@sha256:fe848c797d8e83f97eff061d3b52811d5e8785057b988d64c3144796daf28f49
+  tag: 1.5.9@sha256:1e0b73a187a28757c572acba508c46f48c9e8b0acaf5c20e6d95cdedce1acdf6
 
 securityContext:
   container:
@@ -25,11 +26,11 @@ workload:
         main:
           probes:
             liveness:
-              path: "/api/v1/heartbeat"
+              path: "/api/v2/heartbeat"
             readiness:
-              path: "/api/v1/heartbeat"
+              path: "/api/v2/heartbeat"
             startup:
-              path: "/api/v1/heartbeat"
+              path: "/api/v2/heartbeat"
           env:
             IS_PERSISTENT: true
 
@@ -37,7 +38,3 @@ persistence:
   config:
     enabled: true
     mountPath: "/chroma/chroma"
-
-portal:
-  open:
-    enabled: true

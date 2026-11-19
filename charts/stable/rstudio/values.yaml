@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
-  repository: docker.io/rocker/rstudio
-  tag: 4.4.2@sha256:48f3ed0bd738d40fd9908d60c8dda411d52d1f0deb57e18b5543c04604a33294
+  repository: ghcr.io/rocker-org/rstudio
+  tag: 4.6.2@sha256:ab667f419a10edc60f95da38149644d6f9eea266216b51dcce1d4df9e36dfcd6
 persistence:
   config:
     enabled: true
@@ -9,9 +10,7 @@ persistence:
   workspace:
     enabled: true
     mountPath: /home/rstudio/workspace
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

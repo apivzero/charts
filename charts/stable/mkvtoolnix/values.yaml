@@ -1,6 +1,7 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
-  repository: docker.io/jlesage/mkvtoolnix
-  tag: v24.12.2@sha256:016c38abe22b99440522f21f52ec0773d8bab51b68baec446d48f3af07d0ef2b
+  repository: ghcr.io/jlesage/mkvtoolnix
+  tag: v26.10.1@sha256:768768cd651071d4a64a8e51583268aaac57f24a0483ae04022b3cc23d356036
   pullPolicy: IfNotPresent
 service:
   main:
@@ -42,9 +43,7 @@ persistence:
   storage:
     enabled: true
     mountPath: "/storage"
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

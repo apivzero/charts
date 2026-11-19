@@ -1,11 +1,10 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: docker.io/modem7/newyearcountdown
-  tag: latest@sha256:c9381ae230206ee962511c577b88e93b1ecd01269a0bc1558c2d79459df91859
+  tag: latest@sha256:7a3b00067ae17a7c8792f184a91542ed20218d690e65b370444d8a43ac3acf88
 persistence: {}
-portal:
-  open:
-    enabled: false
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: docker.io/mber5/virt-manager
@@ -15,9 +16,7 @@ persistence:
   rootfolder:
     enabled: true
     mountPath: /root
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false
@@ -36,4 +35,4 @@ workload:
       containers:
         main:
           env:
-            HOSTS: "['qemu:///system']"
+            HOSTS: "['qemu:///stable']"

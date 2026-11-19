@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: docker.io/lancachenet/lancache-dns
   pullPolicy: IfNotPresent
-  tag: latest@sha256:06f3a1e70a92529b2c5805913ef8da0f269adc1d9ad66c90fa2d7828b9d45785
+  tag: latest@sha256:6e046a40e9f0467b1df97ca2ba9b8b7c0d4404736a349c0f8df11fa212871a03
 securityContext:
   container:
     readOnlyRootFilesystem: false
@@ -45,6 +46,3 @@ service:
         protocol: udp
         port: 53
         targetPort: 53
-portal:
-  open:
-    enabled: false

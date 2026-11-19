@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
-  repository: docker.io/nodered/node-red
+  repository: ghcr.io/node-red/node-red
   pullPolicy: IfNotPresent
-  tag: 4.0.8@sha256:871225abb46d62e434c75c73ec264c406ae1d0ea09b365ed9ffa122fdc327879
+  tag: 5.0.10@sha256:0ed181c867c9ef19cf51dc4707f7fb54d1ad58a0227ab4e19732f6a3630c1b00
 service:
   main:
     ports:
@@ -12,9 +13,7 @@ persistence:
   data:
     enabled: true
     mountPath: "/data"
-portal:
-  open:
-    enabled: true
+
 workload:
   main:
     podSpec:

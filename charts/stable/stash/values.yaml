@@ -1,6 +1,7 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: docker.io/stashapp/stash
-  tag: v0.27.2@sha256:28a04a0db254602c60af337e46770544f4b3f3e0cc0772603a673f6424336a61
+  tag: v0.32.0@sha256:1099ffd7cc53f165916a07644874448011308a46eadbcd4edd328786e59b5eb9
   pullPolicy: IfNotPresent
 securityContext:
   container:
@@ -43,6 +44,3 @@ persistence:
   data:
     enabled: true
     mountPath: "/data"
-portal:
-  open:
-    enabled: true

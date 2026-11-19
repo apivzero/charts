@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: docker.io/searxng/searxng
-  tag: latest@sha256:162065c8c2b2f2a36d6802622f33abf085b2e2a501a19a1644f9297318e5669a
+  tag: latest@sha256:0b9f3ddd85efc8df189e6543d65702abfa8f3ed1c32229a53f7707cd12b554ef
 workload:
   main:
     podSpec:
@@ -40,6 +41,3 @@ persistence:
   config:
     enabled: true
     mountPath: /etc/searxng
-portal:
-  open:
-    enabled: true

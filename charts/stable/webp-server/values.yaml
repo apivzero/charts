@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: docker.io/webpsh/webps
-  tag: latest@sha256:f406b07502e9f7425ccccbcee5cc8a735a007b833dd7510a40bf6b94c1cdff3e
+  tag: latest@sha256:3b9e2e5376d85781dc5433a245c61ebdcef5c3ffc4042fe3761e4a56078383d1
 persistence:
   storagecache:
     enabled: true
@@ -10,9 +11,7 @@ persistence:
     enabled: true
     mountPath: /opt/pics
     readOnly: true
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: docker.io/feramance/qbitrr
   pullPolicy: IfNotPresent
-  tag: v4.10.10@sha256:32e011672a7fe1aefa575c909cf5c728116a99e1721d52d5957c1477ad8e3065
+  tag: v5.12.12@sha256:60843fc5b43511e6e50a09b1dd79faeae5706cd146320729ad770ce2966ec3f9
 securityContext:
   container:
     readOnlyRootFilesystem: false
@@ -57,6 +58,3 @@ persistence:
   downloads:
     enabled: true
     mountPath: /completed_downloads
-portal:
-  open:
-    enabled: false

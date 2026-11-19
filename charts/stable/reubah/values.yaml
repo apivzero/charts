@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: ghcr.io/dendianugerah/reubah
   pullPolicy: IfNotPresent
-  tag: main@sha256:d23bc33d67bae766ec71e508f628a81b9f469fd4afd06c238a23b3803f0748d8
+  tag: main@sha256:2db201bb197110681012b9721a6b92a502f3fc46f79e3f1d5cad1b6367dfcda1
 service:
   main:
     ports:
@@ -24,6 +25,3 @@ persistence:
     enabled: true
     mountPath: "/tmp"
     type: emptyDir
-portal:
-  open:
-    enabled: true

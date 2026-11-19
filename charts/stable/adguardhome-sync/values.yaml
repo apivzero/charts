@@ -1,10 +1,9 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
-  repository: ghcr.io/bakito/adguardhome-sync
-  tag: v0.6.17@sha256:5c872b757f828173c89fdd16db170776f0e2a919cfc8d35372fab60caacb5f33
-portal:
-  open:
-    enabled: true
+  repository: oci.trueforge.org/containerforge/adguardhome-sync
+  tag: "0.9.6@sha256:a22c2234d8f57bbcdf8785c8c178a35e721fa899f11012c68412e4dae0c43890"
+
 service:
   main:
     ports:

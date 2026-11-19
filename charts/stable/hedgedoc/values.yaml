@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: quay.io/hedgedoc/hedgedoc
   pullPolicy: IfNotPresent
-  tag: 1.10.0@sha256:fa293beaef35e7160713a41d719c73af973d3beacc913e18c07c44d534d3f74c
+  tag: 1.12.0@sha256:22ecd09364506c05b2786433a1c5e16596d002d92a198216bbc6a0684b7d415a
 service:
   main:
     ports:
@@ -16,9 +17,7 @@ cnpg:
     enabled: true
     user: hedgedoc
     database: hedgedoc
-portal:
-  open:
-    enabled: true
+
 workload:
   main:
     podSpec:
@@ -72,6 +71,7 @@ workload:
             # CMD_SESSION_LIFE: 1209600000
             # CMD_EMAIL: true
             # CMD_ALLOW_EMAIL_REGISTER: true
+            # CMD_RATE_LIMIT_USING_CLOUDFLARE: true
             # CMD_DROPBOX_CLIENTID: ""
             # CMD_DROPBOX_CLIENTSECRET: ""
             # CMD_FACEBOOK_CLIENTID: ""

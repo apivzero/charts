@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: ghcr.io/linuxserver/boinc
   pullPolicy: IfNotPresent
-  tag: latest@sha256:79d30787824b12039331c79310d1d709eec70cfed5e9b37a2fe529677776cb69
+  tag: latest@sha256:b55e78ae290aeb0ad083a468b40fff6ebd7b5a37a6a3bd9fd838f726bb33cb7d
 securityContext:
   container:
     readOnlyRootFilesystem: false
@@ -13,7 +14,7 @@ service:
     ports:
       main:
         targetPort: 8080
-        protocol: http
+        protocol: tcp
         port: 10142
 workload:
   main:
@@ -26,6 +27,3 @@ persistence:
   config:
     enabled: true
     mountPath: /config
-portal:
-  open:
-    enabled: true

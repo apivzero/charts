@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: ghcr.io/linuxserver/minetest
   pullPolicy: IfNotPresent
-  tag: 5.10.0@sha256:efbd04da36ceec676921ae4d4879784e7277fd738c9d4693ba959c496cbe52d0
+  tag: 5.10.0@sha256:781e50480e4027145d2c81f5cbf6632df40ef0a2b5781682cd149ce58bea305e
 service:
   main:
     ports:
@@ -15,9 +16,7 @@ persistence:
     mountPath: "/config/.minetest"
   varrun:
     enabled: true
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     runAsNonRoot: false

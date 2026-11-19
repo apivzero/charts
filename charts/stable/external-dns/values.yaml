@@ -1,8 +1,10 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: registry.k8s.io/external-dns/external-dns
   pullPolicy: IfNotPresent
-  tag: v0.15.1@sha256:4f3ba4c2bd28030caad05bb7b47fbf47549a46d5e8443b74f0be463550b4fc2b
+  tag: v0.24.0@sha256:a80a146d2540fa138565e404f0625157271071a06093021f27ae19d8316d10f9
 externaldns:
+  ingressClassName: ""
   logLevel: "info"
   logFormat: "text"
   interval: "1m"
@@ -14,10 +16,15 @@ externaldns:
   zoneidFilters: []
   cloudflareProxied: ""
   registry: "txt"
-  policy: ""
+  policy: "sync"
   piholeServer: ""
   piholePassword: ""
+  piholeAPIVersion: ""
   triggerLoopOnEvent: "false"
+  # with externaldns.provider = pdns
+  pdns:
+    pdnsApiKey: ""
+    pdnsServerUrl: ""
   txtOwnerId: ""
   txtPrefix: ""
   txtSuffix: ""
@@ -131,6 +138,9 @@ rbac:
       - apiGroups: ["cis.f5.com"]
         resources: ["virtualservers"]
         verbs: ["get", "watch", "list"]
+      - apiGroups: ["discovery.k8s.io"]
+        resources: ["endpointslices"]
+        verbs: ["get", "watch", "list"]
 # -- The service account the pods will use to interact with the Kubernetes API
 serviceAccount:
   main:
@@ -138,6 +148,3 @@ serviceAccount:
     primary: true
 podOptions:
   automountServiceAccountToken: true
-portal:
-  open:
-    enabled: false

@@ -1,6 +1,7 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
-  repository: ghcr.io/kiranshila/doplarr
-  tag: v3.6.3@sha256:426517f9913bc330dd3a52830a7fc37ff49eb4ba5782eeee1ea70787f3dce12c
+  repository: oci.trueforge.org/containerforge/doplarr
+  tag: "3.8.0@sha256:1414635a1bea25ee69f84eaade8f749187fc04151de658bdbfe12ea02662297e"
   pullPolicy: IfNotPresent
 service:
   main:
@@ -8,7 +9,7 @@ service:
     ports:
       main:
         enabled: false
-# TODO needs secretEnv variables
+
 workload:
   main:
     podSpec:
@@ -38,6 +39,3 @@ workload:
             RADARR__API: ""
             DISCORD__ROLE_ID: ""
             DISCORD__TOKEN: ""
-portal:
-  open:
-    enabled: false

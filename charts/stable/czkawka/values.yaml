@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
-  repository: docker.io/jlesage/czkawka
+  repository: ghcr.io/jlesage/czkawka
   pullPolicy: IfNotPresent
-  tag: v24.12.1@sha256:910792f187f5583309bae625613aba6bf7e6e41fa796851dd9a6ff196d56014a
+  tag: v26.09.2@sha256:228d47eb7edac003bb54082eaa96cb41613b08f9fbee310c775714c90dd79628
 securityContext:
   container:
     readOnlyRootFilesystem: false
@@ -73,6 +74,5 @@ persistence:
   trash:
     enabled: true
     mountPath: /trash
-portal:
-  open:
-    enabled: true
+  varrun:
+    enabled: false

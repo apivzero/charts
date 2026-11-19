@@ -12,19 +12,15 @@ objectData: The service data, that will be used to render the Service object.
   {{- $objectData := .objectData -}}
 
   {{- $svcType := $objectData.type | default $rootCtx.Values.global.fallbackDefaults.serviceType -}}
+  {{- $_ := set $objectData "annotations" ($objectData.annotations | default dict) -}}
 
   {{/* Init variables */}}
-  {{- $hasHTTPSPort := false -}}
   {{- $hasHostPort := false -}}
   {{- $hostNetwork := false -}}
   {{- $podValues := dict -}}
 
   {{- range $portName, $port := $objectData.ports -}}
     {{- if $port.enabled -}}
-      {{- if eq (tpl ($port.protocol | default "") $rootCtx) "https" -}}
-        {{- $hasHTTPSPort = true -}}
-      {{- end -}}
-
       {{- if and (hasKey $port "hostPort") $port.hostPort -}}
         {{- $hasHostPort = true -}}
       {{- end -}}
@@ -56,7 +52,14 @@ objectData: The service data, that will be used to render the Service object.
   {{- if (include "tc.v1.common.lib.util.stopAll" $rootCtx) -}}
     {{- $svcType = "ClusterIP" -}}
   {{- end -}}
-  {{- $_ := set $objectData "type" $svcType  }}
+  {{- $_ := set $objectData "type" $svcType -}}
+
+  {{- if eq $objectData.type "LoadBalancer" -}}
+    {{- include "tc.v1.common.lib.service.loadbalancer.validate" (dict "objectData" $objectData) -}}
+    {{- include "tc.v1.common.lib.service.integration.metallb" (dict "rootCtx" $rootCtx "objectData" $objectData) -}}
+    {{- include "tc.v1.common.lib.service.integration.cilium" (dict "rootCtx" $rootCtx "objectData" $objectData) -}}
+  {{- end -}}
+  {{- include "tc.v1.common.lib.service.integration.traefik" (dict "rootCtx" $rootCtx "objectData" $objectData) }}
 ---
 apiVersion: v1
 kind: Service
@@ -70,12 +73,6 @@ metadata:
     {{- . | nindent 4 }}
   {{- end -}}
   {{- $annotations := (mustMerge ($objectData.annotations | default dict) (include "tc.v1.common.lib.metadata.allAnnotations" $rootCtx | fromYaml)) -}}
-  {{- if eq $objectData.type "LoadBalancer" -}}
-    {{- include "tc.v1.common.lib.service.metalLBAnnotations" (dict "rootCtx" $rootCtx "objectData" $objectData "annotations" $annotations) -}}
-  {{- end -}}
-  {{- if $hasHTTPSPort -}}
-    {{- include "tc.v1.common.lib.service.traefikAnnotations" (dict "rootCtx" $rootCtx "annotations" $annotations) -}}
-  {{- end -}}
   {{- with (include "tc.v1.common.lib.metadata.render" (dict "rootCtx" $rootCtx "annotations" $annotations) | trim) }}
   annotations:
     {{- . | nindent 4 }}
@@ -104,12 +101,12 @@ spec:
       {{- include "tc.v1.common.lib.metadata.selectorLabels" (dict "rootCtx" $rootCtx "objectType" "pod" "objectName" $podValues.shortName) | trim | nindent 4 -}}
     {{- end }}
   {{- end -}}
+
   {{- if eq $objectData.type "ExternalIP" -}}
     {{- $useSlice := true -}}
     {{- if kindIs "bool" $objectData.useSlice -}}
       {{- $useSlice = $objectData.useSlice -}}
     {{- end -}}
-
     {{- if $useSlice -}}
       {{- include "tc.v1.common.class.endpointSlice" (dict "rootCtx" $rootCtx "objectData" $objectData) | trim | nindent 0 }}
     {{- else -}}

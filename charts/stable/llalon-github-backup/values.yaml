@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: docker.io/llalon/github-backup
@@ -9,9 +10,7 @@ persistence:
   config:
     enabled: true
     mountPath: /home/docker/github-backup/config/
-portal:
-  open:
-    enabled: false
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

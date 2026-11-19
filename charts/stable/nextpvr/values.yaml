@@ -1,6 +1,7 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: docker.io/nextpvr/nextpvr_amd64
-  tag: stable@sha256:382b9e330133cfafb0b550146555ca966bb5077ae7d76649de1f97e59a373b17
+  tag: stable@sha256:79841be624d5719153ac7d2303c55fe671aa7d6feed3eaeb4020d5e418f00546
   pullPolicy: IfNotPresent
 service:
   main:
@@ -31,9 +32,7 @@ persistence:
   buffer:
     enabled: true
     mountPath: "/buffer"
-portal:
-  open:
-    enabled: true
+
 workload:
   main:
     podSpec:

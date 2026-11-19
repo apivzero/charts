@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: docker.io/gaseousgames/gaseousserver
   pullPolicy: IfNotPresent
-  tag: v1.7.7@sha256:2d6c5660f84938de42f89fc468768ad6f31f3be22eb5493abfbe61131f9a5f12
+  tag: v1.7.14@sha256:5e506593ff09533f23e742470da2ef37ffe4051f3559dad3b038e81444df75a6
 
 securityContext:
   container:
@@ -53,10 +54,5 @@ persistence:
 
 mariadb:
   enabled: true
-  includeCommon: true
   mariadbUsername: gaseous
   mariadbDatabase: gaseous
-
-portal:
-  open:
-    enabled: true

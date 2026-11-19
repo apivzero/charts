@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: docker.io/xhofe/alist-aria2
   pullPolicy: IfNotPresent
@@ -43,6 +44,3 @@ persistence:
   data:
     enabled: true
     mountPath: /opt/alist/data
-portal:
-  open:
-    enabled: true

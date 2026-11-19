@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
-  repository: docker.io/phalcode/gamevault-backend
+  repository: ghcr.io/phalcode/gamevault-backend
   pullPolicy: IfNotPresent
-  tag: 12.2.0@sha256:56f0f3db07f7433f9a8a46365a176acca1a623c42aa9f352fcd0bf6af8ac313a
+  tag: 17.2.0@sha256:a2d4fe2cb4bc6cc0cd6badb57162692b108a25a4dd7ac839ddeadfd3454ecf48
 securityContext:
   container:
     runAsNonRoot: false
@@ -94,7 +95,7 @@ persistence:
     mountPath: /logs
   images:
     enabled: true
-    mountPath: /images
+    mountPath: /media
   games:
     enabled: true
     mountPath: /games
@@ -103,6 +104,3 @@ cnpg:
     enabled: true
     user: gamevault
     database: gamevault
-portal:
-  open:
-    enabled: false

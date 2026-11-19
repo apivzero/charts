@@ -1,14 +1,13 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: docker.io/fletchto99/hexo-dev-blog
-  tag: latest@sha256:53cc5307c3e4fe6976378c3899275c204cd5f0b6bd836258a54c3fe4e515ca21
+  tag: latest@sha256:099e3fd589b380ed72d5dedcdcf65bab6f2980d20f2aad397bb002c4e2f5aa3f
 persistence:
   config:
     enabled: true
     mountPath: /config
-portal:
-  open:
-    enabled: false
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

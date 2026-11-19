@@ -1,14 +1,13 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: docker.io/brotandgames/ciao
-  tag: latest@sha256:e68d0f5ae48320379af2e69083110d68f278cbaffbea214e4dd40e6372d0bfcf
+  tag: latest@sha256:449c72cbf6193ecc85208c37fc6efe79bed230f3656ed93894e1bd27e98dcaf9
 persistence:
   databaselocation:
     enabled: true
     mountPath: /app/db/sqlite
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

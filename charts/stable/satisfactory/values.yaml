@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: docker.io/wolveix/satisfactory-server
   pullPolicy: IfNotPresent
-  tag: v1.9.1@sha256:199be1064b185862571ebf21c7176867d61e636f73f835be354f090a59bb08d8
+  tag: v1.9.11@sha256:ac252dba41653eb21c6feed94b577f98fa152f5792b1aeff2ce11fe364355137
 persistence:
   config:
     enabled: true
@@ -22,9 +23,7 @@ service:
         enabled: true
         port: "{{ .Values.service.main.ports.main.port }}"
         protocol: udp
-portal:
-  open:
-    enabled: false
+
 securityContext:
   container:
     runAsNonRoot: false

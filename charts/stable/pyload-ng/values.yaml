@@ -1,7 +1,8 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   pullPolicy: IfNotPresent
   repository: lscr.io/linuxserver/pyload-ng
-  tag: latest@sha256:2a07af355a604e89347bcce483da17696fedacfef5d330d677a9973c01fb7042
+  tag: latest@sha256:35e6bb2eadf5aea1872ef88324ba9dffb26eccbe119832d5849c46a593c8935e
 persistence:
   config:
     enabled: true
@@ -9,9 +10,7 @@ persistence:
   pathdownloads:
     enabled: true
     mountPath: /downloads
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     readOnlyRootFilesystem: false

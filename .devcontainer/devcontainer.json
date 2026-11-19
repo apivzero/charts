@@ -1,15 +1,65 @@
 {
-    "$schema": "https://raw.githubusercontent.com/devcontainers/spec/main/schemas/devContainer.schema.json",
-    "name": "TrueCharts",
-    "image": "tccr.io/tccr/devcontainer:v1.0.1@sha256:d860bbd1f7423f4af9629e8cbf4083b46801e905d5ca170124391899d64cc753",
-    "initializeCommand": "docker pull tccr.io/tccr/devcontainer:v1.0.0",
-    "postCreateCommand": {
-      "setup": "bash ${containerWorkspaceFolder}/.devcontainer/postCreateCommand.sh"
-    },
-    "postStartCommand": {
-      "git": "git config --global --add safe.directory ${containerWorkspaceFolder}"
-    },
-    "postAttachCommand": "fish",
-    "updateRemoteUserUID": false,
-    "runArgs": ["--privileged"]
+  "$schema": "https://raw.githubusercontent.com/devcontainers/spec/main/schemas/devContainer.schema.json",
+  "name": "TrueForge",
+  "image": "oci.trueforge.org/containerforge/devcontainer:4.1.1@sha256:bc79e0886388222eea7ca8c856bc1169f49fb07330942be9d258265217adfa87",
+  "initializeCommand": "mkdir -p ${localEnv:HOME}${localEnv:USERPROFILE}/.claude && mkdir -p ${localEnv:HOME}${localEnv:USERPROFILE}/.config/gh && mkdir -p ${localEnv:HOME}${localEnv:USERPROFILE}/.ssh && touch ${localEnv:HOME}${localEnv:USERPROFILE}/.ssh/known_hosts",
+  "postCreateCommand": "if [ -f package.json ]; then npm install; fi",
+  "postStartCommand": "git config --global --add safe.directory ${containerWorkspaceFolder}",
+  "mounts": [
+    "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.claude,target=/config/.claude,type=bind,consistency=cached",
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.config/gh,target=/home/vscode/.config/gh,type=bind,readonly",
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh/known_hosts,target=/home/vscode/.ssh/known_hosts,type=bind,readonly"
+  ],
+  "containerEnv": {
+    "CLAUDE_CONFIG_DIR": "/config/.claude"
+  },
+  "features": {},
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "albert.TabOut",
+        "mikestead.dotenv",
+        "mitchdenny.ecdc",
+        "signageos.signageos-vscode-sops",
+        "EditorConfig.editorconfig",
+        "PKief.material-icon-theme",
+        "usernamehw.errorlens",
+        "redhat.vscode-yaml",
+        "weaveworks.vscode-gitops-tools",
+        "Tim-Koehler.helm-intellisense",
+        "ms-kubernetes-tools.vscode-kubernetes-tools",
+        "sandipchitale.vscode-kubernetes-helm-extras",
+        "VadzimNestsiarenka.helm-template-preview-and-more",
+        "karyan40024.helmix",
+        "eamodio.gitlens",
+        "formulahendry.code-runner",
+        "streetsidesoftware.code-spell-checker",
+        "mhutchie.git-graph",
+        "yzhang.markdown-all-in-one",
+        "searKing.preview-vscode",
+        "DavidAnson.vscode-markdownlint",
+        "Anthropic.claude-code",
+        "golang.go",
+        "mrmlnc.vscode-duplicate",
+        "IgorSbitnev.error-gutters",
+        "vivaldy22.go-auto-struct-tag",
+        "msyrus.go-doc",
+        "766b.go-outliner",
+        "premparihar.gotestexplorer",
+        "zxh404.vscode-proto3",
+        "ms-azuretools.vscode-docker",
+        "hashicorp.hcl",
+        "exiasr.hadolint",
+        "joao-peterson.gotag",
+        "timonwong.shellcheck",
+        "Codium.codium",
+        "GitHub.copilot",
+        "SimonSiefke.svg-preview",
+        "ecmel.vscode-html-css",
+        "hossaini.bootstrap-intellisense",
+        "astro-build.astro-vscode"
+      ]
+    }
   }
+}

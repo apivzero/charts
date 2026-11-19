@@ -1,6 +1,7 @@
+# yaml-language-server: $schema=./values.schema.json
 image:
   repository: docker.io/octoprint/octoprint
-  tag: 1.10.3@sha256:0ca71aec3b9421e8825072219f0638a14ddf102064127519791545ae5c2396fc
+  tag: 1.11.8@sha256:5ea0181e476597faa2800c991af4ce16903005f46b4c16666a4080ad606310bb
   pullPolicy: IfNotPresent
 service:
   main:
@@ -14,9 +15,7 @@ persistence:
     mountPath: "/octoprint"
   varrun:
     enabled: true
-portal:
-  open:
-    enabled: true
+
 securityContext:
   container:
     runAsNonRoot: false
